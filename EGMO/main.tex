@@ -12,4 +12,34 @@
 
 \maketitle
 
+\section*{Chapter 4}
+\subsection*{Problem 4.48 (Japanese Olympiad 2009)}
+Notice $APOQ$ is cyclic. This can be proven using the homothety at $Q$. Then, notice $POQ$ is isosceles and the result shortly follows.
+\subsection*{Problem 4.49}
+Let ray $AE$ intersect the circumcircle at $W$. Because $\angle BAT = \angle CAE = \angle CAW$, we know arc $BT$ has the same measure as arc $CW$.
+
+Now, extend ray $TD$ to hit the circumcircle at $V$. Line $TV$ is just the reflection of line $WA$ across the perpendicular bisector of $BC$, because of the fact that $BD = CE$ and that arc $BT$ equals arc $CW$.
+
+Thus, arcs $BA$ and $CV$ have the same measure, and the result follows.
+\subsection*{Problem 4.50 (Vietnam TST 2003/2)}
+Let $I_A, I_B, I_C$ denote the excenters.
+We know from a lemma in this chapter that line $A_0D$ is just line $DI_A$, and so forth. Also, we can see that line $DF$ is parallel to line $I_AI_C$. Let $Z$ be the intersection point of lines $DI_A$ and $FI_C$. Then, a homothety at $Z$ takes $F$ to $I_C$ and $D$ to $I_A$. This homothety also takes $E$ to $I_B$ for the same reason. So, lines $DI_A$, $FI_C$, and $EI_B$ concur at $Z$. For the $OI$ part, notice that $O$ is the nine-point center of triangle $I_AI_BI_C$, and Euler line leads to the result.
+\subsection*{Problem 4.51 (Sharygin 2013)}
+Let $M$ be the midpoint of $AB$. From a previous lemma, we know $CM$, $A'B'$, and $C'I$ are concurrent at a point $X$. Notice that $X$ is also the orthocenter of triangle $CIK$. Thus, line $IX$ is perpendicular to $CK$. However, line $IX$ is also perpendicular to $AB$, so $AB \parallel CK$.
+\subsection*{Problem 4.52 (APMO 2012/4)}
+Let $H'$ be $H$ reflected over $D$, and $H''$ be $H$ reflected over $M$. It is well known that $H'$ and $H''$ lie on the circumcircle of $ABC$. By PoP, $HE \cdot HH'' = HA \cdot HH'$.
+Dividing both sides by two, we obtain the equation $HE \cdot HM = HA \cdot HD$. In other words, $AEDM$ is cyclic.
+
+Now, we claim triangle $ABF$ is similar to triangle $AMC$. We know $\angle ACM = \angle ACB = \angle AFB$.
+
+Also, $\angle AMC = \angle AMD = \angle AED = \angle AEF = \angle ABF$ (using directed angles). Thus, the two triangles are similar, and it follows that $AF$ is a symmedian. 
+Finally, the desired result is a well-known consequence of $AF$ being a symmedian.
+\subsection*{Problem 4.53 (Shortlist 2002/G7)}
+As always, we can remove $M$ from our diagram by noting that line $MK$ is the same as line $KI_A$.
+Let $Q$ be the midpoint of $KI_A$. We claim $BNCQ$ is cyclic.
+Let $S$ be the midpoint of $NK$. Since $\angle ISI_A = \angle IBI_A = 90$ (well known), we know $S$ lies on the circle containing $B$, $I$, $C$, and $I_A$ (this circle being from a common configuration). By PoP, $KS \cdot KI_A = KB \cdot KC$.
+However, we know $KS \cdot KI_A = KN \cdot KQ$. Thus, $BNCQ$ is cyclic.
+
+Let $P$ be the circumcenter of $BCN$. Notice that since $BK = XC$, we have $QB = QC$ and thus $QP$ is the perpendicular bisector of $BC$. In other words, $Q$ is the arc midpoint of arc $BC$ on the circumcircle of $BCN$. Consider a homothety at $N$ that takes $K$ to $Q$. This homothety must also take $I$ to $P$, finishing the proof.
+
 \end{document}
