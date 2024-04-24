@@ -1,6 +1,5 @@
 \documentclass{scrartcl}
 \usepackage{graphicx} % Required for inserting images
-\usepackage[sexy]{evan}
 \usepackage{amsmath}
 \usepackage{listings}
 
@@ -8,10 +7,19 @@
 \author{Michael Middlezong}
 
 \begin{document}
-\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 
 \maketitle
 
+\section*{Problem 6}
+Consider the polynomial with roots $r + s$, $s + t$, and $r + t$. We will find its coefficients and show that it is the desired polynomial.
+Using Vieta's, we can see that
+\[A = -2(r + s + t) = -14.\]
+We can also see that
+\[B = (r + s)(s + t) + (s + t)(r + t) + (r + s)(r + t).\]
+Expanding and simplifying with Vieta's, we get $B = 52$.
 
+The $C$ term is slightly more involved, but we can use a combination of Newton sums and grouping of terms to get $C = -23$.
 
+All these terms are rational, so overall, our answer is $A + B + C = -14 + 52 - 23 = 15$.
 \end{document}
+% vim: ts=4 sts=4 sw=4 et
