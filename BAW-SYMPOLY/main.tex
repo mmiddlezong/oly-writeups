@@ -9,17 +9,73 @@
 \begin{document}
 
 \maketitle
+\section*{Problem 1 (USAMO 1973/4)}
+Consider the cubic polynomial $(t - x)(t - y)(t - z)$. From Newton's sums and Vieta's, this cubic polynomial must equal $t^3 - 3t^2 + 3t - 1$. The only factorization of this is $(t - 1)^3$, so the only solution must be $(x,y,z)=(1,1,1)$.
 
 \section*{Problem 6}
 Consider the polynomial with roots $r + s$, $s + t$, and $r + t$. We will find its coefficients and show that it is the desired polynomial.
 Using Vieta's, we can see that
-\[A = -2(r + s + t) = -14.\]
+\[
+    A = -2(r + s + t) = -14.
+\]
 We can also see that
-\[B = (r + s)(s + t) + (s + t)(r + t) + (r + s)(r + t).\]
-Expanding and simplifying with Vieta's, we get $B = 52$.
+\[
+    B = (r + s)(s + t) + (s + t)(r + t) + (r + s)(r + t).
+\]
+Expanding and simplifying with Vieta's and Newton sums, we get $B = 52$.
 
-The $C$ term is slightly more involved, but we can use a combination of Newton sums and grouping of terms to get $C = -23$.
+The $C$ term is slightly more involved, but we can use a combination of Newton sums, Vieta's, and grouping of terms to get $C = -23$.
 
 All these terms are rational, so overall, our answer is $A + B + C = -14 + 52 - 23 = 15$.
+\section*{Problem 13 (HMMT 2023/T2)}
+We can rearrange the equation $a^3 - bcd = b^3 - cda$ to get
+\[
+    (a - b)(a^2 + ab + b^2) = cd(b - a).
+\]
+If we assume to the contrary that $a$, $b$, $c$, and $d$ are pairwise distinct, this means
+\[
+    a^2 + ab + b^2 = -cd \implies a^2 + ab + b^2 + cd = 0.
+\]
+Here, the variables $a$ and $b$ can be replaced with any two of $a$, $b$, $c$, or $d$. Thus, we also have:
+\[
+    c^2 + cd + d^2 + ab = 0.
+\]
+We can conclude from these two equations that $a^2 + b^2 = c^2 + d^2$.
+
+Notice that there was nothing special about our choices of $a$, $b$, $c$, and $d$. Using symmetry, we can deduce that $a^2 + c^2 = b^2 + d^2$.
+
+Thus, $b^2 = c^2$. Similarly, $a^2 = b^2 = c^2 = d^2$. Therefore, we can see that $a$, $b$, $c$, and $d$ cannot be pairwise distinct.
+\section*{Problem 15 (SMT 2011)}
+We can notice that the polynomial $P(2x) - P(x) - 1$ has roots $x = 2^i$ for $0 \leq i \leq 2010$.
+Thus, we can write
+\[
+    P(2x) - P(x) - 1 = c(x - 2^0)(x - 2^1)\cdots(x - 2^{2010}).
+\]
+Plugging in $x = 0$, we can find $\frac{1}{c} = 1 + 2 + \cdots + 2010$ (denote by $S$ this sum).
+
+Now, let $a$ be the coefficient of the linear term in $P(x)$. Then, the linear term of $P(2x) - P(x) - 1$ is $2ax - ax = ax$. So, it suffices to find the linear coefficient of $c(x - 2^0)(x - 2^1)\cdots(x - 2^{2010})$.
+
+For this, we can use Vieta's. We end up with
+\[
+    a = 2^S + 2^{S-1} + \cdots + 2^{S - 2010}.
+\]
+We can simplify this to $a = 2 - \frac{1}{2^{2010}}.$
+\section*{Problem 18 (SMT 2013)}
+Putting the three terms over a common denominator and factoring the numerator, we can find that the expression equals
+\[
+    a^2 + b^2 + c^2 + ab + bc + ca.
+\]
+We can rewrite this as $(a + b + c)^2 - (ab + bc + ca)$.
+
+Let $x = \sqrt{3}$, $y = \sqrt{5}$, $z = \sqrt{7}$, and $S = a + b + c = x + y + z$. Then, our desired expression is
+\[
+    S^2 - [(S - 2x)(S - 2y) + (S - 2y)(S - 2z) + (S - 2z)(S - 2x)].
+\]
+
+We can simplify this to get the answer of
+\[
+    2S^2 - 4(xy + yz + zx) = 30.
+\]
+
 \end{document}
 % vim: ts=4 sts=4 sw=4 et
