@@ -12,6 +12,28 @@
 \section*{Problem 1 (USAMO 1973/4)}
 Consider the cubic polynomial $(t - x)(t - y)(t - z)$. From Newton's sums and Vieta's, this cubic polynomial must equal $t^3 - 3t^2 + 3t - 1$. The only factorization of this is $(t - 1)^3$, so the only solution must be $(x,y,z)=(1,1,1)$.
 
+\section*{Problem 2 (Canada 1996)}
+It is easy to show that $1-\alpha$, $1-\beta$, and $1-\gamma$ are the roots of the polynomial
+\[
+    x^3 - 3x^2 + 2x + 1
+\]
+using Vieta's.
+
+Then, we can easily calculate the desired expression using Vieta's as well. The answer is $-7$.
+\section*{Problem 3 (HMMT Nov 2016 Guts)}
+By Newton's sums, the sum of the squares of the roots is $0$. This means each term in the requested expression is $-1$, giving us a total answer of $-4$.
+\section*{Problem 5 (USAMO 1984/1)}
+Notice that we can write the polynomial as
+\[
+    (x^2 + ax - 32)(x^2 + bx + 62)
+\]
+for constants $a$ and $b$. Expanding this and matching coefficients, we get the system of equations
+\begin{align*}
+    a + b &= -18 \\
+    62a - 32b &= 200.
+\end{align*}
+We can solve this system to get $a = -4$, $b = -14$. We also know $k = 30 + ab$ from the earlier expansion, so $k = 86$.
+
 \section*{Problem 6}
 Consider the polynomial with roots $r + s$, $s + t$, and $r + t$. We will find its coefficients and show that it is the desired polynomial.
 Using Vieta's, we can see that
@@ -27,6 +49,12 @@ Expanding and simplifying with Vieta's and Newton sums, we get $B = 52$.
 The $C$ term is slightly more involved, but we can use a combination of Newton sums, Vieta's, and grouping of terms to get $C = -23$.
 
 All these terms are rational, so overall, our answer is $A + B + C = -14 + 52 - 23 = 15$.
+\section*{Problem 9}
+We notice that the polynomial vanishes whenever $a=b$, $a=c$, or $b=c$. So, the polynomial is divisible by $(a-b)(a-c)(b-c)$. We know the last factor must be a multiple of $a+b+c$. We can match the coefficient of $ab^3$ to get that the factored form is
+\[
+    (a-b)(a-c)(b-c)(-a-b-c).
+\]
+
 \section*{Problem 13 (HMMT 2023/T2)}
 We can rearrange the equation $a^3 - bcd = b^3 - cda$ to get
 \[
@@ -71,11 +99,25 @@ Let $x = \sqrt{3}$, $y = \sqrt{5}$, $z = \sqrt{7}$, and $S = a + b + c = x + y +
 \[
     S^2 - [(S - 2x)(S - 2y) + (S - 2y)(S - 2z) + (S - 2z)(S - 2x)].
 \]
-
 We can simplify this to get the answer of
 \[
     2S^2 - 4(xy + yz + zx) = 30.
 \]
+\section*{Problem 20 (Black MOP 2012)}
+Let $\sqrt{a + h_B}$, $\sqrt{b + h_C}$, and $\sqrt{c + h_A}$ be the roots of a polynomial.
 
+Then, we claim this polynomial also has roots $\sqrt{a + h_C}$, $\sqrt{b + h_A}$, and $\sqrt{c + h_B}$. This can be shown with Vieta's and Newton sums, along with the fact that
+\[
+    (a + h_B)(b + h_C)(c + h_A) = (a + h_C)(b + h_A)(c + h_B),
+\]
+which can be shown by expanding and simplifying using the triangle area formula.
+
+Thus, we have three cases:
+\begin{enumerate}
+    \item $\sqrt{a + h_B} = \sqrt{a + h_C}$. Let $A$ be the area of the triangle. Then it is obvious that $b = c$.
+    \item $\sqrt{a + h_B} = \sqrt{b + h_A}$. We can derive that $a = b$ or $ab = -1$, the latter of which is impossible.
+    \item $\sqrt{a + h_B} = \sqrt{c + h_B}$. Obviously $a = c$.
+\end{enumerate}
+In any case, the triangle is isosceles.
 \end{document}
 % vim: ts=4 sts=4 sw=4 et
