@@ -1,6 +1,5 @@
 \documentclass{scrartcl}
 \usepackage{graphicx} % Required for inserting images
-\usepackage[sexy]{evan}
 \usepackage{amsmath}
 \usepackage{listings}
 
@@ -8,7 +7,6 @@
 \author{Michael Middlezong}
 
 \begin{document}
-\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 
 \maketitle
 
@@ -41,5 +39,25 @@ Let $S$ be the midpoint of $NK$. Since $\angle ISI_A = \angle IBI_A = 90$ (well 
 However, we know $KS \cdot KI_A = KN \cdot KQ$. Thus, $BNCQ$ is cyclic.
 
 Let $P$ be the circumcenter of $BCN$. Notice that since $BK = XC$, we have $QB = QC$ and thus $QP$ is the perpendicular bisector of $BC$. In other words, $Q$ is the arc midpoint of arc $BC$ on the circumcircle of $BCN$. Consider a homothety at $N$ that takes $K$ to $Q$. This homothety must also take $I$ to $P$, finishing the proof.
-
+\section*{Chapter 5}
+\subsection*{Problem 5.16 (Star Theorem)}
+Using the Law of Sines, we write
+\[
+    \prod_{i = 1}^{5} X_i A_{i + 2} = \prod_{i = 1}^{5} \frac{A_{i + 2}A_{i + 3}}{\sin \angle A_{i+2}X_iA_{i+3}}\sin \angle A_{i+2}A_{i+3}X_i
+\]
+and
+\begin{align*}
+    \prod_{i = 1}^{5} X_i A_{i + 3} &= \prod_{i = 1}^{5} \frac{A_{i + 2}A_{i + 3}}{\sin \angle A_{i+2}X_iA_{i+3}}\sin \angle A_{i+3}A_{i+2}X_i \\
+    &= \prod_{i = 1}^{5} \frac{A_{i + 2}A_{i + 3}}{\sin \angle A_{i+2}X_iA_{i+3}}\sin \angle A_{i+1}A_{i+2}X_{i-1}.
+\end{align*}
+Notice that this is the same expression by re-indexing. Thus, we are done.
+\subsection*{Problem 5.17}
+We know the length of the exradius $r_A$ is $\frac{sr}{s-a}$. Then, simply use Heron's formula and $A = sr$.
+\subsection*{Problem 5.18 (APMO 2013/1)}
+WLOG we will just prove triangles $ODB$ and $OAE$ have the same area, and then we can get three pairs from symmetry. We note that $OB$ and $OA$ have the same length, so we just need to compare the heights of the altitudes from $D$ and $E$ to their respective sides. So, using some angle chasing and trigonometry, we can reduce what we are trying to prove to
+\[
+    AE \sin (90 - B) = BD \sin (90 - A).
+\]
+Then, we notice that $AE = AB \sin (90 - A)$ and $BD = AB \sin (90 - B)$ by drawing altitudes, giving us the result.
 \end{document}
+% vim: ts=4 sts=4 sw=4 et
