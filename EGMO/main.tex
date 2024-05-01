@@ -59,5 +59,64 @@ WLOG we will just prove triangles $ODB$ and $OAE$ have the same area, and then w
     AE \sin (90 - B) = BD \sin (90 - A).
 \]
 Then, we notice that $AE = AB \sin (90 - A)$ and $BD = AB \sin (90 - B)$ by drawing altitudes, giving us the result.
+\subsection*{Problem 5.19 (EGMO 2013/1)}
+Let $a$, $b$, $c$ denote the side lengths of $ABC$ in their usual way. We can compute
+\begin{align*}
+    AD^2 &= c^2 + 4a^2 - 4ac \cos B \\
+    BE^2 &= c^2 + 4b^2 + 4bc \cos A.
+\end{align*}
+(The $+$ is not a mistake in the second line there!) Equating the two, we get $a^2 - ac \cos B = b^2 + bc \cos A$. Using the Law of Cosines but solving for angles, we get
+\begin{align*}
+    \cos B &= \frac{a^2 + c^2 - b^2}{2ac} \\
+    \cos A &= \frac{b^2 + c^2 - a^2}{2bc}.
+\end{align*}
+Plugging these back in, we can simplify to get $a^2 = b^2 + c^2$. Thus, triangle $ABC$ is right-angled.
+\subsection*{Problem 5.20 (HMMT 2013)}
+Let $E$ be the contact point of the incircle with $AB$, and let $M$ be the midpoint of $BC$.
+Also, let $a$, $b$, and $c$ mean the usual side lengths. The condition $2a = b + c$ can also be written as $s - a = \frac{a}{2}$, where $s$ is the semiperimeter. Since $AE = s - a$ and $MC = \frac{a}{2}$, we know $AE = MC$.
+
+We also know $\angle DCM = \angle IAE$. So, by AAS congruence, we have that triangle $AIE$ is congruent to triangle $CDM$. Therefore, $DC = AI = DI$ (by another lemma), and we are done.
+\subsection*{Problem 5.21 (USAMO 2010/4)}
+Notice that $I$ is the incenter.
+Law of Cosines tells us
+\[
+    BC^2 = BI^2 + CI^2 - 2 \cdot BI \cdot CI \cos \angle BIC.
+\]
+Angle chasing gives us $\angle BIC = 135$. So, we have
+\[
+    BC^2 = BI^2 + CI^2 + \sqrt{2} \cdot BI \cdot CI.
+\]
+Assume $BI$ and $CI$ have integer lengths. Then $BC^2 = AB^2 + AC^2$ is not an integer. Thus, the six segments cannot all have integer lengths.
+\subsection*{Problem 5.22 (Iran Olympiad 1999)}
+We can rewrite the condition as $ID \cdot (\sin B + \sin C) = \frac{1}{2} AD$ (using some angle chasing). Since $ID = BD = CD$, we now use Ptolemy's theorem to get
+\[
+    (AB + AC) \cdot ID = AD \cdot BC.
+\]
+However, we know that $ID = \frac{AD}{2(\sin B + \sin C)}$, so we can plug that in and simplify to get
+\[
+    BC = \frac{AB + AC}{2(\sin B + \sin C)}.
+\]
+Using the Extended Law of Sines again, we can write $\sin B = \frac{AC}{2R}$ and $\sin C = \frac{AB}{2R}$ where $R$ is the circumradius. Then, the above equation simplifies to
+\[
+    BC = R.
+\]
+Using the Extended Law of Sines, this means that $\sin A = \frac{1}{2}$, so $\angle A = 30$ or $\angle A = 150$.
+\subsection*{Problem 5.23 (CGMO 2002/4)}
+Using the Law of Sines,
+\[
+    \frac{AH}{HF} = \frac{EA \sin \angle HEA}{EF \sin \angle HEF}.
+\]
+Note that $EC = EF$ because chord $CF$ is perpendicular to diameter $AB$. So, we rewrite our expression as
+\[
+    \frac{EA \sin \angle HEA}{EC \sin \angle HEF}.
+\]
+Simple angle chasing and trig finishes this proof:
+\begin{align*}
+    \frac{EA \sin \angle HEA}{EC \sin \angle HEF} &= \frac{EA \sin \angle GCB}{EC \sin \angle CBD} \\
+    &= \frac{EA \sin (90 - \angle CBD)}{EC \sin \angle CBD} \\
+    &= \frac{EA}{EC \tan \angle CBD} \\
+    &= \frac{\tan \angle ECA}{\tan \angle CBD} \\
+    &= \frac{\tan \angle CBA}{\tan \angle CBD} \\
+    &= \frac{AC}{CD}.
+\end{align*}
 \end{document}
-% vim: ts=4 sts=4 sw=4 et
