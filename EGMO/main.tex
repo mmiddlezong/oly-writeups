@@ -16,7 +16,7 @@ Notice $APOQ$ is cyclic. This can be proven using the homothety at $Q$. Then, no
 \subsection*{Problem 4.49}
 Let ray $AE$ intersect the circumcircle at $W$. Because $\angle BAT = \angle CAE = \angle CAW$, we know arc $BT$ has the same measure as arc $CW$.
 
-Now, extend ray $TD$ to hit the circumcircle at $V$. Line $TV$ is just the reflection of line $WA$ across the perpendicular bisector of $BC$, because of the fact that $BD = CE$ and that arc $BT$ equals arc $CW$.
+Now, extend ray $TD$ to hit the circumcircle at $V$. Line $TV$ is just the reflection of line $WA$ across the perpendicular bisector of $BC$, because $BD = CE$ and that arc $BT$ equals arc $CW$.
 
 Thus, arcs $BA$ and $CV$ have the same measure, and the result follows.
 \subsection*{Problem 4.50 (Vietnam TST 2003/2)}
@@ -110,6 +110,7 @@ Note that $EC = EF$ because chord $CF$ is perpendicular to diameter $AB$. So, we
 \[
     \frac{EA \sin \angle HEA}{EC \sin \angle HEF}.
 \]
+
 Simple angle chasing and trig finishes this proof:
 \begin{align*}
     \frac{EA \sin \angle HEA}{EC \sin \angle HEF} &= \frac{EA \sin \angle GCB}{EC \sin \angle CBD} \\
@@ -119,4 +120,113 @@ Simple angle chasing and trig finishes this proof:
     &= \frac{\tan \angle CBA}{\tan \angle CBD} \\
     &= \frac{AC}{CD}.
 \end{align*}
+\section*{Chapter 6}
+\subsection*{Problem 6.29}
+We scale down to the unit circle and center our arc on the real axis. Let our arc have endpoints at $a$ and $\overline{a} = \frac{1}{a}$, where $a$ is on the unit circle. Let the other point on the circle be $b$, and the center of the circle is obviously $0$.
+Then, the inscribed angle theorem is equivalent to
+\[
+    \arg \left(\frac{a-b}{\frac{1}{a}-b}\right) = \frac{1}{2} \arg \left(\frac{a}{\frac{1}{a}}\right).
+\]
+Notice that with some manipulation, this is equivalent to proving that $\frac{a-b}{1-ab}$ is real, or equal to its conjugate. Indeed, we have
+\begin{align*}
+    \overline{\frac{a-b}{1-ab}} &= \frac{\overline{a} - \overline{b}}{1 - \overline{ab}} \\
+    &= \frac{\frac{1}{a} - \frac{1}{b}}{1 - \frac{1}{ab}} \\
+    &= \frac{\frac{b - a}{ab}}{\frac{ab - 1}{ab}} \\
+    &= \frac{b-a}{ab-1} \\
+    &= \frac{a-b}{1-ab}.
+\end{align*}
+So, we are done.
+\subsection*{Lemma 6.30}
+If $P$ is on chord $AB$, then
+\[
+    \frac{p-a}{p-b} = \overline{\left(\frac{p-a}{p-b}\right)} = \frac{\overline{p} - \frac{1}{a}}{\overline{p} - \frac{1}{b}}.
+\]
+With enough algebraic manipulation, we can get to the result.
+\subsection*{Problem 6.31}
+Let $a$, $b$, $c$, and $d$ be on the unit circle. Then, we have
+\begin{align*}
+    h_a &= b + c + d \\
+    h_b &= a + c + d \\
+    h_c &= a + b + d \\
+    h_d &= a + b + c.
+\end{align*}
+We can now see that the point $\frac{1}{2} (a + b + c + d)$ is the midpoint of $AH_A$, $BH_B$, $CH_C$, and $DH_D$, and thus the lines concur at this point.
+\subsection*{Problem 6.32}
+Let $x$ be the point of tangency of the incircle with $AB$, $y$ be that of $BC$, $z$ be that of $CD$, and $w$ be that of $AD$.
+Also, we scale down such that $w$, $x$, $y$, and $z$ are on the unit circle.
+Then, using the intersection of tangents formula, we get
+\begin{align*}
+    a &= \frac{2wx}{w + x} \\
+    b &= \frac{2xy}{x + y} \\
+    c &= \frac{2yz}{y + z} \\
+    d &= \frac{2wz}{w + z}.
+\end{align*}
+Then, the midpoint of $AC$ is
+\[
+    m_1 = \frac{wx}{w + x} + \frac{yz}{y + z} = \frac{wxy + wxz + wyz + xyz}{(w + x)(y + z)}.
+\]
+The midpoint of $BD$ is
+\[
+    m_2 = \frac{xy}{x + y} + \frac{wz}{w + z} = \frac{wxy + wxz + wyz + xyz}{(x + y)(w + z)}.
+\]
+Since we have placed $I$ at the origin, we seek to prove $\frac{m_1}{m_2}$ is real. Indeed:
+\[
+    \frac{m_1}{m_2} = \frac{(x + y)(w + z)}{(w + x)(y + z)}
+\]
+is equal to its conjugate (through enough algebraic manipulation).
+\subsection*{Problem 6.33 (Chinese TST 2011)}
+Let $a = A$, $b = B$, and $c = C$ in complex numbers. We can derive
+\begin{align*}
+    d &= \frac{1}{2} (b + c + p - bc\overline{p}) \\
+    e &= \frac{1}{2} (a + c + p - ac\overline{p}) \\
+    f &= \frac{1}{2} (a + b + p - ab\overline{p}) \\
+    x &= 2d + a \\
+    y &= 2e + b \\
+    z &= 2f + c. 
+\end{align*}
+Plugging in the expressions for $d$, $e$, and $f$ into the last three equations and simplifying, we get
+\begin{align*}
+    x &= a + b + c + p - bc \overline{p} \\
+    y &= a + b + c + p - ac \overline{p} \\
+    z &= a + b + c + p - ab \overline{p}.
+\end{align*}
+Then, we have
+\begin{align*}
+    \frac{z-y}{z-x} &= \frac{ac \overline{p} - ab \overline{p}}{bc \overline{p} - ab \overline{p}} \\
+                    &= \frac{ac-ab}{bc-ab} \\
+                    &= \frac{\frac{1}{b} - \frac{1}{c}}{\frac{1}{a} - \frac{1}{c}} \\
+                    &= \frac{\overline{b}- \overline{c}}{\overline{a} - \overline{c}}.
+\end{align*}
+Thus, triangles $XYZ$ and $ABC$ are oppositely similar.
+\subsection*{Problem 6.34 (Napoleon's Theorem)}
+
+We will compute $o_b$ and then derive the rest using symmetry.
+Notice that the magnitude of $o_b - a$ is $\frac{\sqrt{3}}{3}$ times the magnitude of $c - a$. Also, the arguments of $o_b - a$ and $c - a$ differ by $\frac{\pi}{6}$.
+Assume WLOG that $A$, $B$, $C$ are arranged in a counterclockwise order (like in the diagram).
+Then,
+\[
+    o_b - a = \left( \frac{\sqrt{3}}{2} + \frac{1}{2}i \right)\left( \frac{\sqrt{3}}{3} \right)(c - a).
+\]
+We can simplify this to get
+\[
+    o_b = \left( \frac{1}{2} - \frac{\sqrt{3}}{6}i \right)a + \left( \frac{1}{2} + \frac{\sqrt{3}}{6}i \right)c. 
+\]
+So by symmetry,
+\begin{align*}
+    o_c &= \left( \frac{1}{2} - \frac{\sqrt{3}}{6}i \right)b + \left( \frac{1}{2} + \frac{\sqrt{3}}{6}i \right)a \\
+    o_a &= \left( \frac{1}{2} - \frac{\sqrt{3}}{6}i \right)c + \left( \frac{1}{2} + \frac{\sqrt{3}}{6}i \right)b.
+\end{align*}
+
+Next, we prove this triangle is equilateral. We have
+\begin{align*}
+    o_b - o_c &= \left( -\frac{\sqrt{3}}{3}i \right)a - \left( \frac{1}{2} - \frac{\sqrt{3}}{6}i \right)b + \left( \frac{1}{2} + \frac{\sqrt{3}}{6}i \right)c \\
+    o_b - o_a &= -\left( \frac{1}{2} + \frac{\sqrt{3}}{6}i \right)a + \left( \frac{\sqrt{3}}{3} \right)b + \left( \frac12 - \frac{\sqrt{3}}{6}i \right)c.
+\end{align*}
+Notice that $\frac{o_b - o_a}{o_b - o_c} = \frac{1}{2} - \frac{\sqrt{3}}{2}i$, which is just a $60^\circ$ rotation. By symmetry, the other angles must also be $60$ degrees. Thus, the triangle is equilateral.
+
+Also,
+\[
+    \frac{o_a + o_b + o_c}{3} = \frac{a + b + c}{3},
+\]
+so the center of $O_AO_BO_C$ coincides with the centroid of $ABC$.
 \end{document}
