@@ -2,6 +2,7 @@
 \usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
 \usepackage{listings}
+\usepackage{evan}
 
 \title{EGMO Solutions}
 \author{Michael Middlezong}
@@ -223,10 +224,107 @@ Next, we prove this triangle is equilateral. We have
     o_b - o_a &= -\left( \frac{1}{2} + \frac{\sqrt{3}}{6}i \right)a + \left( \frac{\sqrt{3}}{3} \right)b + \left( \frac12 - \frac{\sqrt{3}}{6}i \right)c.
 \end{align*}
 Notice that $\frac{o_b - o_a}{o_b - o_c} = \frac{1}{2} - \frac{\sqrt{3}}{2}i$, which is just a $60^\circ$ rotation. By symmetry, the other angles must also be $60$ degrees. Thus, the triangle is equilateral.
-
 Also,
 \[
     \frac{o_a + o_b + o_c}{3} = \frac{a + b + c}{3},
 \]
 so the center of $O_AO_BO_C$ coincides with the centroid of $ABC$.
+
+\subsection*{Problem 6.35 (USAMO 2015/2)}
+The first step is to notice that the center is the midpoint of $AO$, where $O$ is the midpoint of $AB$.
+We compute using $a=-1$, $s$, and $t$ as free variables. In our world, the center of the circle on which $M$ travels on is $-\frac{1}{2}$.
+We have
+\[ x = \frac{1}{2} \left(-1 + s + t + \frac{s}{t}\right). \]
+Also, the magnitude we want to compute is
+\[ \abs{\frac{s+t}{2} - \left( - \frac{1}{2} \right)} = \frac{1}{2} \abs{s + t + 1}. \]
+Notice that
+\begin{align*}
+    \abs{s + t + 1} ^2 &= (s + t + 1)\overline{(s + t + 1)} \\
+    &= 3 + s + t + \frac{1}{s} + \frac{1}{t} + \frac{s}{t} + \frac{t}{s}.
+\end{align*}
+Computing the real component of $x$, which is $\frac{x + \overline{x}}{2}$, we can see that this only depends on the real
+component of $x$, which gives us the result.
+
+\subsection*{Problem 6.36 (MOP 2006)}
+I initially solved this problem by encoding the parallel condition as $ad = be = cf$, but a nicer way to solve it is to rotate the diagram such that $d = \overline{a}$, $e = \overline{b}$, and $f = \overline{c}$. This encodes the parallel condition and makes the computation much easier.
+
+\subsection*{Problem 6.37 (USA January TST for IMO 2014)}
+Notice that $W$ is the midpoint of $A$ and the orthocenter of triangle $ABD$. Using this, we can compute
+\begin{align*}
+    w &= a + \frac{b + d}{2} \\
+    x &= b + \frac{a + c}{2} \\
+    y &= c + \frac{b + d}{2} \\
+    z &= d + \frac{a + c}{2}.
+\end{align*}
+Then, we can also compute the conjugates:
+\begin{align*}
+    \overline{w} &= \frac{1}{a} + \frac{b + d}{2bd} \\
+    \vdots
+\end{align*}
+Shoelace bash gives us the desired result. (The computation takes around 10 minutes, but be sure to take advantage of cyclic symmetry.)
+
+\section*{Chapter 7}
+\subsection*{Problem 7.32}
+We have $I = (a:b:c)$ and $G = (1:1:1)$. Then, we compute $N$.
+Let $D$ be the contact point of the incircle with $BC$. Then, we know $BD = s - b$ and $CD = s - c$.
+Let $D'$ be the contact point of the $A$-excircle with $BC$. We know $D'$ is the reflection of $D$ over
+the midpoint of $BC$, so $D' = (0 : s-b : s-c)$.
+Similarly, $E' = (s-a : 0 : s-c)$ and $F' = (s-a : s-b : 0)$.
+We can now see that $N = (s-a : s-b : s-c)$ falls on all three cevians.
+Computing the determinant of the appropriate matrix easily gets us the fact that $I$, $G$, and $N$ are collinear.
+
+Now, we prove $NG = 2GI$. Normalizing coordinates, we have $G = (\frac13, \frac13, \frac13)$, $I = (\frac{a}{2s}, \frac{b}{2s}, \frac{c}{2s})$, and $N = (1 - \frac{a}{s}, 1 - \frac{b}{s}, 1 - \frac{c}{s})$.
+We can see that $N = 3G - 2I$, so we are done.
+\subsection*{Problem 7.33 (IMO 2014/4)}
+We use similar triangles to compute $P$ and $Q$, and then it is quite straightforward to compute the intersection point as $(-a^2:2b^2:2c^2)$ which satisfies the equation of the circumcircle.
+\subsection*{Problem 7.34 (EGMO 2013/1)}
+The points are easy to compute. Then, use displacement vectors to find
+\begin{align*}
+    \abs{AD}^2 &= 2a^2 + 2b^2 - c^2, \\
+    \abs{BE}^2 &= -2a^2 + 6b^2 + 3c^2.
+\end{align*}
+Setting them equal, we get $a^2 = b^2 + c^2$, so $ABC$ is a right triangle.
+\subsection*{Problem 7.35 (ELMO Shortlist 2013)}
+Set $D = (0,m,n)$ where $m + n = 1$. Use the general form of a circle and compute everything. The result is straightforward.
+\subsection*{Problem 7.36 (IMO 2012/1)}
+The difficulty in this problem mainly lies in algebraic manipulation.
+
+We start by computing $J = (-a : b : c)$ and $M = (0 : s-b : s-c)$.
+Notice that $KB = s-c$ and $KA = s$. From this, we can deduce $K = (c-s : s : 0)$.
+Similarly, $L = (b-s : 0 : s)$.
+
+Now, we set out to compute $F$. Since $F$ lies on line $BJ$, we know that it can be written in the form $(-a : t : c)$ for some $t$. We also know $F$, $M$, and $L$ are collinear, so we have the equation
+\[
+\begin{vmatrix}
+    -a & t & c \\
+    0 & s-b & s-c \\
+    b-s & 0 & s
+\end{vmatrix}
+= 0 \implies t = \frac{-as + c(s-b)}{s-c}.
+\]
+At this point, continuing with the computation leads to very messy expressions.
+We wonder if the expression for $t$ can be simplified. Indeed, after some algebra:
+\[ \frac{-as + c(s-b)}{s-c} = -(a+c). \]
+So, we have $F = (-a : -(a+c) : c) = (a : a + c : -c)$. Similarly, $G = (a : -b : a + b)$.
+
+Now, we have pretty much finished the problem. Computing $S$ and $T$ and then the midpoint of $ST$ gives $M$, so we are done.
+\subsection*{Problem 7.37 (Shortlist 2011/G1)}
+Start by taking a homothety so that the squares are outside the triangle. Suppose this homothety takes $A_1$ to $P$. Then, we can compute $P$ using Conway's formula. We end up getting that points on $AP$ can be parametrized as
+\[ (t_1 : S_C + S : S_B + S). \]
+Similarly, points on $BB_1$ can be written as
+\[ (S_C + S : t_2 : S_A + S) \]
+and points on $CC_1$ can be written as
+\[ (S_B + S : S_A + S : t_3). \]
+It is clear that the point of concurrency is
+\[ \left(\frac{1}{S_A + S} : \frac{1}{S_B + S} : \frac{1}{S_C + S}\right). \]
+\subsection*{Problem 7.38 (USA TST 2008/7)}
+We want to prove that the intersection of $(AQR)$ and the isogonal of $AG$ does not depend on the choice of $P$.
+
+Let $P = (0, m, n)$ where $m + n = 1$. Then, it is easy to see that $Q = (m, 0, n)$ and $R = (n, m, 0)$.
+Next, we find the equation of $(AQR)$. Using the general form of a circle and plugging in values, we get
+that the desired equation is
+\[ -a^2yz - b^2zx - c^2xy + (c^2ny + b^2mz)(x + y + z) = 0. \]
+Now, we find that the isogonal of $AG$ can be parametrized as $(t : 3b^2 : 3c^2)$ using Lemma 7.6. Plugging this
+into the equation for the circle, we notice that $m$ and $n$ cancel out, and the resulting expression does not
+depend on the choice of $P$, so we are done.
 \end{document}
