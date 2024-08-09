@@ -1,0 +1,437 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{derivative}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{BCX-graph}}
+\ohead{\footnotesize Updated Mon 29 Apr 2024 16:04:36 UTC}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\clubg}[1]{\bgroup\color{green!40!black}[$#1\clubsuit$]\egroup}
+
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}{\textbf}
+\providecommand{\opname}{\operatorname}
+\providecommand{\ts}{\textsuperscript}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+    linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+    mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+    nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+    mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+    linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+    mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+    linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmredbox,name=Problem]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmblackbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmblackbox,name=Example,numbered=no]{example*}
+
+\newenvironment{walkthrough}{\noindent\textbf{\color{green!40!black}Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+
+\usepackage{asymptote}
+\begin{asydef}
+size(8cm); // set a reasonable default
+usepackage("amsmath");
+usepackage("amssymb");
+settings.tex="pdflatex";
+settings.outformat="pdf";
+import geometry;
+void filldraw(picture pic = currentpicture, conic g, pen fillpen=defaultpen, pen drawpen=defaultpen) { filldraw(pic, (path) g, fillpen, drawpen); }
+void fill(picture pic = currentpicture, conic g, pen p=defaultpen) { filldraw(pic, (path) g, p); }
+pair foot(pair P, pair A, pair B) { return foot(triangle(A,B,P).VC); }
+pair centroid(pair A, pair B, pair C) { return (A+B+C)/3; }
+\end{asydef}
+
+\newcommand{\goals}[2]{\bgroup
+\sffamily\small \emph{Instructions}: Solve \clubg{#1}.
+If you have time, solve \clubg{#2}.\egroup\par}
+
+%% 426c616e6b204c615465587e
+\begin{document}
+\title{Submission for BCX-GRAPH}
+\subtitle{OTIS (internal use)}
+\author{Michael Middlezong}
+\date{\today}
+\maketitle
+
+\begin{example*}[\href{https://aops.com/community/p740398}{Canada 2006/4}, $0\clubsuit$]
+  Consider a round-robin tournament with $2k+1$ teams,
+  where each team plays each other team exactly once.
+  We say that three teams $X$, $Y$ and $Z$,
+  form a \emph{cyclic triplet} if $X$ beats $Y$, $Y$ beats $Z$ and $Z$ beats $X$.
+  There are no ties.
+  Find the minimum and maximum possible number of cyclic triplets.
+\end{example*} \printpuid{06CAN4}
+
+\begin{walkthrough}
+The minimum bound is not that interesting.
+\begin{walk}
+  \ii Give an example of a tournament with no cyclic triplet.
+  This finds the minimum.
+\end{walk}
+It's the maximum that we'll be most interested in.
+For a team $v$, let $\opname{outdeg} v$ denote the number of teams beaten by $v$.
+(This notation is the standard graph-theoretic one.)
+In order to count it, it will actually be parametrize
+our target in terms of degrees.
+\begin{walk}[resume]
+  \ii Rephrase the ``maximum'' problem in terms
+  of the number of \emph{non-cyclic} triplets.
+  \ii By double-counting, find an expression for the number of non-cyclic
+  triplets in terms of the outdegrees of the vertices.
+  (Possible hint: every non-cyclic triplet can be labeled $vwx$
+  with $v \to w$, $v \to x$.)
+\end{walk}
+Thus we are reduced to an algebraic calculation.
+\begin{walk}[resume]
+  \ii Use Jensen's inequality to show there are at least
+  $(2k+1) \binom k2$ non-cyclic triplets.
+  (If you've never seen Jensen's inequality before,
+  you can read about it in Section 2.5.1 of the OTIS Excerpts.)
+  \ii Give an example where equality holds;
+  thus the maximum is $\binom{2k+1}{3} - (2k+1) \binom k2$.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p13030771}{BAMO 2005/4}, $0\clubsuit$]
+  Let $G$ be a connected graph on $n$ vertices.
+  Cynthia wishes to select some subset $S$ of the edges
+  so that every vertex is an endpoint of an odd number of edges in $S$.
+  \begin{enumerate}
+  \ii[(a)] Prove that Cynthia can never fulfill her wish if $n$ is odd.
+  \ii[(b)] Prove that Cynthia can always fulfill her wish if $n$ is even.
+  \end{enumerate}
+\end{example*} \printpuid{05BAMO4}
+
+\begin{walkthrough}
+The first part (a) is not so hard (parity arguments)
+so this walkthrough focuses on (b).
+\begin{walk}
+  \ii Why can't we just use induction by removing vertices?
+  \ii Figure out under what circumstances you can
+  remove an edge, though.
+  \ii Reduce the case to where $G$ is a tree.
+  \ii When $G$ is a tree, certain moves are now ``forced'';
+  what are they? (Possible hint: look at leaves.)
+  \ii By ``repeating'' (d),
+  describe an algorithm such that, for any tree $G$,
+  produces a set $S$ with the desired property.
+  Prove that it exists.
+  \ii Optionally, show that $S$ is unique (when $G$ is a tree).
+  There is a good chance this follows from your solution to (d) and (e)
+  and doesn't require any additional insights.
+  \ii Where did we use the hypothesis that $G$ is connected?
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\newpage
+
+% ========================================
+\section*{Practice problems}
+\goals{30}{40}
+
+\epigraph{Induction is the coordinate bashing of graph theory.}{A MOP 2012 grader}
+
+\begin{problem}[Chartrand-Zhang 2.14, $2\clubsuit$]
+  Let $G$ be a finite graph such that every edge of $G$
+  has exactly one endpoint of even degree.
+  Show that $G$ has an even number of edges.
+\end{problem} \printpuid{CZHGT214}
+
+%% Type your solution to Chartrand-Zhang 2.14 (\href{https://otis.evanchen.cc/arch/CZHGT214/}{CZHGT214}) here ...
+We use a double counting approach.
+Let an edge sum be the sum of the degrees of the two endpoints of an edge.
+Consider the total edge sum over all edges in the graph.
+Since each individual edge sum must be odd, it suffices to show that this total is even.
+
+It's not hard to see that this total should equal
+\[ \sum_v (\deg v)^2. \]
+Finally, this quantity is even because it has the same parity as $\sum_v \deg v$, so we are done.
+%% --------------------------------------------------
+
+\begin{reqproblem}[$2\clubsuit$]
+  Prove:
+  \begin{enumerate}[(a)]
+  \ii Let $G$ be a simple undirected graph. Show that
+  \[ \sum_v \deg v = 2\#E. \]
+  \ii Let $G$ be a directed graph. We say the \emph{indegree} of a vertex $v$
+  (denoted $\opname{indeg} v$) is the number of incoming edges,
+  while the \emph{outdegree} (denoted $\opname{outdeg} v$) is the number of outgoing edges.
+  Show that
+  \[ \sum_v \opname{indeg} v = \sum_v \opname{outdeg} v = \#E. \]
+  \ii Continuing the notation of (b), suppose further that $G$ is a tournament,
+  i.e.\ every pair of vertices has exactly one edge between them
+  oriented in one of the two directions. Prove that
+  \[ \sum_v (\opname{indeg} v)^2 = \sum_v (\opname{outdeg} v)^2. \]
+  \end{enumerate}
+\end{reqproblem} \printpuid{GRTH5}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/GRTH5/}{GRTH5} here ...
+\begin{enumerate}[(a)]
+    \ii Each edge contributes $2$ to the total degree, one for each vertex it touches. (Formally we could use induction.)
+    \ii Every directed edge contributes $1$ to the total indegree and $1$ to the total outdegree.
+    \ii In a graph with $n$ vertices, we have
+    \begin{align*}
+        \sum_v (\opname{indeg} v)^2 - \sum_v (\opname{outdeg} v)^2 &= \sum_v (\opname{indeg} v)^2 - (\opname{outdeg} v)^2 \\
+        &= \sum_v (\opname{indeg} v + \opname{outdeg} v)(\opname{indeg} v - \opname{outdeg} v) \\
+        &= (n-1) \sum_v \opname{indeg} v - \opname{outdeg} v \\
+        &= 0,
+    \end{align*}
+    with the last step using the result of part (b). This concludes the proof.
+\end{enumerate}
+%% --------------------------------------------------
+
+\begin{problem}[Chartrand-Zhang 2.36, $2\clubsuit$]
+  Find the smallest positive integer $k$ for which there exists a simple graph
+  on $3k$ vertices, for which exactly $k$ vertices have degree $2$,
+  exactly $k$ vertices have degree $6$, and exactly $k$ vertices have degree $7$.
+\end{problem} \printpuid{CZHGT236}
+
+%% Type your solution to Chartrand-Zhang 2.36 (\href{https://otis.evanchen.cc/arch/CZHGT236/}{CZHGT236}) here ...
+The answer is $k=4$.
+In order for a vertex to have degree $7$, we must have $k \geq 3$.
+We also know that $k=3$ is impossible, because the total degree must be even.
+
+A construction for $k=4$ is to first split the vertices into three groups of $4$.
+Then, each vertex in group $1$ is connected with all four vertices in group $2$ and the other three vertices in group $1$.
+Next, each vertex in group $2$ is connected with all four vertices in group $1$ and two vertices in group $3$, in such a way that each vertex in group $3$ is hit twice.
+In this construction, the vertices in group $1$ have degree $7$, the vertices in group $2$ have degree $6$, and the vertices in group $3$ have degree $2$.
+%% --------------------------------------------------
+
+\begin{problem}[$2\clubsuit$]
+  Let $G$ be a graph on $n \ge 2$ vertices.
+  Prove that either $G$ or its complement is a connected graph.
+  (The \emph{complement} of a graph, denoted $\ol G$, is the one
+  which has the same vertices as $G$ but has an edge between two vertices
+  if and only if the corresponding edge $G$ is \emph{not} present.)
+\end{problem} \printpuid{GRTH4}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/GRTH4/}{GRTH4} here ...
+Assume $G$ is not a connected graph.
+Then, it has at least two connected components.
+
+We aim to show that there is a path between any two vertices in $\overline{G}$.
+Let $a$ and $b$ be two vertices, and let $A$ and $B$ be their respective connected components in $G$.
+
+If $A$ and $B$ are distinct connected components, then notice that $a$ and $b$ must be directly connected by an edge in $\overline{G}$.
+
+Otherwise, let $C$ be a connected component distinct from $A$ and $B$, and let $c \in C$.
+Our desired path is $a \to c \to b$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p2769878}{CGMO 2012/6}, $3\clubsuit$]
+  There are $n$ cities, $2$ airline companies in a country.
+  Between any two cities, there is exactly one $2$-way flight connecting them
+  which is operated by one of the two companies.
+  A female mathematician plans a travel route,
+  so that it starts and ends at the same city,
+  passes through at least two other cities,
+  and each city in the route is visited once.
+  She finds out that wherever she starts and whatever route she chooses,
+  she must take flights of both companies.
+  Find the maximum value of $n$.
+\end{problem} \printpuid{12CGMO6}
+
+%% Type your solution to CGMO 2012/6 (\href{https://otis.evanchen.cc/arch/12CGMO6/}{12CGMO6}) here ...
+The answer is $n=4$.
+The problem statement's condition is equivalent to saying that there are no monochromatic cycles in some red-blue edge labeling of $K_n$.
+It is not hard to construct such an edge coloring for $K_4$ that works by manually checking.
+
+It is well known that when $n \geq 6$, any red-blue edge coloring of $K_n$ will contain a monochromatic triangle (proof is by Pigeonhole).
+In order to not create a monochromatic triangle when $n=5$, each vertex must have exactly $2$ red edges and $2$ blue edges emanating from it.
+(Otherwise, in an attempt to not create monochromatic triangles, the endpoints of any $3$ vertices of the same color will form a monochromatic triangle.)
+This information is enough to make a constructive argument for why $n=5$ is impossible, using casework at any point where a non-obvious decision must be made.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p2374667}{USAMO 1981/2}, $3\clubsuit$]
+  Every pair of communities in a county are linked directly
+  by one mode of transportation: bus, train, or airplane.
+  All three methods of transportation are used in the county
+  with no community being serviced by all three modes
+  and no three communities being linked pairwise by the same mode.
+  Determine the largest number of communities in this county.
+\end{problem} \printpuid{81AMO2}
+
+%% Type your solution to USAMO 1981/2 (\href{https://otis.evanchen.cc/arch/81AMO2/}{81AMO2}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[$3\clubsuit$]
+  One day, some students living in the University of Nebraska-Lincoln
+  are friends with each other.
+  The flu affects each student for one day;
+  then the student is immune the next day.
+  On any day $n$, a healthy student cares for all their sick friends,
+  and falls ill on day $n+1$ if they were not immune on day $n$.
+
+  \begin{enumerate}[(a)]
+  \ii Prove that eventually the epidemic will die out.
+  \ii Suppose that immediately before the epidemic some students
+  got vaccinated and thus had an additional immunity on day 1.
+  Give an example to show the epidemic may continue indefinitely
+  (for some choice of initial students and knowledge relation).
+  \end{enumerate}
+\end{problem} \printpuid{SICKNESS}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/SICKNESS/}{SICKNESS} here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[$5\clubsuit$]
+  Let $n \ge 3$ be an integer.
+  Prove that if the edges of $K_n$ are colored with $n$ colors,
+  with each color used at least once,
+  then some triangle has its three edges of different colors.
+\end{problem} \printpuid{H2024647}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/H2024647/}{H2024647} here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Chartrand-Zhang 1.17, $3\clubsuit$]
+  Let $G$ be a connected graph on finitely many vertices.
+  Suppose that the longest path in $G$ has length $\ell$.
+  Prove that any two paths of length $\ell$ share a vertex.
+\end{problem} \printpuid{CZHGT117}
+
+%% Type your solution to Chartrand-Zhang 1.17 (\href{https://otis.evanchen.cc/arch/CZHGT117/}{CZHGT117}) here ...
+Suppose for contradiction that two paths of length $l$ do not share a vertex.
+Let $a_1, a_2, \dots, a_{l+1}$ and $b_1, b_2, \dots, b_{l+1}$ denote the vertex sequences of two paths of length $l$ which do not share a vertex.
+
+Since $G$ is connected, there must exist vertices $a_i$ and $b_j$ such that there exists a path from $a_i$ to $b_j$ which is disjoint from the two original paths.
+(Proof sketch: consider a path from $a_1$ to $b_1$ and "remove" the two original paths from it.)
+We claim that either the path from $a_1 \to a_i \to b_j \to b_1$ or the path from $a_{l+1} \to a_i \to b_j \to b_{l+1}$ must have length greater than $l$.
+
+Let $m$ be the length of the path from $a_i$ to $b_j$ which is disjoint from the two original paths.
+Then, the length of the path from $a_1 \to a_i \to b_j \to b_1$ is
+\[ i + m + j, \]
+and the length of the path from $a_{l+1} \to a_i \to b_j \to b_{l+1}$ is
+\[ (l - i) + m + (l - j). \]
+These two lengths add up to $2l + 2m > 2l$, so clearly, one of them exceeds $l$.
+%% --------------------------------------------------
+
+\begin{problem}[Chartrand-Zhang 3.16, $3\clubsuit$]
+  Up to isomorphism, how many graphs on $9$ vertices have every vertex of degree $6$?
+  (Two graphs are isomorphic if one can relabel the vertices of one to get the other.)
+\end{problem} \printpuid{CZHGT316}
+
+%% Type your solution to Chartrand-Zhang 3.16 (\href{https://otis.evanchen.cc/arch/CZHGT316/}{CZHGT316}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p119177}{Shortlist 2001 C3}, $3\clubsuit$]
+  Let $G$ be a finite simple graph with no $K_5$,
+  and for which any two triangles share at least one common vertex.
+  Prove that one can delete two vertices from $G$
+  and obtain a graph with no triangles.
+\end{problem} \printpuid{01SLC3}
+
+%% Type your solution to Shortlist 2001 C3 (\href{https://otis.evanchen.cc/arch/01SLC3/}{01SLC3}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p23950776}{PUMaC Finals 2019 A1}, $5\clubsuit$]
+  A finite graph $G$ is drawn on a blackboard.
+  The following operation is permitted: pick any cycle $C$ of $G$, draw a new vertex $v$,
+  connect it to all vertices of $C$, and finally erase all the edges of $C$.
+  Prove that this operation can only be done a finite number of times.
+\end{reqproblem} \printpuid{19PUMACFA1}
+
+%% Type your solution to PUMaC Finals 2019 A1 (\href{https://otis.evanchen.cc/arch/19PUMACFA1/}{19PUMACFA1}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p6696508}{Tuymaada 2016/8}, $5\clubsuit$]
+  Let $G$ be a finite connected graph.
+  Prove that one can color the vertices blue and green,
+  and the edges black and white,
+  such that the following three conditions are fulfilled:
+  \begin{itemize}
+  \ii Black edges join vertices of different colors.
+  \ii White edges have at least one blue endpoint.
+  \ii Any two vertices are connected by a black path.
+  \end{itemize}
+\end{problem} \printpuid{16TMD8}
+
+%% Type your solution to Tuymaada 2016/8 (\href{https://otis.evanchen.cc/arch/16TMD8/}{16TMD8}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p10632393}{Shortlist 2017 C2}, $3\clubsuit$]
+  Let $n$ be a positive integer.
+  A \emph{chameleon} is a sequence of $3n$ letters
+  with exactly $n$ occurrences of each of the letters $a$, $b$, $c$.
+  Define a \emph{swap} to be the transposition of two adjacent
+  letters in the chameleon.
+  Prove that for any $X$ there exists a chameleon $Y$
+  such that $X$ cannot be changed to $Y$ using fewer than $3n^2/2$ swaps.
+\end{problem} \printpuid{17SLC2}
+
+%% Type your solution to Shortlist 2017 C2 (\href{https://otis.evanchen.cc/arch/17SLC2/}{17SLC2}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p3120007}{Balkan 2013/4}, $9\clubsuit$]
+  Let $G$ be a graph with the property that for any chordless cycle $C$ and
+  any vertex $v$ not in $C$, at most one vertex of $C$ is adjacent to $v$.
+  Prove that $G$ is three-colorable.
+
+  (A \emph{chordless cycle} is a cycle where no two vertices are adjacent
+  unless they are consecutive in the cycle.)
+\end{problem} \printpuid{13BALK4}
+
+%% Type your solution to Balkan 2013/4 (\href{https://otis.evanchen.cc/arch/13BALK4/}{13BALK4}) here ...
+
+%% --------------------------------------------------
+
+\end{document}

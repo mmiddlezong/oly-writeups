@@ -1,0 +1,70 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{Shortlist 2011}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section*{Combinatorics}
+\subsection*{C1}
+The answer is $(2n-1)!! = (2n-1) \cdot (2n-3) \cdots 3 \cdot 1$.
+Let $a_n$ be the answer to the problem when there are $n$ weights.
+We will show the recursive formula $a_n = (2n-1)a_{n-1}$, from which the desired result follows.
+
+Consider the placement of the $1$-gram weight.
+It cannot be placed on the right pan at step $1$, but it can be placed on either pan in any of the other steps.
+There are thus a total of $2n-1$ ways to place the $1$-gram weight.
+
+Then, fixing the placement of the $1$-gram weight, there are $a_{n-1}$ ways to place the remaining weights.
+This is because as long as there are other weights on the balance, the $1$-gram weight cannot influence which side is heavier (think about binary representation).
+So, it does not affect the placement of the other $n-1$ weights, and we can just scale by a factor of $2$ to get a problem identical to the one with $n-1$ weights.
+
+Thus, multiplying the two, we have $a_n = (2n-1)a_{n-1}$, and we're done.
+
+\section*{Geometry}
+\subsection*{G2}
+Notice that expression in the denominators is the power of $A_i$ with respect to the circle with center $O_i$, which we will denote by $\text{pow}_{\omega_i}(A_i)$.
+
+We proceed with barycentric coordinates.
+Our reference triangle will be $A_2A_3A_4$, and we will let $A_1 = (d,e,f)$, where $d+e+f=1$.
+Then, let
+\[ P = \text{pow}_{\omega_1}(A_1) = -a^2ef-b^2fd-c^2de. \]
+By plugging in points, we find that the equation of $w_2$ is
+\[ -a^2yz-b^2zx-c^2xy-\frac{P}{d}x(x+y+z) = 0, \]
+and the equations of $w_3$ and $w_4$ can be found by symmetry.
+
+It follows that
+\begin{align*}
+    \text{pow}_{\omega_2}(A_2) &= -\frac{P}{d}, \\
+    \text{pow}_{\omega_3}(A_3) &= -\frac{P}{e}, \\
+    \text{pow}_{\omega_4}(A_4) &= -\frac{P}{f},
+\end{align*}
+and plugging in what we have into the desired equation gives the result.
+
+\section*{Number Theory}
+\subsection*{N2}
+Assume for some $x$ that $P(x)$ is only divisible by primes less than $20$.
+Let $p < 20$ be a prime, and let $M = \prod_{i > j} (d_i - d_j)$.
+Then, for distinct indices $i,j$,
+\[ \min\{ \nu_p(x + d_i), \nu_p(x + d_j) \} = \nu_p(\gcd(x + d_i, x + d_j)). \]
+Since $\gcd(x + d_i, x + d_j) \mid d_i - d_j$, we have
+\[ \nu_p(\gcd(x + d_i, x + d_j)) \leq \nu_p(d_i - d_j) \leq \nu_p(M). \]
+So,
+\[ \min\{ \nu_p(x + d_i), \nu_p(x + d_j) \} \leq \nu_p(M) \]
+for all $i \neq j$.
+It follows that there is at most one $j$ such that $\nu_p(x + d_j) > \nu_p(M)$.
+
+If we repeat this for all eight of the primes less than $20$, we will find that since there are nine possible indices $j$, at least one index $j$ will be left over.
+More precisely, there exists $j$ such that $\nu_p(x + d_j) \leq \nu_p(M)$ for all primes $p < 20$, and by our assumption, this extends to all primes $p$.
+So,
+\[ x + d_j \mid M \implies x + d_j \leq M \implies x \leq M - d_j, \]
+and thus, $x$ is bounded.
+The desired result follows.
+
+\end{document}
+% vim: ts=4 sts=4 sw=4 et

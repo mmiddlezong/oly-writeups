@@ -121,6 +121,16 @@ Simple angle chasing and trig finishes this proof:
     &= \frac{\tan \angle CBA}{\tan \angle CBD} \\
     &= \frac{AC}{CD}.
 \end{align*}
+
+\subsection*{Problem 5.28 (IMO 2001/1)}
+Let $M$ be the midpoint of $BC$, and consider right triangle $OMC$.
+Since $\angle COM = \angle A$, it suffices to prove that $\angle PCO > \angle COP$, or $CP<PO$.
+We claim that $CP < PM$. This is equivalent to $CP < 3PB$, or
+\[ c \cos B \geq 3b\cos C. \]
+This simplifies to
+\[ \tan C \geq 3 \tan B. \]
+Using the angle condition and some algebra, we can see that this is true.
+Finally, $PM < PO$ is obvious, so we are done.
 \section*{Chapter 6}
 \subsection*{Problem 6.29}
 We scale down to the unit circle and center our arc on the real axis. Let our arc have endpoints at $a$ and $\overline{a} = \frac{1}{a}$, where $a$ is on the unit circle. Let the other point on the circle be $b$, and the center of the circle is obviously $0$.
@@ -308,7 +318,7 @@ We wonder if the expression for $t$ can be simplified. Indeed, after some algebr
 So, we have $F = (-a : -(a+c) : c) = (a : a + c : -c)$. Similarly, $G = (a : -b : a + b)$.
 
 Now, we have pretty much finished the problem. Computing $S$ and $T$ and then the midpoint of $ST$ gives $M$, so we are done.
-\subsection*{Problem 7.37 (Shortlist 2011/G1)}
+\subsection*{Problem 7.37 (Shortlist 2001/G1)}
 Start by taking a homothety so that the squares are outside the triangle. Suppose this homothety takes $A_1$ to $P$. Then, we can compute $P$ using Conway's formula. We end up getting that points on $AP$ can be parametrized as
 \[ (t_1 : S_C + S : S_B + S). \]
 Similarly, points on $BB_1$ can be written as
@@ -327,4 +337,265 @@ that the desired equation is
 Now, we find that the isogonal of $AG$ can be parametrized as $(t : 3b^2 : 3c^2)$ using Lemma 7.6. Plugging this
 into the equation for the circle, we notice that $m$ and $n$ cancel out, and the resulting expression does not
 depend on the choice of $P$, so we are done.
+
+Note: after the fact, I realized that the isogonal of $AG$ is just the $A$-symmedian, which we already know can be parametrized as $(t : b^2 : c^2)$.
+\subsection*{Problem 7.39 (USAMO 2001/2)}
+It is well known that $D_2 = (0 : s-b : s-c)$ and $E_2 = (s-a : 0 : s-c)$. We can then deduce that
+$P = (s-a : s-b : s-c)$. Also, using a lemma from Chapter 4, we know $QD_1$ is a diameter of the incircle, i.e., $Q$ is the reflection of $D_1$ over $I$.
+
+Since we know $D_1 = (0 : s-c : s-b)$ and $I = (a : b : c)$, we can calculate $Q = \left( \frac{a}{s}, \frac{b}{s} - \frac{s-c}{a}, \frac{c}{s} - \frac{s-b}{a} \right)$ and verify that $\overrightarrow{AQ} = \overrightarrow{PD_2}$, finishing the problem.
+\subsection*{Problem 7.40 (USA TSTST 2012/7)}
+Through angle chasing, we can reduce this problem to trying to show $\overline{AD}$ is parallel to $\overline{NM}$.
+Because $AD$ passes through the incenter $(a : b : c)$, it is easy to see that $D = (0 : b : c)$.
+Also, we know $M = (0 : 1 : 1)$. Now, we turn our attention to computing $N$.
+
+Through some work, we find that the equation of $(ADM)$ is
+\[ -a^2yz - b^2zx - c^2xy + \left( \frac{a^2c}{2(b+c)}y + \frac{a^2b}{2(b+c)}z \right)(x + y + z) = 0. \]
+We can solve for $Q$ and $P$ to get, after a lot of algebra:
+\begin{align*}
+    Q &= (a^2 : 2c(b+c) - a^2 : 0), \\
+    P &= (a^2 : 0 : 2b(b+c) - a^2).
+\end{align*}
+We can then calculate $N = (a^2(b+c) : 2bc(b+c) - a^2b : 2bc(b+c) - a^2c)$.
+
+The displacement vector $\overrightarrow{NM} = (-a^2(b+c) : a^2b : a^2c)$. Also, the displacement vector $\overrightarrow{AD} = (-(b + c) : b : c)$. It is clear that $\overline{AD}$ and $\overline{NM}$ are parallel, so we are done.
+\subsection*{Problem 7.41}
+Using properties of angle bisectors, we can compute $P = (a : 0 : b-a) = (\frac{a}{b} : 0 : 1 - \frac{a}{b})$ and
+$Q = (a : c-a : 0) = (\frac{a}{c} : 1 - \frac{a}{c} : 0)$. Then, using the theorem for generalized perpendicularity, we can obtain the result.
+\subsection*{Lemma 7.42}
+Using the mixtilinear incircle configuration, we find that the concurrency point of $AT_A$, $BT_B$, and $CT_C$ is
+the isogonal conjugate of the Nagel point. Since the Nagel point has coordinates $(s-a : s-b : s-c)$, the point
+of concurrency is $(\frac{a^2}{s-a} : \frac{b^2}{s-b} : \frac{c^2}{s-c}) = (a^2(s-b)(s-c) : b^2(s-a)(s-c) : c^2(s-a)(s-b))$.
+
+All that remains is to show that this point is collinear with $O$ and $I$, which is relatively easy to do by showing the determinant of the matrix is $0$.
+
+\section*{Chapter 8}
+\subsection*{Problem 8.23}
+Simply invert around $C$. The four points become a rectangle.
+
+\subsection*{Problem 8.24}
+Inverting around $A$, we get a structure with two lines and two circles in between. Similar triangles finishes the problem.
+
+\subsection*{Problem 8.25}
+Using the inverting the circumcenter lemma, we invert around $P$. The resulting problem is solvable by noticing
+the homothety + Simson line, or complex bashing.
+
+\subsection*{Problem 8.26 (BAMO 2008/4)}
+Inverting around $D$, the problem becomes equivalent to a simple problem from Chapter 3, which I already solved.
+
+\subsection*{Problem 8.27 (Iran Olympiad 1996)}
+Invert around the circle. Then, $AC$ and $BD$ intersect at $K^*$, and we wish to prove that $\angle K^*M^*O = 90$,
+where $M^*$ is the second intersection point of $(COD)$ with line $AB$.
+
+Let $M'$ be the phantom point which is the foot of the perpendicular from $K^*$ to line $AB$. We wish to show
+$COM'D$ is cyclic. Notice through angle chasing that $C$ is the foot from $B$ to $AK^*$, and similarly for $D$.
+Thus, $CM'D$ is the orthic triangle of triangle $K^*AB$, and we have (through angle chasing):
+\[ \angle OM'D = \angle AM'D = \angle AKD = \angle AKM' + \angle M'KB = \angle OCB + \angle BCD = \angle OCD. \]
+(One of the steps in that equation is significantly more involved than the rest.) Therefore, we are done.
+
+Alternate ending: notice that $(COD)$ is the nine-point circle of triangle $K^*AB$. So, $M^*$ must be the foot of
+the altitude.
+
+\subsection*{Problem 8.28 (Shortlist 2003/G4)}
+After inverting around $P$, it is a trivial computational problem using the inversive distance formula. Specifically,
+begin by noticing that the image of $ABCD$ is a parallelogram.
+
+\subsection*{Problem 8.29}
+Inverting about the incircle takes $(ABC)$ to the nine-point circle of $DEF$. Thus, $O$, $I$, and the nine-point
+center of $DEF$ are collinear. This means that line $OI$ is the Euler line of triangle $DEF$. Since $G_1$ also
+lies on this line, we are done.
+
+\subsection*{Problem 8.30 (NIMO 2014)}
+Notice that $Q$ is just the antipode of $A$ on $(ABC)$. Let line $QI$ intersect $(ABC)$ again at $X$. Notice that
+$AXFIE$ is cyclic. Now, consider an inversion around the incircle. The circle $(AXFIE)$ is mapped to line $EF$, and
+$(ABC)$ is mapped to the nine-point circle of $DEF$. Since $X^*$ must be on line $EF$, it must coincide
+with point $P$ since $X$, $P$, and $I$ are collinear. But since $X^*$ also lies on the nine-point circle of $DEF$,
+and $X \neq A$, we have that $X^* = P$ must be the foot of the altitude from $D$ to $EF$, and so we are done.
+\section*{Chapter 9}
+\subsection*{Problem 9.42 (USA TSTST 2012/4)}
+Let $H$ be the orthocenter. Brocard's theorem applied to quadrilaterial $BCB_1C_1$ yields that $D$ is the
+orthocenter of triangle $AA_2H$, meaning that line $DH$ is perpendicular to line $AA_2$. Similarly, we can see
+that all the perpendicular lines pass through $H$, so they are concurrent.
+\subsection*{Problem 9.43}
+Let $F$ be the reflection of $B$ over $O$. Notice that $ABCF$ is a rectangle, $E$ is the intersection point of lines
+$AF$ and $CD$, and lines $BF$ and $AC$ intersect at $O$. Therefore, Pascal's theorem on $BDCAAF$ gives the result.
+\subsection*{Problem 9.44 (Canada 1994/5)}
+Trivial using the Right Angles and Bisectors lemma (Lemma 9.18).
+\subsection*{Problem 9.45 (Bulgarian Olympiad 2001)}
+Let $F$ be the midpoint of $AB$, and let $X$ be the intersection point of the tangents to $k$ through $C$ and $E$.
+Let $G$ be the intersection point of lines $BD$ and $EC$.
+
+Notice that $BEDC$ is a harmonic quadrilateral, and in particular, $(B,D;G,X)=-1$. Projecting through $C$ onto
+line $AB$, we have $(B,A;F,\overline{CX}\cap\overline{AB})=-1$. Since $F$ is the midpoint of $AB$, we must have
+that lines $CX$ and $AB$ are parallel, which quickly leads to the desired conclusion.
+\subsection*{Problem 9.46 (ELMO Shortlist 2012)}
+If $AB = AC$, then we are done by symmetry. Otherwise, let $K$ be the intersection point of lines $IP$ and $BC$.
+Notice that $K$ is the inverse of $P$ with respect to the incircle, and thus, $A$ lies on the polar of $K$.
+By La Hire's theorem, we know that $K$ lies on the polar of $A$. In other words, if $E$ and $F$ are the contact
+points of the incircle with sides $AC$ and $AB$, respectively, then $K$ lies on line $EF$.
+
+It is well known that the cevians $AD$, $BE$, and $CF$ concur, so we can use the concurrent cevians lemma to deduce
+that $(E,D;B,C) = -1$. Finally, since $\angle EPD = 90$, the right angles and bisectors lemma tells us that
+$\angle BPD = \angle DPC$.
+
+\subsection*{Problem 9.47 (IMO 2014/4)}
+Let $X_1$ be the intersection point of $(ABC)$ with line $BM$, and let $X_2$ be that intersection point with line
+$CN$. We want to show $X_1 = X_2$.
+
+Some trivial angle chasing reveals that line $OB$ is perpendicular to line $AP$ and line $OC$ is perpendicular to
+line $AQ$.
+Projecting through $B$, we see
+\[ -1 = (A,M;P,P_\infty) = (A,X_1;C,B),\]
+since $\overline{BP_\infty}$ is the tangent at $B$.
+
+Similarly, we have $(A,X_2;B,C) = -1$. Thus, $X = X_1 = X_2$ is the point that makes $ABXC$ harmonic, and we are
+done.
+\subsection*{Problem 9.48 (Shortlist 2004/G8)}
+Clearly, $N$ and $M$ must be on opposite sides of chord $AB$. Let $N'$ be the intersection point of line $EF$ and
+$(ABM)$ which is not on the same side of chord $AB$ as $M$. Then, we wish to prove $AMBN'$ is harmonic, and by
+the uniqueness of harmonic conjugates, we will be done.
+
+Let $P = \overline{EF} \cap \overline{CD}$ and $G = \overline{AB} \cap \overline{CD}$. Using the midpoint lengths lemma and Power of a Point, we see that $P$
+lies on $(ABM)$. We also know that $(G,P;C,D) = -1$. Thus,
+\[ -1 = (G, P; C, D) =^E (G, \overline{EF} \cap \overline{AB}; B, A) =^P (M, N'; B, A). \]
+\subsection*{Problem 9.49 (Sharygin 2013)}
+Let $M$ be the midpoint of $AB$, and let $D$ be the foot of the perpendicular from $I$ to $CM$. Notice that since
+$K$ lies on the polar of $C$, by La Hire's theorem, $C$ lies on the polar of $K$. In other words, $CM$ is the polar
+of $K$. Then, we know
+\[ -1 = (B', A'; \overline{A'B'} \cap \overline{CM}, K) =^C (A,B;M,\overline{CK} \cap \overline{AB}). \]
+Since $M$ is the midpoint of $AB$, $\overline{CK} \cap \overline{AB}$ must be the point at infinity, and
+we are done.
+
+\section*{Chapter 10}
+\subsection*{Problem 10.17 (NIMO 2014)}
+We will show that $R$, $M$, and $S$ are collinear, from which the result follows easily (perhaps by congruent
+triangles).
+We know (using directed angles)
+\[ \angle SBM = \angle SHM = \angle QHM = \angle QCM = \angle C. \]
+Since $\angle MBH = 90 - \angle C$, we know $\angle SBH$ is right. Similarly, $\angle RCH$ is right.
+Thus, $\angle SMH = \angle SBH = \angle RCH = \angle RMH$, so we are done.
+
+\subsection*{Problem 10.18 (USAMO 2013/1)}
+Draw the Miquel point $M$. Through angle chasing, we get $\triangle MYX \sim \triangle MBP$ and $\triangle MYZ \sim \triangle MBC$ with
+the same scale factor $MY/MB$. So, we are done.
+
+\subsection*{Problem 10.19 (Shortlist 1995/G8)}
+Let $\omega_{XY}$ denote the circle with diameter $XY$. Notice that the orthocenter of triangle $EAD$ is the
+radical center of circles $\omega_{AD}, \omega_{AB},$ and $\omega_{CD}$. Thus, it lies on the radical axis of
+$\omega_{AB}$ and $\omega_{CD}$. Notice that the orthocenter of triangle $EBC$ is the radical center of circles
+$\omega_{AB}, \omega_{BC},$ and $\omega_{CD}$. Thus, it also lies on the radical axis of $\omega_{AB}$ and $\omega_{CD}$.
+Point $F$ also lies on this radical axis because of Power of a Point. So, $F$ and the two orthocenters lie on
+the same line.
+
+\subsection*{Problem 10.20 (USA TST 2007/1)}
+Take the quadrilateral $APDX$. We know that $Q$ is the Miquel point of this quadrilateral, since $Q$ is the
+second intersection of $(BPD)$ and $(CAP)$. Thus, $AXQB$ is cyclic.
+
+Then, we have (using directed angles)
+\[ \angle QYP = \angle QAP = \angle QAB = \angle QXB. \]
+Since $\overline{XB} \parallel \overline{YP}$, we must have that $Q$, $X$, and $Y$ are collinear.
+
+Similarly,
+\[ \angle QZP = \angle QBP = \angle QBA = \angle QXA, \]
+so points $Q$, $X$, and $Z$ are collinear.
+
+\subsection*{Problem 10.21 (USAMO 2013/6)}
+This problem is 100000 MOHS so I can't really write it up
+
+\subsection*{Problem 10.22 (USA TST 2007/5)}
+The length conditions can be interpreted by drawing a circle centered at $T$ passing through $B$.
+
+We show that $A$ is the Miquel point of $BB_1C_1C$. Let $Q = \overline{BB_1} \cap \overline{CC_1}$. Then, by the
+three tangents configuration, $Q$ lies on $(ABC)$. Fixing $BB_1C_1C$, only one point $A$ satisfies $\angle BAC$ being acute,
+$A$ being on $(QBC)$, and $\angle TAS = 90$. The Miquel point also satisfies these criteria whenever $BB_1C_1C$
+is a quadrilateral following from the problem statement (based on various properties listed in EGMO), so $A$
+must be the Miquel point.
+
+Note: for me, the motivation for $A$ being a Miquel point came from the fact that $E = \overline{B_1C} \cap \overline{C_1B}$
+lies on $(ABC)$ when drawn and looks like the inverse of $A$ (orthogonal circles).
+
+\subsection*{Problem 10.23 (IMO 2005/5)}
+Let $M$ be the Miquel point of self-intersecting quadrilateral $BCAD$. In other words, it is the second intersection
+of $(PAD)$ and $(PBC)$. We claim that all of the circumcircles of triangles $PQR$ pass through $M$.
+Note that $M$ is the center of the spiral similarity taking $A,F,D$ to $C,E,B$.
+Then, $M$ is also the center of the spiral similarity taking $AF$ to $CE$, so $M$ is the second intersection of
+$(AFR)$ and $(CER)$. This means that $RMEC$ is cyclic. Similarly, $QMBE$ is cyclic. A simple directed angle chase finishes
+the proof:
+\[ \angle RMQ = \angle RME + \angle EMQ = \angle RCE + \angle EBQ = \angle PCB + \angle CBP = \angle CPB = \angle RPQ. \]
+
+\subsection*{Problem 10.24 (USAMO 2006/6)}
+Consider $M$, the center of the spiral similarity taking $AD$ to $BC$. Since $\frac{AE}{ED} = \frac{BF}{FC}$, this
+spiral similarity also takes $E$ to $F$. Thus, $M$ is Miquel point of complete quadrilaterals $ABEF$ and $EFDC$,
+which all four circles must pass through.
+
+\section*{Chapter 11}
+\subsection*{Problem 11.1 (Canada 2000/4)}
+Let $\alpha = \angle ADB$ and $\beta = \angle CDB$. Through angle chasing, we compute $\angle BAD = 180 - \alpha - 2\beta$
+and $\angle BCD = 180 - 2\alpha - \beta$. Using the law of sines on $\triangle ABD$:
+\[ \frac{AB}{\sin \alpha} = \frac{BD}{\sin (180 - 2\beta - \alpha)} = \frac{BD}{\sin (2\beta + \alpha)}. \]
+Similarly,
+\[ \frac{BC}{\sin \beta} = \frac{BD}{\sin (2\alpha + \beta)}. \]
+Since $AB = BC$, we conclude that
+\[ \frac{\sin \alpha}{\sin \beta} = \frac{\sin (2\beta + \alpha)}{\sin (2\alpha + \beta)}. \]
+Cross multiplying and using product-to-sum, this simplifies to
+\[ \cos(3\alpha + \beta) = \cos(3\beta + \alpha). \]
+For a non-degenerate quadrilateral, we must have $\alpha, \beta > 0$ and $\alpha + \beta < 90$. So, we see that the only
+solution is $\alpha = \beta$, and by symmetry, $AD = CD$.
+
+\subsection*{Problem 11.2 (EGMO 2012/1)}
+First, notice through angle chasing that $\angle FDE = 180 - 2\angle A$. Let $I$ be the incenter of triangle $DEF$.
+Since it is easy to see that line $ID$ is perpendicular to side $BC$, we wish to show that $K$, $I$, and $D$ are
+collinear.
+
+More angle chasing reveals that $AFIE$ is cyclic. Then, by the incenter-excenter lemma on $\triangle DEF$, we are done.
+
+\subsection*{Problem 11.3 (ELMO 2013/4)}
+First, we claim that $BE = BC$. Since
+\[ \angle AEB = \angle ACE = \angle RCS = \angle RBS = \angle RBA, \]
+we know that $S$ lies on the angle bisector of $\angle B$ in isosceles $\triangle BER$. Thus, by symmetry,
+\[ \angle BCS = \angle BRS = -\angle BES, \]
+so $BE = BC$.
+
+Next, we claim $K$ is the incenter of $\triangle ELD$. It suffices to show that $\angle REL = \angle DER$.
+We have
+\[ \angle REL = \angle REB + \angle BEL = \angle BRE + \angle ECB = \angle DRE + \angle EDR = \angle DER. \]
+
+Finally,
+\[ \angle ELK = \frac12 \angle ELD = \angle BLC, \]
+and it is clear that $\triangle BLC \sim \triangle BCD$, so we are done.
+
+\subsection*{Problem 11.4 (Sharygin 2012)}
+First, it is easy to see that $C_1$ is the midpoint of $BC$ and $A_1$ is the midpoint of $BA$.
+
+Notice that $\overline{C_1C_2}$ bisects $\angle CC_1A_1$ using basic angle chasing. Similarly,
+$\overline{A_1A_2}$ bisects $\angle AA_1C_1$.
+
+Let $X$ be the intersection point of lines $C_1C_2$ and $A_1A_2$. Then, a homothety at $B$ with scale factor $2$
+takes $X$ to the $B$-excenter, so the result is obvious.
+
+\subsection*{Problem 11.5 (USAMTS)}
+Draw $I$, the incenter of triangle $ABD$. The key step is to notice that $IBCD$ is cyclic; the rest of the problem is easy.
+
+\subsection*{Problem 11.6 (MOP 2012)}
+First, we see that $H$ lies on $\gamma$. Then, notice that inverting around $B$, this problem inverts to itself. We see that under this inversion, $P$ is sent to $Q$ and
+vice versa. Thus, $B$, $P$, and $Q$ are collinear.
+
+\subsection*{Problem 11.7 (Sharygin 2013)}
+Let $K$ be the midpoint of $BC$. We wish to show $DKEN$ is cyclic. Let $A'$ be the reflection of $A$ over $K$. We claim that $DA'EM$ is cyclic.
+
+First, we show $FA'TM$ to be cyclic. Because of the parallel condition and symmetry, $DFA'A$ is an isosceles trapezoid and
+\[ \angle FA'A = \angle A'FD = -\angle ADF = -\angle ETF = -\angle MTF = \angle FTM, \]
+so $FA'TM$ is cyclic. Then, the radical axis theorem tells us that $DA'EM$ is cyclic.
+
+Finally, we have $AD \cdot AE = AA' \cdot AM = AK \cdot AN$, so we are done.
+
+\subsection*{Problem 11.8 (ELMO 2012/1)}
+Let $M$ be the midpoint of $BC$. It is well known that $B$, $F$, $E$, and $C$ lie on a circle centered at $M$ and lines $ME$ and $MF$ are tangent to $\omega$. Thus, line $ME$ is tangent to $w_1$ and line $MF$ is tangent to $w_2$, so $M$ has the same power with respect to $w_1$ and $w_2$. $D$ also has the same power $0$ with respect to both circles, so $\overline{DM} = \overline{BC}$ must be the radical axis of the two circles, making the result obvious.
+
+\subsection*{Problem 11.9 (Sharygin 2013)}
+Let $L$ be the midpoint of $BC$ and $P$ be the midpoint of $QR$. Set $AB = 2x$, $CD = 2y$, and $BC = 2l$. Chasing lengths using power of a point, we get
+\[ PL = \frac{y^2-x^2}{2l} \]
+and $KL = \frac{x+y}{2}$.
+
+Let $E$ be the foot of the perpendicular from $B$ to $DC$. Then, we see by SAS similarity that $\triangle KPL \sim \triangle BEC$. Thus, line $KP$ is perpendicular to line $BC$. Finally, SAS congruence finishes up the problem.
 \end{document}

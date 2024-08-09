@@ -1,0 +1,63 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{5M Geometry Solutions}
+\author{Michael Middlezong}
+
+\begin{document}
+
+\maketitle
+
+\section*{IMO 2004/1}
+Let $K$ be the intersection of lines $AR$ and $BC$. We show that $BMRK$ and $CNRK$ are cyclic, leading to the desired result.
+
+We will show that $BMRK$ is cyclic, and a symmetrical argument can be used to show $CNRK$ is cyclic.
+
+Claim: $AMRN$ is cyclic. Let $R'$ be the phantom point corresponding to the second intersection of $(AMN)$ and line
+$AK$. Since $\angle R'AM = \angle R'AN$, we know that $R'$ must be the arc midpoint of arc $MN$, meaning that it is
+the intersection of the perpendicular bisector of $MN$ and line $AK$. However, since triangle $OMN$ is isosceles,
+$R$ is also the intersection of the perpendicular bisector of $MN$ and line $AK$. Thus, $R' = R$ and $AMRN$ is
+cyclic.
+
+Simple angle chasing gives us that $\angle RMN = \frac12 \angle A$ and $\angle OMN = \angle A$, and thus $\angle OMR = \frac12 \angle A = \angle BAK$. Putting things
+together, we have (using directed angles)
+\[ \angle BMR = \angle BMO + \angle OMR = \angle OBM + \angle BAK = \angle KBA + \angle BAK = \angle BKA = \angle BKR. \]
+Thus, we are done.
+
+\section*{IMO 2007/4}
+We proceed by barycentric coordinates. Compute $R = (a^2 + ab : b^2 + ab : -c^2)$, $K = (0:1:1)$, and $L = (1:0:1)$.
+We can compute $P$ and $Q$ using the equation for the perpendicular bisector. The perpendicular bisector of $BC$
+is given by $a^2(z-y) + x(c^2 - b^2) = 0$. Then, we compute $P = (a^2:ab:ab+b^2-c^2)$. By symmetry, $Q = (ab : b^2 : ab + a^2 - c^2)$.
+
+Finally, we compute the areas using the determinant and see that they are equal.
+\section*{USAMO 2001/4}
+We proceed with vectors. Let $\mathbf{p} = \overrightarrow{PA}$, $\mathbf{b} = \overrightarrow{BA}$, and $\mathbf{c} = \overrightarrow{CA}$. We wish to prove $\mathbf{b} \cdot \mathbf{c} > 0$.
+The obtuse triangle condition can be written as
+\[ \| \mathbf{p} - \mathbf{b} \|^2 + \| \mathbf{p} - \mathbf{c} \|^2 < \| \mathbf{p} \| ^2. \]
+Using the identity $\| \mathbf{v} \| = \mathbf{v} \cdot \mathbf{v}$, we have
+\begin{align*}
+(\mathbf{p} - \mathbf{b}) \cdot (\mathbf{p} - \mathbf{b}) + (\mathbf{p} - \mathbf{c}) \cdot (\mathbf{p} - \mathbf{c}) &= 2(\mathbf{p} \cdot \mathbf{p}) - 2\mathbf{p} \cdot (\mathbf{b} + \mathbf{c}) + \mathbf{b} \cdot \mathbf{b} + \mathbf{c} \cdot \mathbf{c} \\
+&< \mathbf{p} \cdot \mathbf{p}.
+\end{align*}
+Simplifying and adding $2(\mathbf{b} \cdot \mathbf{c})$ to both sides, we get
+\[ \mathbf{p} \cdot \mathbf{p} - 2\mathbf{p} \cdot (\mathbf{b} + \mathbf{c}) + (\mathbf{b} + \mathbf{c}) \cdot (\mathbf{b} + \mathbf{c}) < 2(\mathbf{b} \cdot \mathbf{c}). \]
+The left side factors as $(\mathbf{p} - (\mathbf{b} + \mathbf{c})) \cdot (\mathbf{p} - (\mathbf{b} + \mathbf{c}))$. That
+is nonnegative, so we conclude that $\mathbf{b} \cdot \mathbf{c} > 0$, which is what we wanted to prove.
+
+\section*{USAMO 2020/1}
+We claim $\triangle OO_1O_2 \sim \triangle CBA$.
+
+Since $OO_2$ is the perpendicular bisector of $XB$ and $OO_1$ is the perpendicular bisector of $XA$, we have
+\[ \angle O_2OO_1 = \angle O_2OX + \angle XOO_1 = \frac12 (\angle BOX + \angle XOA) = \frac12 \angle BOA = \angle C. \]
+
+The other angle is a bit more tricky. For clarification, all denoted arcs are with respect to the circle with center $O_1$. Since $O_1O_2$ is the perpendicular bisector of $XD$, we see that $\angle XO_1O_2 = \frac12 \arc{XD}$. Similarly, $\angle XO_1O = \frac12 \arc{XA}$. Thus,
+\[ \angle O_2O_1O = \angle XO_1O - \angle XO_1O_2 = \frac12 (\arc{XA} - \arc{XD}) = \frac12 \arc{AD}. \]
+Furthermore,
+\[ \frac12 \arc{AD} = \angle DXA = \angle CXA = \angle B. \]
+Thus, we have AA similarity. This means minimizing the area is equivalent to minimizing the length of $O_1O_2$.
+
+
+\end{document}

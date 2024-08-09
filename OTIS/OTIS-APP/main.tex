@@ -1,0 +1,220 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{OTIS Application Problems}
+\author{Michael Middlezong}
+
+\begin{document}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    backgroundcolor=\color{white},
+    tabsize=4,
+    captionpos=b,
+}
+
+\maketitle
+
+\section*{Geometry Problems}
+\subsection*{Problem A.1}
+The angle conditions imply $\overline{AB}$ is tangent to $(PSR)$ and $\overline{AC}$ is tangent to $(QRS)$.
+Assume $(PSR)$ and $(QRS)$ are not the same circle.
+Then, since $A$ has the same power with respect to both circles, $A$ must lie on the radical axis, $\overline{SR}$, which is just $\overline{BC}$, so that is impossible.
+Hence, they are the same circle, and we are done.
+
+\subsection*{Problem A.2}
+It suffices to show that $P$ and $Q$ have the same power with respect to $(ABC)$.
+We claim triangles $APQ$ and $MLK$ are similar.
+We have
+\[ \angle MKL = \angle PML = \angle QML = \angle QPC = \angle QPA, \]
+and likewise for the other angle.
+
+Finally,
+\[ QB \cdot QA = 2MK \cdot QA = 2PA \cdot ML = PA \cdot PC, \]
+so $P$ and $Q$ have the same power with respect to $(ABC)$.
+
+\subsection*{Problem A.3}
+Let $P$, $Q$, $R$, and $S$ be the feet of the perpendiculars from $E$ to $AB$, $BC$, $CD$, and $DA$, respectively.
+By a homothety with scale factor $2$ at $E$, it suffices to prove $PQRS$ is cyclic.
+
+Notice that $DSER$, $ASEP$, $BPEQ$, and $CQER$ are cyclic.
+Then,
+\begin{align*}
+    \angle RSP &= \angle RSE + \angle ESP \\
+    &= \angle CDE + \angle EAB \\
+    &= 180 - (\angle ECD + \angle ABE) \\
+    &= \angle DCE + \angle EBA \\
+    &= \angle RQE + \angle EQP \\
+    &= \angle RQP,
+\end{align*}
+
+so we are done.
+
+\section*{Inequalities Problems}
+\subsection*{Problem B.1}
+We claim the answer is $\sqrt3$.
+This answer is achieved when $a=b=c$.
+
+First, we homogenize the inequality:
+\[ \frac{ab}{c} + \frac{bc}{a} + \frac{ca}{b} \geq \sqrt{3(a^2+b^2+c^2)}. \]
+Clearing denominators, we get
+\[ a^2b^2 + b^2c^2 + a^2c^2 \geq abc\sqrt{3(a^2 + b^2 + c^2)}. \]
+For convenience, perform the substitutions $x = a^2$, $y = b^2$, and $z = c^2$.
+Then, after squaring both sides, we have
+\[ (xy + yz + xz)^2 \geq 3(x+y+z)xyz. \]
+This reduces to
+\[ x^2y^2 + y^2z^2 + z^2x^2 \geq x^2yz + xy^2z + xyz^2. \]
+Using Muirhead with $(2, 2, 0) \succ (2, 1, 1)$ gives us the result.
+
+\subsection*{Problem B.3}
+First, we homogenize the inequality by multiplying the RHS by $(a+c)(b+d) = ab + bc + cd + da = 1$:
+\[ \sum_{cyc} \frac{a^3}{b+c+d} \geq \frac13 (ab + bc + cd + da)\]
+Then, Holder gives us
+\[ \left( \sum_{cyc} \frac{a^3}{b + c + d} \right)\left( \sum_{cyc} a(b+c+d) \right) \geq (a^2 + b^2 + c^2 + d^2)^2. \]
+Noting that $\sum_{cyc} a(b + c + d) = 2(ab + ac + ad + bc + bd + cd)$, it suffices to prove
+\[ 3(a^2 + b^2 + c^2 + d^2)^2 \geq 2(ab + bc + cd +da)(ab+ac+ad+bc+bd+cd). \]
+It is not hard to show by AM-GM that
+\[ a^2 + b^2 + c^2 + d^2 \geq ab + bc + cd + da. \]
+Also, using Muirhead with $(2,0,0,0) \succ (1,1,0,0)$ yields
+\[ 6(a^2 + b^2 + c^2 + d^2) \geq 4(ab + ac + ad + bc + bd + cd). \]
+Putting these together yields the desired result.
+
+\section*{Additional Problems}
+\subsection*{Problem C.1}
+The answer is 1270.
+
+Python source code:
+\begin{lstlisting}
+    # Find all primes up to 10^5
+    sieve = [0] * 100000
+    for i in range(2, 50001):
+      if sieve[i - 1] != 0:
+        continue
+      for j in range(2 * i, 100001, i):
+        sieve[j - 1] = 1
+    primes = []
+    for i in range(2, 100001):
+      if sieve[i - 1] == 0:
+        primes.append(i)
+    
+    # Loop through primes^2
+    count = 0
+    for i in range(len(primes)):
+      p = primes[i]
+      for j in range(len(primes)):
+        q = primes[j]
+        N = p**2 + q**3
+        if len(str(N)) > 10:
+          break
+        if len(str(N)) < 10:
+          continue
+        fails = False
+        for c in range(10):
+          fails |= not str(c) in str(N)
+        if not fails:
+          count += 1
+    print(count)
+\end{lstlisting}
+
+\subsection*{Problem C.2}
+Let $P(x,y)$ denote the assertion.
+First, we show $f(0) = 0$.
+Plugging in $y = -f(x)^2$ for any $x$, we see that
+\[ f(xf(x) + f(-f(x)^2))) = 0. \]
+For simplicity, let $u$ be any value satisfying $f(u) = 0$.
+Then, $P(0,u)$ gives
+\[ f(0) = f(0)^2 + u, \]
+and $P(u,u)$ gives
+\[ f(0) = u. \]
+Thus, $u = u^2 + u \implies u = 0$.
+
+Then, $P(0,x)$ gives
+\[ f(f(x)) = x, \]
+and thus $f$ is an involution, and therefore bijective.
+Next, $P(f(t),0)$ gives
+\[ f(tf(t)) = t^2, \]
+and $P(t,0)$ gives
+\[ f(tf(t)) = f(t)^2. \]
+Thus, $f(t) \in \{-t, t\}$ for all $t$.
+
+Assume for the sake of contradiction that $f(a) = a$ and $f(b) = -b$ for nonzero $a,b$.
+Then, $P(a,b)$ yields
+\[ f(a^2 - b) = a^2 + b, \]
+which implies either $a$ or $b$ is zero.
+Therefore, the possible functions for $f(x)$ are $f(x) = x$ and $f(x) = -x$.
+These can be easily checked to work.
+
+\subsection*{Problem C.3}
+The answer is $16$.
+This is achievable; simply take $P(x) = (x+1)^4$.
+Now, we show it is the minimum.
+
+We have
+\begin{align*}
+    \prod_{j=1}^4 (x_j + 1) &= \prod_{j=1}^4 (x_j - i)(x_j + i) \\
+    &= \prod_{j=1}^4 (x_j - i) \prod_{j=1}^4 (x_j + i) \\
+    &= [(d-b+1)+(c-a)i][(d-b+1)-(c-a)i] \\
+    &= (d-b+1)^2 + (c-a)^2.
+\end{align*}
+
+Since $\abs{d-b+1} + \abs{-1} \geq \abs{d-b} \geq 5$ by the triangle inequality, we know $\abs{d-b+1} \geq 4$.
+Thus, the minimum value of the desired expression is $4^2 + 0^2 = 16$.
+
+\subsection*{Problem C.4}
+Given a word, define a streak to be a maximal contiguous subsequence with all characters equal.
+We claim that all words with a streak of length $1$ work.
+Indeed, if Banana chooses $k$, Ana can simply supply the word created by replacing any streak of length $1$ in Ana's original word with $k$ copies of the streak.
+Clearly, this word has exactly $k$ subsequences matching Ana's original word.
+So, it suffices to show all other words do not work.
+
+Let Ana's original word be $w = \{w_i\}_{1 \leq i \leq L}$, where $L$ is the length of her word.
+If $w$ does not have a streak of length $1$, then for all $1 \leq i \leq L$, either $w_{i-1} = w_i$ or $w_i = w_{i+1}$.
+We claim that it is impossible for Ana to supply a word with exactly $2$ subsequences equal to $w$.
+
+Assume FTSOC that Ana can supply a word $\{x_i\}_{1 \leq i \leq M}$ of length $M$ with exactly two subsequences equal to $w$.
+We will get a contradiction by constructing another subsequence equal to $w$.
+
+Denote the two distinct subsequences by $\{x_{a_i}\}$ and $\{x_{b_i}\}$, where $\{a_i\}_{1 \leq i \leq L}$ and $\{b_i\}_{1 \leq i \leq L}$ are indexing sequences (i.e., increasing and with terms in $[1,M]$).
+
+First, we claim that $\{a_i\}$ and $\{b_i\}$ differ by exactly one element.
+If not, then let $n > m$ be any two indices in which they differ.
+
+Assume WLOG that $a_n > b_n$.
+Then, we claim the sequence
+\[ b_1, b_2, \dots, b_{n-1}, a_n, a_{n+1}, \dots, a_L \]
+is an indexing sequence for a subsequence of $\{x_i\}$ equal to $w$.
+It suffices to show $a_n > b_{n-1}$, but this is true because $a_n > b_n > b_{n-1}$.
+Furthermore, this sequence differs from $\{a_i\}$ at index $m$ and from $\{b_i\}$ at index $n$, so this is a third valid subsequence, giving us a contradiction.
+
+Next, let $m$ be the index at which the indexing subsequences differ.
+Assume WLOG that $a_m > b_m$.
+Then, we have two cases.
+
+\textbf{Case 1: $w_{m-1} = w_m$.} In this case, we replace $a_{m-1}$ with $b_m$ to get another indexing sequence.
+Specifically, we have $x_{b_m} = w_m = w_{m-1}$ and $a_m > b_m > b_{m-2} = a_{m-2}$, so
+\[ a_1, a_2, \dots, a_{m-2}, b_m, a_m, a_{m+1}, a_{m+2}, a_{m+3}, \dots, a_L \]
+is an indexing sequence for a third valid subsequence.
+
+\textbf{Case 2: $w_{m+1} = w_m$.} In this case, we replace $a_m$ with $b_m$ and $a_{m+1}$ with $a_m$ to get another indexing sequence.
+Specifically, we have $x_{a_m} = w_m = w_{m+1}$ and $a_m > b_m > b_{m-1} = a_{m-1}$, so
+\[ a_1, a_2, \dots, a_{m-2}, a_{m-1}, b_m, a_m, a_{m+2}, a_{m+3}, \dots, a_L \]
+is an indexing sequence for a third valid subsequence.
+
+Thus, we have a contradiction in either case, and we are done.
+
+
+\end{document}

@@ -1,0 +1,93 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{10M Geometry Solutions}
+\author{Michael Middlezong}
+
+\begin{document}
+
+\maketitle
+
+\section*{IMO 2002/2}
+Simple angle chasing reveals that triangles $ODA$ and $AIO$ are congruent, and thus $AI = AO = r$, where $r$ is the radius of the circle.
+Furthermore, $AF = FO = AO = AE$, so $F,I,E$ lie on a circle with center $A$.
+Lastly, notice that $A$ is the arc midpoint of arc $FE$, so the incenter-excenter lemma applies.
+
+\section*{IMO 2003/4}
+Notice that $P,Q,R$ lie on the Simson line.
+
+Let $X$ be the second intersection of line $DQ$ with the circle $\omega$ circumscribing $ABCD$.
+We claim that $\overline{BX} \parallel \overline{RQ}$.
+Using directed angles,
+\[ \angle BXD = \angle BAD = \angle RAD = \angle RQD, \]
+and thus, $\overline{BX}$ is parallel to the Simson line.
+
+Next, note that by the angle bisector theorem, the bisector condition is equivalent to $ABCD$ being harmonic.
+Additionally, we have
+\[ (A,C;B,D) \stackrel{X}{=} (A,C;\overline{BX} \cap \overline{AC}, Q) \stackrel{B}{=} (R,P;P_\infty,Q), \]
+and since $(R,P;P_\infty,Q) = -1 \iff PQ=QR$, we are done.
+
+\section*{IMO 2010/4}
+Let $D$ be the intersection point of the other tangent from $S$, so $ABCD$ is harmonic.
+Let $N$ be the second intersection point of line $DP$ with the circle.
+Then, projecting through a conic, we have
+\[ -1 = (A,B;C,D) \stackrel{P}{=} (K,L;M,N). \]
+It suffices to show $\overline{MN}$ is a diameter.
+Using the fact that $D,P,C$ lie on a circle centered at $S$,
+\begin{align*}
+    \angle MON &= \angle MOD + \angle DOC + \angle CON \\
+    &= 2\angle MPD + \angle DOC \\
+    &= 2\angle CPD + \angle DOC \\
+    &= \angle CSD + \angle DOC \\
+    &= 0.
+\end{align*}
+
+\section*{IMO 2018/1}
+Let $M_B$ be the midpoint of arc $AC$ and let $M_C$ be the midpoint of arc $AB$.
+We first claim that $M_BM_C$ is parallel to $DE$.
+If we let $X$ be the intersection of lines $AB$ and $M_BM_C$ and $Y$ be the intersection of lines $AC$ and $M_BM_C$, this follows by noticing triangles $AXM_C$ and $AYM_B$ are similar.
+
+Let $F'$ be the reflection of $F$ over the perpendicular bisector of $AB$, and define $G'$ similarly.
+Notice that $F'$ and $G'$ lie on $(ABC)$ and that $FF'AD$ and $GG'AE$ are parallelograms.
+It then follows that arcs $FF'$ and $GG'$ have the same measure.
+Finally, since $M_C$ is the arc midpoint of $FF'$ and $M_B$ is the arc midpoint of $GG'$, lines $FG$ and $M_BM_C$ are parallel, and we are done.
+
+\section*{IMO 2020/1}
+Let $O$ be the circumcenter of triangle $PAB$.
+Then, through angle chasing, $DPOA$ and $CPOB$ are cyclic.
+Furthermore, in $(DPOA)$, $O$ is the arc midpoint of arc $PA$ and similarly for the other circle.
+Thus, by the incenter-excenter lemma, $O$ is the desired intersection point.
+
+\section*{USAMO 2000/5}
+Let $O_k$ denote the center of $w_k$.
+In order to fulfill the conditions, we need that $O_1$, $O_4$, and $O_7$ be on the perpendicular bisector of $AB$,
+$O_2$ and $O_5$ be on the perpendicular bisector of $BC$, and $O_3$ and $O_6$ be on the perpendicular bisector of $AC$.
+Furthermore, so that the circles are tangent to each other, we need the following groups of points to be collinear: $O_1BO_2$, $O_2CO_3$, $O_3AO_4$, $O_4BO_5$, $O_5CO_6$, and $O_6AO_7$.
+These conditions are enough to uniquely determine all of the points from $O_1$.
+
+It suffices to show $O_1$, $A$, and $O_6$ are collinear.
+We have
+\begin{align*}
+    \angle O_1AO &= -\angle O_1BO \\
+    &= -\angle O_2BO \\
+    &= \angle O_2CO \\
+    &= \angle O_3CO \\
+    &= -\angle O_3AO \\
+    &= -\angle O_4AO \\
+    &= \angle O_4BO \\
+    &= \angle O_5BO \\
+    &= -\angle O_5CO \\
+    &= -\angle O_6CO \\
+    &= \angle O_6AO,
+\end{align*}
+so we are done.
+
+\section*{USA TSTST 2017/1}
+By homothety, $PA^2 = PM \cdot PN$, so $P$ is on the radical axis of the circumcircle and the nine-point circle.
+Since $RQ \cdot RA = RF \cdot RE$, $R$ is also on this radical axis.
+Thus, $\overline{PR} \perp \overline{ON_9} = \overline{OH}$.
+
+\end{document}

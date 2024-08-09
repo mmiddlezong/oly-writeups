@@ -1,0 +1,64 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{Shortlist 2010}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section*{Geometry}
+\subsection*{G1}
+Let $P_1$ and $P_2$ be the two intersection points of line $EF$ with the circumcircle, and WLOG assume $P_2$ is closest out of the two to $B$.
+Let $Q_1$ and $Q_2$ be defined as usual.
+We claim that $Q_1$ and $P_2$ are reflections over line $AB$, and $Q_2$ and $P_1$ are also reflections over line $AB$.
+
+First, notice that $AP_1 = AP_2$; this follows from the fact that $\overline{OA} \perp \overline{EF}$ (trivial by angle chasing).
+Thus,
+\[ \angle P_2BA = \angle P_2P_1A = \angle AP_2P_1 = \angle ABP_1. \]
+Furthermore, we have
+\[ \angle Q_2FB = \angle DFA = \angle DCA = \angle BCE = \angle BFE = \angle BFP_1. \]
+We can now conclude that triangles $BFQ_2$ and $BFP_1$ are congruent, and thus $Q_2$ and $P_1$ are reflections over $AB$.
+
+We also see that triangles $P_2FQ_2$ and $Q_1FP_1$ are congruent, and thus $Q_1$ and $P_2$ are reflections over $AB$.
+
+Finally,
+\[ AQ_1 = AP_2 = AP_1 = AQ_2, \]
+and we are done.
+
+\section*{Number Theory}
+\subsection*{N1}
+First, we prove the bound $n \geq 39$.
+This is obvious as $\frac{1}{39} > \frac{51}{2010} = \frac{17}{670}$.
+
+What remains is the construction.
+After some experimentation, we see
+\[ \left(\frac{1}{2} \cdot \frac23 \dots \frac{32}{33} \right)\left( \frac{34}{35} \cdots \frac{39}{40} \right)\left(\frac{66}{67} \right) = \frac{17}{670}. \]
+(To speed up the construction, start by including $\frac{66}{67}$ and prioritize minimizing values of $s_i$.)
+
+\subsection*{N2}
+First, arrive at $m \mid 2 \cdot 3^n$ by either noticing that it is a quadratic equation in $m$ or taking the whole equation mod $m$.
+Then, writing $m = 2 \cdot 3^a$, the equation simplifies to
+\[ 2 \cdot 3^a + 3^{n-a} = 2^{n+1} - 1. \]
+Solving this is actually the bulk of the problem.
+
+To solve this, first notice that if either $a < 3$ or $n-a < 3$, we can manually solve the equation using basic size arguments to get the only solutions:
+\[ (m,n) \in \{(6,3),(9,3),(9,5),(54,5)\}. \]
+Next, the goal is to show there are no more solutions.
+There are two approaches here.
+
+\begin{itemize}
+    \item \textbf{Mod chasing using orders.}
+    Taking mod $27$ yields $n \equiv -1\pmod{18}$.
+    This leads to an array of opportunities, as taking mods $7$ and $19$ gives us lots of information.
+    It turns out to be enough to produce a contradiction.
+    \item \textbf{Bounding $\nu_3$.}
+    Intuitively, the LHS of the equation has too many powers of $3$.
+    A size argument using LTE can solve this problem.
+\end{itemize}
+
+\end{document}
+% vim: ts=4 sts=4 sw=4 et

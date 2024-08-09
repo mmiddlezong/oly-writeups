@@ -1,0 +1,53 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{Test 1 Solutions}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+\pagebreak
+\section*{Problem 2}
+We claim only $n=7$ works. We can verify manually up to $n = 11$:
+\begin{align*}
+    4? &= 6 \neq 2(4)+16, \\
+    5? &= 6 \neq 2(5)+16, \\
+    6? &= 30 \neq 2(6)+16, \\
+    8? &= 210 \neq 2(8)+16, \\
+    &\vdots \\
+    11? &= 210 \neq 2(11)+16.
+\end{align*}
+Then, assume $n \geq 12$. By Bertrand's postulate, there exists $p$ satisfying $5 < \frac{n}{2} < p < n$. Thus, since $2$, $3$, $5$, and $p$ are distinct primes less than $n$, we have 
+\[ n? \geq 2 \cdot 3 \cdot 5 \cdot p > 30 \cdot \frac{n}{2} > 2n + 16, \]
+and hence it is impossible for any $n \geq 12$ to satisfy the condition.
+\pagebreak
+\section*{Problem 3}
+The answer is no. Rewrite the equation as $\frac{x!}{y+1} = (y!)^2$. As $x$ gets large enough, Bertrand's postulate tells us that there is a prime $p$ satisfying $\frac{x}{2} < p < x$. Note that $p$ can only divide $x!$ once. Thus, in order for the LHS to be a perfect square, $p$ must divide $y+1$ exactly once. If $y+1 \geq 2p > x$, the original equation obviously cannot be satisfied because the RHS is larger. Thus, we must have $y + 1 = p$.
+
+This holds for any $p$ satisfying $\frac{x}{2} < p < x$. Thus, there must only be one prime between $\frac{x}{2}$ and $x$. Nagura's result tells us that if $x > 25$, there will always be a prime between $\frac{x}{2}$ and $\frac65 \cdot \frac{x}{2}$ and a prime between $\frac56 \cdot x$ and $x$. Thus, the original equation cannot hold after $x$ exceeds a finite value, and since there is obviously at most one solution for $y$ for each $x$, there must be finitely many solutions to the original equation.
+
+\textit{Note: I was unfortunately unable to solve the problem without resorting to this somewhat obscure result. :(}
+\pagebreak
+\section*{Problem 4}
+
+\pagebreak
+\section*{Problem 5}
+I got that $\varphi(n)$ is a power of $2$ iff $n = 2^a p_1p_2\ldots p_k$, where $a \geq 0$ and each $p_i$ is a distinct prime that is one more than a power of $2$. Not sure how to continue...
+\pagebreak
+\section*{Problem 6}
+
+\pagebreak
+\section*{Problem 7}
+
+\pagebreak
+\section*{Problem 8}
+
+\pagebreak
+
+\end{document}
