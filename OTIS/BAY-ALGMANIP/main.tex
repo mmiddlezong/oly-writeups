@@ -1,0 +1,472 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{derivative}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{BAY-algmanip}}
+\ohead{\footnotesize Updated Thu 15 Feb 2024 02:34:56 UTC}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\clubg}[1]{\bgroup\color{green!40!black}[$#1\clubsuit$]\egroup}
+
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}{\textbf}
+\providecommand{\opname}{\operatorname}
+\providecommand{\ts}{\textsuperscript}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+    linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+    mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+    nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+    mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+    linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+    mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+    linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmredbox,name=Problem]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmblackbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmblackbox,name=Example,numbered=no]{example*}
+
+\newenvironment{walkthrough}{\noindent\textbf{\color{green!40!black}Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+
+\usepackage{asymptote}
+\begin{asydef}
+size(8cm); // set a reasonable default
+usepackage("amsmath");
+usepackage("amssymb");
+settings.tex="pdflatex";
+settings.outformat="pdf";
+import geometry;
+void filldraw(picture pic = currentpicture, conic g, pen fillpen=defaultpen, pen drawpen=defaultpen) { filldraw(pic, (path) g, fillpen, drawpen); }
+void fill(picture pic = currentpicture, conic g, pen p=defaultpen) { filldraw(pic, (path) g, p); }
+pair foot(pair P, pair A, pair B) { return foot(triangle(A,B,P).VC); }
+pair centroid(pair A, pair B, pair C) { return (A+B+C)/3; }
+\end{asydef}
+
+\newcommand{\goals}[2]{\bgroup
+\sffamily\small \emph{Instructions}: Solve \clubg{#1}.
+If you have time, solve \clubg{#2}.\egroup\par}
+
+%% 426c616e6b204c615465587e
+\begin{document}
+\title{Submission for BAY-ALGMANIP}
+\subtitle{OTIS (internal use)}
+\author{Michael Middlezong}
+\date{\today}
+\maketitle
+
+\begin{example*}[$0\clubsuit$]
+  Solve over real numbers the system of equations
+  \begin{align*}
+  a+2 &= b^2 \\
+  b+2 &= c^2 \\
+  c+2 &= a^2.
+  \end{align*}
+\end{example*} \printpuid{ZC329504}
+
+\begin{walkthrough}
+This is the archetypal trig problem.
+\begin{walk}
+  \ii Optionally, if you don't know how $\cos z$ is defined for $z \in \CC$,
+  first prove that $|a| \le 2$.
+
+  \ii Thus, we may let $a = 2\cos x$,
+  $b = 2\cos y$, $c = 2 \cos z$
+  where $x$, $y$, $z$ are real numbers if you did part (a),
+  or complex numbers if you skipped part (a).
+  Show that $\cos 2y = \cos x$, etc.
+
+  \ii There's a lemma that whenever $\cos \theta = \cos \theta'$
+  we have $\cos 2\theta = \cos 2\theta'$.
+  Prove this lemma if you have not seen it; it's easy
+  (the simplest proof is by using the double angle formula).
+
+  \ii Show that $\cos x = \cos 8x$.
+
+  \ii Use this to find eight solutions to the system of equations.
+
+  \ii Conversely, show there are at most eight possible values of $a$,
+  and hence at most eight solutions.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[Czech Polish Slovak 2005/1, $0\clubsuit$]
+  Let $n$ be a positive integer.
+  Solve the system of equations
+  \begin{align*}
+  x_1 + x_2^2 + x_3^3 + \dotsb + x_n^n &= n \\
+  x_1 + 2x_2 + 3x_3 + \dotsb + nx_n &= \frac{n(n+1)}{2}
+  \end{align*}
+  over nonnegative real numbers.
+\end{example*} \printpuid{05CPS1}
+
+\begin{walkthrough}
+It shouldn't take too much to convince you
+$x_1 = x_2 = \dots = x_n = 1$ is the only solution.
+But since this has $n$ variables and $2$ equations,
+the only way there could be only one solution
+is if some inequality was taking place.
+\begin{walk}
+  \ii Prove that if $\sum_k x_k^k = n$
+  then $\sum_k kx_k \le \half n (n+1)$.
+  \ii Finish by extracting the equality case.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p13962758}{CMIMC 2020 A7}, $0\clubsuit$]
+  Solve over $\RR$ the equation
+  \[ (x-1)(x-4)(x-2)(x-8)(x-5)(x-7) = -48\sqrt3. \]
+\end{example*} \printpuid{20CMIMCA7}
+
+\begin{walkthrough}
+The solution proceeds with just suitable substitutions.
+\begin{walk}
+  \ii Let $y = x^2-9x+14$.
+  Rewrite everything in terms of $y$.
+
+  \ii Let $z = y/\sqrt3$.
+  Rewrite everything in terms of $z$.
+  What motivated this?
+
+  \ii You should have a cubic in $z$.
+  Solve it; you should find it has integer solutions.
+
+  \ii Use this to extract the answer for
+  $x = \frac{9 \pm \sqrt{25+8\sqrt3}}{2}$.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\newpage
+
+% ========================================
+\section*{Practice problems}
+\goals{35}{50}
+
+\begin{problem}[IIT JEE, $2\clubsuit$]
+  Find all real numbers $x$ such $4^x + 6^x = 9^x$.
+\end{problem} \printpuid{IITJEE}
+
+%% Type your solution to IIT JEE (\href{https://otis.evanchen.cc/arch/IITJEE/}{IITJEE}) here ...
+Dividing both sides by $6^x$ and setting $u = \left(\frac  23 \right)^x$, we get
+\[ u + 1 = \frac 1u \implies u = \frac{1 + \sqrt 5}{2}, \]
+taking only the positive solution as $u$ must be positive.
+This means $x = \log _{2/3} \left(\frac{1+ \sqrt 5}{2}\right)$ is the only solution,
+and we can check that our steps are reversible.
+%% --------------------------------------------------
+
+\begin{problem}[CMIMC 2018 A5, $2\clubsuit$]
+  Suppose $a$, $b$, $c$ are nonzero real numbers satisfying
+  \[
+  bc + \frac 1a
+  = ca + \frac 2b
+  = ab + \frac 7c
+  = \frac{1}{a+b+c}.
+  \]
+  Find $a+b+c$.
+\end{problem} \printpuid{18CMIMCA5}
+
+%% Type your solution to CMIMC 2018 A5 (\href{https://otis.evanchen.cc/arch/18CMIMCA5/}{18CMIMCA5}), proposed by David Altizio here ...
+Let the common value be $x$. Then
+\[ ax + bx + cx = abc + 1 + abc + 2 + abc + 7 = (a+b+c)\frac{1}{a+b+c} = 1. \]
+This means
+\[ abc = -3. \]
+The rest is simple. The final answer is $-\frac{\sqrt[3]{3}}{2}$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p12141493}{EGMO 2019/1}, $3\clubsuit$]
+  Find all triples $(a, b, c)$ of real numbers such that $ab + bc + ca = 1$ and
+  \[ a^2b + c = b^2c + a = c^2a + b. \]
+\end{problem} \printpuid{19EGMO1}
+
+%% Type your solution to EGMO 2019/1 (\href{https://otis.evanchen.cc/arch/19EGMO1/}{19EGMO1}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p3342960}{Vietnam 2014/1}, $3\clubsuit$]
+  Let $(x_n)_{n \ge 1}$ and $(y_n)_{n \ge 1}$ be two sequences of positive real numbers
+  with $x_1=1$ and $y_1 = \sqrt3$, satisfying the recursions
+  \begin{align*}
+  x_{n+1} y_{n+1} - x_n &= 0 \\
+  x_{n+1}^2 + y_n &= 2.
+  \end{align*}
+  Show that $\lim_{n \to \infty} x_n$ and $\lim_{n \to \infty} y_n$ exist
+  and determine their values.
+\end{reqproblem} \printpuid{14VNM1}
+
+%% Type your solution to Vietnam 2014/1 (\href{https://otis.evanchen.cc/arch/14VNM1/}{14VNM1}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p3542095}{IMO 2014/1}, $3\clubsuit$]
+  Let $a_0 < a_1 < a_2 < \dotsb$ be an infinite sequence of positive integers.
+  Prove that there exists a unique integer $n\geq 1$ such that
+  \[ a_n < \frac{a_0+a_1+a_2+\dotsb+a_n}{n} \le a_{n+1}. \]
+\end{problem} \printpuid{14IMO1}
+
+%% Type your solution to IMO 2014/1 (\href{https://otis.evanchen.cc/arch/14IMO1/}{14IMO1}), proposed by Gerhard Woeginger (AUT) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p3431241}{AIME 2014/14}, $3\clubsuit$]
+  Find the largest real number $x$ satisfying
+  \[ \frac{3}{x-3} + \frac{5}{x-5} + \frac{17}{x-17}
+  + \frac{19}{x-19} = x^2-11x-4.  \]
+\end{problem} \printpuid{14AIME14}
+
+%% Type your solution to AIME 2014/14 (\href{https://otis.evanchen.cc/arch/14AIME14/}{14AIME14}) here ...
+First, add $4$ to both sides and use it to make the numerators on the left side all equal to $x$.
+Then, substitute $u = x-11$ for symmetry purposes and the rest is easy.
+The answer is $x = 11 + \sqrt{52 + 10\sqrt 2}$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p4728593}{EGMO 2015/4}, $5\clubsuit$]
+  A sequence $a_1$, $a_2$, $a_3$, \dots, $a_N$ of positive integers
+  (where $N \ge 3$) satisfies the equality
+  \[ a_{n+2} = a_{n+1} + \sqrt{a_{n+1}+a_{n}} \]
+  for every $1 \le n \le N-2$.
+  Determine the largest possible value of $N$,
+  or prove that no such maximum exists.
+\end{problem} \printpuid{15EGMO4}
+
+%% Type your solution to EGMO 2015/4 (\href{https://otis.evanchen.cc/arch/15EGMO4/}{15EGMO4}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p29651019}{OTIS Mock AIME 2024, by Joshua Liu and Ashvin Sinha}, $3\clubsuit$]
+  For each real number $k > 0$,
+  let $S(k)$ denote the set of real numbers $x$ satisfying
+  \[ \left\lfloor x \right\rfloor \cdot \left( x - \left\lfloor x \right\rfloor \right) = kx. \]
+  The set of positive real numbers $k$ such that $S(k)$ has exactly $24$ elements
+  is a half-open interval of length $\ell$. Compute $1/\ell$.
+\end{problem} \printpuid{24OIME6}
+
+%% Type your solution to OTIS Mock AIME 2024, by Joshua Liu and Ashvin Sinha (\href{https://otis.evanchen.cc/arch/24OIME6/}{24OIME6}), proposed by Joshua Liu, Ashvin Sinha here ...
+Graph the left hand side, it's just a union of line segments.
+We see that if $k \le 1$, then we get infinitely many solutions.
+And if $k > 1$, we get no solutions where $x > 0$.
+So, we count the number of lines in the third quadrant
+that we have to intersect, and eventually get an answer of
+\[ \frac{1}{\frac{23}{22} - \frac{24}{23}} = \boxed{506}. \]
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p464691}{AIME II 2006/15}, $3\clubsuit$]
+  Solve over real numbers the system of equations
+  \begin{align*}
+  x &= \sqrt{y^2-\frac{1}{16}}+\sqrt{z^2-\frac{1}{16}} \\
+  y &= \sqrt{z^2-\frac{1}{25}}+\sqrt{x^2-\frac{1}{25}} \\
+  z &= \sqrt{x^2-\frac{1}{36}}+\sqrt{y^2-\frac{1}{36}}.
+  \end{align*}
+\end{problem} \printpuid{06AIMEII15}
+
+%% Type your solution to AIME II 2006/15 (\href{https://otis.evanchen.cc/arch/06AIMEII15/}{06AIMEII15}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p18895568}{Baltic Way 2020, added by Pedro Rosalba}, $3\clubsuit$]
+  Find all real numbers $x$, $y$, $z$ so that
+  \begin{align*}
+  x^2 y + y^2 z + z^2 &= 0 \\
+  z^3 + z^2 y + z y^3 + x^2 y &= \frac{1}{4}(x^4 + y^4).
+  \end{align*}
+\end{problem} \printpuid{20BWAY5}
+
+%% Type your solution to Baltic Way 2020, added by Pedro Rosalba (\href{https://otis.evanchen.cc/arch/20BWAY5/}{20BWAY5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p29854155}{AIME II 2024/11}, $2\clubsuit$]
+  Compute the number of triples of nonnegative integers $(a,b,c)$
+  satisfying $a + b + c = 300$ and
+  \[ a^2b + a^2c + b^2a + b^2c + c^2a + c^2b = 6000000.\]
+\end{problem} \printpuid{24AIMEII11}
+
+%% Type your solution to AIME II 2024/11 (\href{https://otis.evanchen.cc/arch/24AIMEII11/}{24AIMEII11}), proposed by Ankan Bhattacharya here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p27339536}{Mathematical Reflections J479}, $3\clubsuit$]
+  Let $a$, $b$, $c$ be nonzero real numbers,
+  not all equal, such that
+  \[ \left( \frac{a^2}{bc}-1 \right)^3 + \left( \frac{b^2}{ca}-1 \right)^3
+  + \left( \frac{c^2}{ab}-1 \right)^3
+  = 3\left( \frac{a^2}{bc} + \frac{b^2}{ca} + \frac{c^2}{ab} - \frac{bc}{a^2} -
+  \frac{ca}{b^2} - \frac{ab}{c^2} \right). \]
+  Prove that $a+b+c=0$.
+\end{reqproblem} \printpuid{MRJ479}
+
+%% Type your solution to Mathematical Reflections J479 (\href{https://otis.evanchen.cc/arch/MRJ479/}{MRJ479}), proposed by Titu Andreescu here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p3003353}{AIME II 2013/15}, $3\clubsuit$]
+  In obtuse triangle $ABC$ with $\angle B > 90\dg$ we have
+  \begin{align*}
+  \cos^2 A + \cos^2 B + 2 \sin A \sin B \cos C &= \frac{15}{8} \\
+  \cos^2 B + \cos^2 C + 2 \sin B \sin C \cos A &= \frac{14}{9}.
+  \end{align*}
+  Compute \[ \cos^2 C + \cos^2 A + 2 \sin C \sin A \cos B. \]
+\end{problem} \printpuid{13AIMEII15}
+
+%% Type your solution to AIME II 2013/15 (\href{https://otis.evanchen.cc/arch/13AIMEII15/}{13AIMEII15}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p29520456}{Canadian training camp, added by Haozhe Yang}, $3\clubsuit$]
+  The sequences ${a_n}$ and ${b_n}$ are such that, for every positive integer $n$,
+  \[a_n > 0, \qquad b_n > 0, \qquad a_{n+1} = a_n+\frac{1}{b_n}, \qquad b_{n+1}=b_n+\frac{1}{a_n}\]
+  Prove that $a_{50}+b_{50} > 20$.
+\end{problem} \printpuid{ZCB390FF}
+
+%% Type your solution to Canadian training camp, added by Haozhe Yang (\href{https://otis.evanchen.cc/arch/ZCB390FF/}{ZCB390FF}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Germany 2008, added by Joel Gerlach, $2\clubsuit$]
+  Solve over real numbers:
+  \begin{align*}
+  (x+y)(x^2-y^2)&=675\\
+  (x-y)(x^2+y^2)&=351.
+  \end{align*}
+\end{problem} \printpuid{08GER33}
+
+%% Type your solution to Germany 2008, added by Joel Gerlach (\href{https://otis.evanchen.cc/arch/08GER33/}{08GER33}) here ...
+Expanding, we get
+\begin{align*}
+    x^3 + x^2y - xy^2 - y^3 &= 675 \\
+    x^3 - x^2y + xy^2 - y^3 &= 351.
+\end{align*}
+Subtract the first equation from twice the second to get
+\[ x^3 - 3x^2y + 3xy^2 - y^3 = 27 \implies (x-y)^3 = 27. \]
+This means $x-y = 3$. Thus, the original second equation yields $x^2 + y^2 = 117$.
+We can solve this system of equations using substitution, and
+the only possible solutions are
+\[ \{(9,6),(-6,-9)\}, \]
+which can be checked to work.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p21660235}{ARML Local 2021, added by Qiao Zhang}, $2\clubsuit$]
+  A sequence $a_1$, $a_2$, \dots\ of real numbers satisfies
+  \[ a_n = na_{n-1} + (n-1)(n!(n-1)!-1)\] for integers $n \geq 2$.
+  Given that $a_{2021}=(2021!+1)^2+2020!$, compute $a_1$.
+\end{problem} \printpuid{21ARMLOCI10}
+
+%% Type your solution to ARML Local 2021, added by Qiao Zhang (\href{https://otis.evanchen.cc/arch/21ARMLOCI10/}{21ARMLOCI10}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p16682015}{Summer Mock AIME 2020/14}, $5\clubsuit$]
+  Let $P(x) = x^3 - 3x^2 + 3$.
+  For how many positive integers $n < 1000$
+  does there not exist a pair $(a, b)$ of positive integers
+  such that the equation
+  \[ \underbrace{P(P(\dots P}_{a \text{ times}}(x)\dots))
+  = \underbrace{P(P(\dots P}_{b \text{ times}}(x)\dots)) \]
+  has exactly $n$ distinct real solutions?
+\end{problem} \printpuid{20SIME14}
+
+%% Type your solution to Summer Mock AIME 2020/14 (\href{https://otis.evanchen.cc/arch/20SIME14/}{20SIME14}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p10626524}{IMO 2018/2}, $9\clubsuit$]
+  Find all integers $n \geq 3$ for which
+  there exist real numbers $a_1, a_2, \dots, a_n$ satisfying
+  \[ a_i a_{i+1} +1 = a_{i+2} \]
+  for $i=1,2, \dots, n$, where indices are taken modulo $n$.
+\end{reqproblem} \printpuid{18IMO2}
+
+%% Type your solution to IMO 2018/2 (\href{https://otis.evanchen.cc/arch/18IMO2/}{18IMO2}), proposed by Patrik Bak (SVK) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p14780288}{EGMO 2020/2}, $9\clubsuit$]
+  Find all lists $(x_1, x_2, \dots, x_{2020})$ of non-negative real numbers
+  such that the following three conditions are all satisfied:
+  \begin{itemize}
+  \ii $x_1 \le x_2 \le \dots \le x_{2020}$;
+  \ii $x_{2020} \le x_1  + 1$;
+  \ii there is a permutation $(y_1, y_2, \dots, y_{2020})$
+  of $(x_1, x_2, \dots, x_{2020})$ such that
+  \[ \sum_{i = 1}^{2020} ((x_i + 1)(y_i + 1))^2 = 8 \sum_{i = 1}^{2020} x_i^3.  \]
+  \end{itemize}
+\end{problem} \printpuid{20EGMO2}
+
+%% Type your solution to EGMO 2020/2 (\href{https://otis.evanchen.cc/arch/20EGMO2/}{20EGMO2}), proposed by Patrik Bak (SVK) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p23439842}{Iberoamerican 2021/4}, $5\clubsuit$]
+  Let $a$, $b$, $c$, $x$, $y$, $z$ be real numbers such that
+  \begin{align*}
+  a^2+x^2 &= b^2+y^2 = c^2+z^2 = (a+b)^2+(x+y)^2 \\
+  &= (b+c)^2+(y+z)^2=(c+a)^2+(z+x)^2
+  \end{align*}
+  Show that $a^2+b^2+c^2=x^2+y^2+z^2$.
+\end{reqproblem} \printpuid{21IBERO4}
+
+%% Type your solution to Iberoamerican 2021/4 (\href{https://otis.evanchen.cc/arch/21IBERO4/}{21IBERO4}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p28295670}{IMC 2023/2}, $9\clubsuit$]
+  Let $A$, $B$ and $C$ be $n \times n$ matrices with complex entries satisfying
+  \[ A^2=B^2=C^2 \text{ and } B^3 = ABC + 2\opname{id}. \]
+  Prove that $A^6 = \opname{id}$.
+\end{problem} \printpuid{23IMC2}
+
+%% Type your solution to IMC 2023/2 (\href{https://otis.evanchen.cc/arch/23IMC2/}{23IMC2}) here ...
+
+%% --------------------------------------------------
+
+\end{document}

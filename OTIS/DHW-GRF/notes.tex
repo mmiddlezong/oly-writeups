@@ -1,0 +1,70 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage[sexy]{evan}
+
+\title{Groups, Rings, and Fields}
+\subtitle{DHW-GRF Expository Notes}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section{Groups}
+
+Groups are a fundamental structure in abstract algebra, and they can be thought of as representing
+the structure of the symmetries of an object.
+\begin{example}
+    For example, the rotational and reflectional symmetries of a square form the group called $D_4$.
+\end{example}
+Groups have certain properties that make them so fundamental, leading us to the definition of a group.
+\begin{definition}
+    A \textbf{group} is a set $G$ with a binary operation $\star$: $G \times G \to G$, satisfying
+    the following properties:
+    \begin{enumerate}
+        \item \textbf{Closure:} For all $a,b \in G$, $a \star b \in G$.
+        This is implied by the term "binary operation."
+        \item \textbf{Associativity:} For all $a,b,c \in G$,
+        \[ (a \star b) \star c = a \star (b \star c). \]
+        This is another property of the operation itself.
+        \item \textbf{Existence of an identity:} There exists an element $e \in G$ such that
+        for all $g \in G$:
+        \[ e \star g = g \star e = g. \]
+        \item \textbf{Existence of inverses:} Every element must have an inverse.
+        Precisely, for every element $g \in G$, there exists
+        an element $h \in G$, which we call the inverse of $g$, satisfying
+        \[ h \star g = g \star h = e, \]
+        where $e$ is an identity element.
+    \end{enumerate}
+\end{definition}
+Sometimes, a group is referred to with the operation attached to it, like $(\mathbb{Z}, +)$,
+but when the operation is obvious, we just refer to the group by the set, like $\mathbb{Z}$.
+
+Here is an example:
+\begin{example}[Additive integers]
+    The set of all integers $\mathbb{Z}$ with the binary operation addition ($+$) form a group.
+    This is because adding two integers gives another integer,
+    addition is associative,
+    $0$ is an identity element,
+    and for any element $x$, the element $-x$ is its inverse.
+\end{example}
+\begin{example}[Symmetries of a square]
+    Consider all the actions we can do on a square that preserve its position in space.
+    These are:
+    \begin{enumerate}
+        \item Do nothing.
+        \item Rotate by $90^\circ$ (counter-clockwise).
+        \item Rotate by $180^\circ$.
+        \item Rotate by $270^\circ$.
+        \item Reflect about the vertical axis.
+        \item Reflect about the horizontal axis.
+        \item Reflect about a diagonal axis (say, $y=x$).
+        \item Reflect about the other diagonal axis (say, $y=-x$).
+    \end{enumerate}
+    We can check that these form a group under the operation of "doing one thing after another."
+    Notice how different this is from a group of just numbers!
+    Also, this group has a certain structure which we call $D_4$.
+\end{example}
+
+\end{document}

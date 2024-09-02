@@ -1,0 +1,806 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{derivative}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{DCW-global}}
+\ohead{\footnotesize Updated Tue 13 Aug 2024 22:16:50 UTC}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\clubg}[1]{\bgroup\color{green!40!black}[$#1\clubsuit$]\egroup}
+
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}{\textbf}
+\providecommand{\opname}{\operatorname}
+\providecommand{\ts}{\textsuperscript}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+    linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+    mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+    nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+    mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+    linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+    mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+    linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmredbox,name=Problem]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmblackbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmblackbox,name=Example,numbered=no]{example*}
+
+\newenvironment{walkthrough}{\noindent\textbf{\color{green!40!black}Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+
+\usepackage{asymptote}
+\begin{asydef}
+size(8cm); // set a reasonable default
+usepackage("amsmath");
+usepackage("amssymb");
+settings.tex="pdflatex";
+settings.outformat="pdf";
+import geometry;
+void filldraw(picture pic = currentpicture, conic g, pen fillpen=defaultpen, pen drawpen=defaultpen) { filldraw(pic, (path) g, fillpen, drawpen); }
+void fill(picture pic = currentpicture, conic g, pen p=defaultpen) { filldraw(pic, (path) g, p); }
+pair foot(pair P, pair A, pair B) { return foot(triangle(A,B,P).VC); }
+pair centroid(pair A, pair B, pair C) { return (A+B+C)/3; }
+\end{asydef}
+
+\newcommand{\goals}[2]{\bgroup
+\sffamily\small \emph{Instructions}: Solve \clubg{#1}.
+If you have time, solve \clubg{#2}.\egroup\par}
+
+%% 426c616e6b204c615465587e
+\begin{document}
+\title{Submission for DCW-GLOBAL}
+\subtitle{OTIS (internal use)}
+\author{Michael Middlezong}
+\date{\today}
+\maketitle
+
+\begin{example*}[\href{https://aops.com/community/p2260935}{Canada 2009/2}, $0\clubsuit$]
+  Two circles of different radii are cut out of cardboard.
+  Each circle is subdivided into $200$ equal sectors.
+  On each circle $100$ sectors are painted white
+  and the other $100$ are painted black.
+  The smaller circle is then placed on top of the larger circle,
+  so that their centers coincide.
+  Show that one can rotate the small circle so
+  that the sectors on the two circles line up
+  and at least $100$ sectors on the small circle
+  lie over sectors of the same color on the big circle.
+\end{example*} \printpuid{09CAN2}
+
+\begin{walkthrough}
+\begin{walk}
+  \ii Solve the problem by linearity of expectation.
+  \ii Write the proof in a ``low-tech'' way that doesn't
+  quote the linearity of expectation,
+  by considering all $200$ rotations at once.
+  This gives a ``politically correct solution''.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p29651001}{OTIS Mock AIME 2024, by Joshua Liu}, $0\clubsuit$]
+  Perry the Panda is eating some bamboo
+  over a five-day period from Monday to Friday (inclusive).
+  On Monday, he eats $14$ pieces of bamboo.
+  Each following day, Perry eats either one less than three times the previous day
+  or one more than the previous day, with equal probability.
+  Compute the expected number of pieces of bamboo Perry has eaten throughout the week
+  after the end of Friday.
+\end{example*} \printpuid{24OIME3}
+
+\begin{walkthrough}
+This is another easy problem with linearity of expectation.
+Again, the intention of this walkthrough is to make you work through
+both the short technical solution (using linearity of expectation)
+as well as the longer elementary solution.
+The lesson from this walkthrough is again to see that these two solutions are equivalent
+so that you understand how the expected value solution is capturing
+the ``work'' of the problem for you.
+
+First, here's the linearity solution.
+Let $X_i$ denote the random variable for the number of pieces of bamboo
+on the $i$th day, for $i = 1, \dots, 5$.
+\begin{walk}
+  \ii Show that $\mathbb E[X_i] = 7 \cdot 2^i$.
+  \ii Extract the answer.
+\end{walk}
+Now, if we wanted to show this to a small toddler who would cry foul
+if you used the words ``random variable'', what should you do instead?
+Well, let's imagine we drew the following tree to represent all outcomes.
+\begin{center}
+\begin{asy}
+  size(13cm);
+
+  for (int i=0; i<=3; ++i) {
+    for (int j=0; j<2**i; ++j) {
+      transform sh = shift(-(16-2**(3-i)), 3*(3-i));
+      path cherry = (0,0)--(2**(3-i),3)--(2**(4-i),0);
+      draw( shift(j*2**(5-i),0) * sh * cherry, grey );
+    }
+  }
+
+  dot("$14$", (0,12), dir(90));
+
+  dot("$15$", (-8,9), dir(90));
+  dot("$41$", (8,9), dir(90));
+
+  dot( "$16$", (-12,6), dir(90));
+  dot( "$44$", (-4,6), dir(90));
+  dot( "$42$", (4,6), dir(90));
+  dot("$122$", (12,6), dir(90));
+
+  dot( "$17$", (-14,3), dir(90));
+  dot( "$47$", (-10,3), dir(90));
+  dot( "$45$", (-6,3), dir(90));
+  dot("$131$", (-2,3), dir(90));
+  dot( "$43$", (2,3), dir(90));
+  dot("$125$", (6,3), dir(90));
+  dot("$123$", (10,3), dir(90));
+  dot("$365$", (14,3), dir(90));
+
+  dot( "$18$", (-15,0), dir(-90));
+  dot( "$50$", (-13,0), dir(-90));
+  dot( "$48$", (-11,0), dir(-90));
+  dot("$140$", (-9,0), dir(-90));
+  dot( "$46$", (-7,0), dir(-90));
+  dot("$134$", (-5,0), dir(-90));
+  dot("$132$", (-3,0), dir(-90));
+  dot("$392$", (-1,0), dir(-90));
+  dot(" $44$", (1,0), dir(-90));
+  dot("$128$", (3,0), dir(-90));
+  dot("$126$", (5,0), dir(-90));
+  dot("$374$", (7,0), dir(-90));
+  dot("$124$", (9,0), dir(-90));
+  dot("$368$", (11,0), dir(-90));
+  dot("$366$", (13,0), dir(-90));
+  dot("$1094$", (15,0), dir(-90));
+
+  for (int i=0; i<16; ++i) {
+    label("$s_{" + (string)(i+1) + "}$", (2*i-15,-2), red);
+  }
+\end{asy}
+\end{center}
+Label the bottom entries of the tree by $1$, $2$, \dots, $16$
+from left to right and let $s_i$ denote the sum of the entries from the root the
+$i$\ts{th} leaf.
+(For example, $s_1 = 14 + 15 + 16 + 17 + 18$ while $s_6 = 14 + 15 + 44 + 45 + 134$)
+The problem asks us to compute the value of
+\[ A = \frac{s_1 + s_2 + \dots + s_{16}}{16}. \]
+However, for this large sum it's easier to sum across the rows of the tree instead.
+\begin{walk}[resume]
+  \ii The numerator of $A$ contains $5 \cdot 16 = 80$ terms total
+  when you expand out the definition of each $s_i$.
+  For each node in the tree, how many times does it appear
+  among these $80$ terms?
+
+  \ii Show that moreover, the sum of each row in the tree
+  is four times the sum of the row above it.
+
+  \ii Using these two key observations, show that
+  \[ A = \frac{2^4 \cdot 14 + 2^3 \cdot 4^1 \cdot 14
+  + 2^2 \cdot 4^2 \cdot 14 + 2^1 \cdot 4^3 \cdot 14 + 2^0 \cdot 4^4 \cdot 14}{2^4}. \]
+
+  \ii Extract the final answer.
+\end{walk}
+When we compare the two solutions, we see that the elementary solution had two
+main ``insights'': first to sum across the rows instead of by the branches,
+and then that the average value of each row is doubled compared to the preceding one.
+The advanced solution shows that \emph{both} insights are actually
+each a special case of linearity of expectation.
+This demonstrates how powerful the linearity of expectation theory is:
+it ``automagically'' erases both main hurdles of the elementary solution.
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p3104304}{ELMO 2013/1}, $0\clubsuit$]
+  Let $a_1,a_2,\dots,a_9$ be nine real numbers,
+  not necessarily distinct, with average $m$.
+  Let $A$ denote the number of triples $1 \le i < j < k \le 9$
+  for which $a_i + a_j + a_k \ge 3m$.
+  What is the minimum possible value of $A$?
+\end{example*} \printpuid{13ELMO1}
+
+\begin{walkthrough}
+We say a triple $t = (a_i, a_j, a_k)$
+is \emph{large} if $a_i + a_j + a_k \ge 3m$.
+\begin{walk}
+  \ii Show that among any three disjoint triples,
+  at least one triple is large.
+  Give a heuristic argument why we expect $A \ge 28$
+  as a result.
+  \ii Give a construction for $A = 28$.
+  (Try making one element large.)
+  \ii We now proceed to the ``global'' idea
+  of looking at every possible partition in (a) at once.
+  Show that there are
+  \[ C = \frac{1}{3!} \binom{9}{3,3,3} = 280 \]
+  ways to partition the $9$ elements into three disjoint triples.
+  \ii How many of the $C$ partitions does each triple $t$ appear in?
+  \ii Use your answer to (d) to prove $A \ge 28$, thereby solving the problem.
+  \ii Optionally, for an alternate solution,
+  explicitly construct a partition of the $\binom 93 = 84$ triples
+  into $28$ disjoint triples.
+  This would give another proof that $A \ge 28$.
+\end{walk}
+When doing this calculation for the first time,
+you might be surprised that the division of seemingly
+random constants ends up with $28$ in the end.
+It's important to recognize that the argument in (e)
+is ``guaranteed'' to work in a sense.
+
+To elaborate: we constructed in (b)
+an example of an equality case, and every estimate we used was sharp.
+At the end of (e) we get some number again.
+The existence of the equality case means
+that this number \emph{must} match the corresponding
+constant in (a), namely $28$.
+This point is one of the key ideas in the Equality unit;
+the so-called ``Sharpness Principle''.
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p107689}{Romania 2004}, $0\clubsuit$]
+  Prove that for any complex numbers $z_1$, $z_2$, \dots, $z_n$, satisfying
+  $\left\lvert z_1 \right\rvert^2 + \left\lvert z_2 \right\rvert^2
+  + \dots + \left\lvert z_n \right\rvert^2 = 1$,
+  one can select $\eps_1, \eps_2, \dots, \eps_n \in \{-1,1\}$ such that
+  \[ \left\lvert \sum_{k=1}^n \eps_k z_k \right\rvert \le 1. \]
+\end{example*} \printpuid{04ROU}
+
+\begin{walkthrough}
+\begin{walk}
+  \ii Homogenize the inequality in the $z_i$'s
+  to eliminate the given condition.
+  (You will need a square root.)
+  \ii Square both sides to eliminate the square root,
+  and expand the left-hand side in a way
+  that eliminates the absolute value.
+  \ii Show that the desired conclusion can now be rewritten as
+  \[ \sum_{i \neq j} \eps_i \eps_j z_i \ol{z_j} \le 0. \]
+  \ii Intuitively we don't expect any reason
+  for the left-hand side to be positive versus negative
+  for a random choice of $\eps_i$'s.
+  Use this idea to show that there exists a choice of $\eps_i$'s
+  fulfilling the inequality.
+  \ii Is it okay to use these inequalities
+  even though we are working over complex numbers?
+  (For example, why is the left-hand side of (c) even real?)
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p3261440}{Online Math Open, Ray Li}, $0\clubsuit$]
+  Kevin has $2^n-1$ cookies, each labeled with a
+  unique nonempty subset of $\left\{ 1,2,\dots,n \right\}$.
+  Each day, he chooses one cookie uniformly
+  at random out of the cookies not yet eaten.
+  Then, he eats that cookie, and all remaining cookies
+  that are labeled with a subset of that cookie.
+  Determine the expected value of the number of days
+  that Kevin eats a cookie before all cookies are gone.
+\end{example*} \printpuid{13OMOF29}
+
+\begin{walkthrough}
+\begin{walk}
+  \ii How does the answer to the problem change
+  if the cookie $\varnothing$ is added?
+  This shows the omission of the cookie $\varnothing$
+  is sort of a red herring.
+  \ii What is the probability that the cookie
+  $\{1,\dots,n\}$ is \emph{chosen} on some day?
+  How about $\{1, \dots, n-1\}$?
+  \ii Solve (b) for a general set $S$.
+  Your answer should only depend on $|S|$.
+  \ii How is the work in (c) related to the
+  expected number of days?
+  \ii Using linearity of expectation,
+  show that the answer is $(3/2)^n-(1/2)^n$.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[Buffon's needle/noodle, $0\clubsuit$]
+  You are about to drop a needle of length $1$ onto a lined floor;
+  the lines of the floor are spaced $1$ unit apart.
+  Show that the needle hits a line with probability $\frac{2}{\pi}$.
+\end{example*} \printpuid{BUFFON}
+
+\begin{walkthrough}
+This walkthrough is a bit unconventional,
+but I couldn't resist including it because it's so slick
+and yet not really known at all.
+I was first shown this argument by Qiaochu Yuan ---
+it is more elegant, more general, and doesn't use calculus.
+
+Rather than solving Buffon's needle,
+we will solve the general \textbf{Buffon's noodle} instead,
+where we drop a noodle of arbitrary shape.
+\begin{quote}
+Given a noodle $\Gamma$ of length $\ell$,
+we let $E(\Gamma)$ denote the
+expected \emph{number} of intersections of $\Gamma$ with the lined floor.
+Determine $E(\Gamma)$.
+\end{quote}
+We won't worry exactly how to define the ``length'' of a noodle,
+since arc length is a bit finnicky to define.
+So you have permission to handwave a bit on this walkthrough.
+
+\begin{walk}
+  \ii Show that $E(\Gamma) = c \cdot \ell$ for some absolute constant $c$,
+  by approximating $\Gamma$ by a bunch of tiny equal straight line segments
+  and using linearity of expectation.
+  (You can ignore subtle technical issues with this ``approximating''.)
+
+  \ii Consider the special case where
+  $\Gamma$ is a circle of diameter $1$.
+  Check that $E(\Gamma) = 2$.
+
+  \ii Use the special case in (b) to extract the value of $c$.
+  This solves Buffon's noodle.
+
+  \ii Use the fact that a needle of length $1$
+  intersects the floor's ruling at most once (with probability $1$)
+  in order to extract the answer for Buffon's needle.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\newpage
+
+% ========================================
+\section*{Practice problems}
+\goals{40}{54}
+
+\epigraph{By this construction, Yahweh's work was indicated,
+and Yahweh's work was concealed. Thus would men know their place.}
+{Ted Chiang in \emph{Tower of Babylon}}
+
+\begin{problem}[\href{https://aops.com/community/p26822858}{HMMT 2013}, $2\clubsuit$]
+  Values $a_1, \dots , a_{2013}$ are chosen independently
+  and at random from the set $\{ 1, \dots , 2013\}$.
+  What is the expected number of distinct values in the set $\{a_1, \dots, a_{2013}\}$?
+\end{problem} \printpuid{13HMMTC6}
+
+%% Type your solution to HMMT 2013 (\href{https://otis.evanchen.cc/arch/13HMMTC6/}{13HMMTC6}) here ...
+Let's count the expected number of values that don't appear,
+since the answer is $2023$ minus that.
+For a given value, the chance it doesn't appear is $\left(\frac{2012}{2013}\right)^{2013}$.
+Linearity of expectation gives us that the expected number of values
+that don't appear is just $2013 \cdot \left(\frac{2012}{2013}\right)^{2013}$.
+Therefore, the answer is
+\[ 2013 - 2013 \cdot \left(\frac{2012}{2013}\right)^{2013}. \]
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p25410776}{Russia 1996}, $3\clubsuit$]
+  In the Duma there are $1600$ delegates,
+  who have formed $16000$ committees of $80$ people each.
+  Prove that one can find two committees
+  having no fewer than four common members.
+\end{reqproblem} \printpuid{96RUS94}
+
+%% Type your solution to Russia 1996 (\href{https://otis.evanchen.cc/arch/96RUS94/}{96RUS94}) here ...
+First, notice that the average number of committees a delegate is in is $800$ by simply double counting.
+
+Pick two committees at random. Then, if $D$ is the set of delegates, and $n_d$
+represents the number of committees delegate $d$ is in, we have
+\begin{align*}
+    \mathbb{E}(\text{\# of people in both committees}) &= \sum_{d\in D} \mathbb{P}(\text{$d$ is in both}) \\
+    &= \sum_{d \in D} \frac{\binom{n_d}{2}}{\binom{16000}{2}} \\
+    &\ge \sum_{d \in D} \frac{\binom{800}{2}}{\binom{16000}{2}} & \text{(by Jensen's inequality)} \\
+    &= 1600 \cdot \frac{800 \cdot 799}{16000 \cdot 15999} \\
+    &> 3.
+\end{align*}
+There must then be a set of two committees who have at least $4$
+delegates in common, so we're done.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p12146863}{EGMO 2019/5}, $5\clubsuit$]
+  Let $n\ge 2$ be an integer,
+  and let $a_1, a_2, \dots , a_n$ be positive integers.
+  Show that there exist positive integers $b_1, b_2, \dots, b_n$
+  satisfying the following three conditions:
+  \begin{enumerate}[(a)]
+  \ii $a_i\le b_i$ for $i=1, 2, \dots, n$;
+  \ii the remainders of $b_1$, $b_2$, \dots, $b_n$
+  on division by $n$ are pairwise different,
+  \ii $b_1 + \dots + b_n \le n \left( \frac{n-1}{2}
+  + \left\lfloor \frac{a_1 + \dots + a_n}{n} \right\rfloor \right)$.
+  \end{enumerate}
+\end{problem} \printpuid{19EGMO5}
+
+%% Type your solution to EGMO 2019/5 (\href{https://otis.evanchen.cc/arch/19EGMO5/}{19EGMO5}), proposed by Merlijn Staps (NLD) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p8651645}{BAMO 2017/4}, $3\clubsuit$]
+  Let $\mathcal P$ be a convex $n$-gon, and let $h > 0$ be a real number.
+  On each of the $n$ sides of $\mathcal P$ we
+  erect internally a rectangle of height $h$
+  (meaning the rectangle shares a side with $\mathcal P$
+  and moreover the interiors overlap).
+  Prove that it's possible to pick a $h$ such that the $n$ rectangles together
+  cover the interior of $\mathcal P$, and moreover the sum of their areas
+  is at most twice the area of $\mathcal P$.
+\end{problem} \printpuid{17BAMO4}
+
+%% Type your solution to BAMO 2017/4 (\href{https://otis.evanchen.cc/arch/17BAMO4/}{17BAMO4}) here ...
+Choose $h$ so that the sum of the areas is exactly twice the area of $\mathcal P$,
+which we denote by $A$.
+Then, we claim every point is covered.
+
+Suppose FTSOC that some point $X$ is not covered.
+In this case, we claim that the distance from $X$ to any side is greater than $h$.
+Consider a side $s_i$ which is closer (or as close) to $X$ than any other side,
+and suppose it is a distance $h_i$ away from $X$.
+The foot of the altitude from $X$ to $s_i$ must be contained in $s_i$,
+because otherwise, the altitude must pass through a side closer to $X$ than $s_i$ by convexity.
+So, if $h_i \le h$,
+the rectangle on $\mathcal S$ would contain it,
+so we must have $h_i > h$.
+
+However, by splitting the polygon into triangles and adding up their areas,
+\[ 2A = \sum_{i=1}^n s_ih < \sum_{i=1}^n s_ih_i = 2A, \]
+where $s_i$ denotes the $i$th side, and $h_i$ denotes
+the distance from $X$ to $s_i$. This gives us a contradiction.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p5021975}{ELMO 2015/2}, $3\clubsuit$]
+  Let $m$, $n$, and $x$ be positive integers.
+  Prove that
+  \[
+  \sum_{i=1}^n \min\left( \left\lfloor \frac xi \right\rfloor, m \right)
+  = \sum_{i=1}^m \min\left( \left\lfloor \frac xi \right\rfloor, n
+  \right).
+  \]
+\end{problem} \printpuid{15ELMO2}
+
+%% Type your solution to ELMO 2015/2 (\href{https://otis.evanchen.cc/arch/15ELMO2/}{15ELMO2}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p5913929}{BAMO 2014/5}, $3\clubsuit$]
+  Let $n$ be a positive integer.
+  There are $2n+1$ ranked chess players in a tournament,
+  and each player played every other player exactly once, with no ties.
+  It turns out that in exactly $k$ games,
+  the lower-rated player beat the higher-rated player.
+  Prove that some player won between $n-\sqrt{2k}$ and $n+\sqrt{2k}$ games (inclusive).
+\end{problem} \printpuid{14BAMO5}
+
+%% Type your solution to BAMO 2014/5 (\href{https://otis.evanchen.cc/arch/14BAMO5/}{14BAMO5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p874750}{JBMO 2007/3}, $2\clubsuit$]
+  A set of $50$ points in the plane is given, no three collinear.
+  Each point is colored one of four colors.
+  Prove that there exists a color for which
+  at least $130$ scalene triangles have all three vertices of that color.
+\end{problem} \printpuid{07JBMO3}
+
+%% Type your solution to JBMO 2007/3 (\href{https://otis.evanchen.cc/arch/07JBMO3/}{07JBMO3}) here ...
+Pigeonhole tells us that there must be a color used for $13$ or more points.
+We claim that among any $13$ points with no three collinear, there are
+at least $130$ scalene triangles among them.
+
+Take any pair of points. Notice that the line segment formed can be the base
+of at most two isosceles triangles, because otherwise, there would be three points collinear.
+This means there are at most $2 \binom{13}{2} = 156$ isosceles triangles out of
+$\binom{13}{3} = 286$ total triangles, giving us at least $286-156 = 130$ scalene triangles.
+%% --------------------------------------------------
+
+\begin{problem}[Anthony Wang, $2\clubsuit$]
+  Bob has $n$ stacks of rocks in a row,
+  each with heights randomly and
+  uniformly selected from the set $\{1,2,3,4,5\}$.
+  In each move, he picks a group of one or more consecutive stacks
+  with positive heights and removes $1$ rock from each stack.
+  Find, in terms of $n$, the expected value of the minimum number of moves
+  he must execute to remove all rocks.
+\end{problem} \printpuid{20JJCA4}
+
+%% Type your solution to Anthony Wang (\href{https://otis.evanchen.cc/arch/20JJCA4/}{20JJCA4}), proposed by Anthony Wang here ...
+Let $a_1,a_2,\dots,a_n$ be the sizes of the stacks, from left to right,
+and set $a_0 = a_{n+1} = 0$ for convenience.
+Consider the monovariant
+\[ \sum_{i=0}^{n}|a_{i+1} - a_i|. \]
+This quantity is $0$ if and only if all the rocks are gone.
+Also, if $a_i = a_j = 0$, $i<j-1$, and $a_{i+1}, a_{i+2}, \dots, a_{j-1} > 0$, Bob can remove one rock
+from the stacks $a_{i+1}, a_{i+2}, \dots, a_{j-1}$,
+and one can check that the monovariant decreases by $2$.
+At any point in time before all the rocks are gone, a pair of indices $i,j$ exists
+(remember how we set $a_0 = a_{n+1} = 0$).
+So, Bob can remove all rocks in $\frac12 \sum_{i=0}^{n}|a_{i+1} - a_i|$ moves.
+
+We show this is the minimum. Notice that one move only
+can affect the value of $|a_{i+1} - a_i|$ for two indices $i$.
+And at each of those indices, the value cannot be changed by more than $1$.
+So, the monovariant cannot decrease by more than $2$ in one move.
+
+The answer extraction involves finding the expected value of $\frac12 \sum_{i=0}^{n}|a_{i+1} - a_i|$.
+By linearity of expectation, this is just
+\[ \frac12 (3 + 3 + \frac85 (n-1)) = \boxed{\frac{4n + 11}{5}}. \]
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p1341792}{Putnam 2008 B3}, $3\clubsuit$]
+  Let $n \ge 2$ be a positive integer.
+  What is the largest possible radius of a circle inside a
+  $n$-dimensional hypercube of side length $2$?
+\end{problem} \printpuid{08PTNMB3}
+
+%% Type your solution to Putnam 2008 B3 (\href{https://otis.evanchen.cc/arch/08PTNMB3/}{08PTNMB3}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p26373095}{USEMO 2022/1}, $3\clubsuit$]
+  A \emph{stick} is defined as a $1 \times k$ or $k\times 1$ rectangle
+  for any integer $k \ge 1$.
+  We wish to partition the cells of a $2022 \times 2022$ chessboard
+  into $m$ non-overlapping sticks, such that any two of these $m$ sticks
+  share at most one unit of perimeter.
+  Determine the smallest $m$ for which this is possible.
+\end{problem} \printpuid{22USEMO1}
+
+%% Type your solution to USEMO 2022/1 (\href{https://otis.evanchen.cc/arch/22USEMO1/}{22USEMO1}), proposed by Holden Mui here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p28015691}{TSTST 2023/4}, $3\clubsuit$]
+  Let $n \ge 3$ be an integer and let $K_n$ be the complete graph on $n$ vertices.
+  Each edge of $K_n$ is colored either red, green, or blue.
+  Let $A$ denote the number of triangles in $K_n$
+  with all edges of the same color, and
+  let $B$ denote the number of triangles in $K_n$
+  with all edges of different colors.
+  Prove that
+  \[ B \le 2A + \frac{n(n-1)}3. \]
+\end{reqproblem} \printpuid{23TSTST4}
+
+%% Type your solution to TSTST 2023/4 (\href{https://otis.evanchen.cc/arch/23TSTST4/}{23TSTST4}), proposed by Ankan Bhattacharya here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p23936540}{St Petersburg 2021/10.5}, $3\clubsuit$]
+  The vertices of a convexÂ $2550$-gon are colored black and white as follows:
+  black, white, two black, two white, three black, three white, \dots,
+  $50$ black, $50$ white. Dania divides the polygon into $1274$ quadrilaterals
+  by drawing diagonals that do not intersect inside the polygon.
+  Prove that there exists a quadrilateral among these,
+  in which two adjacent vertices are black and the other two are white.
+\end{problem} \printpuid{21SPBRG105}
+
+%% Type your solution to St Petersburg 2021/10.5 (\href{https://otis.evanchen.cc/arch/21SPBRG105/}{21SPBRG105}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p5079689}{IMO 2015/1}, $3\clubsuit$]
+  We say that a finite set $\mathcal{S}$ of points in the plane
+  is \emph{balanced} if,
+  for any two different points $A$ and $B$ in $\mathcal{S}$,
+  there is a point $C$ in $\mathcal{S}$ such that $AC=BC$.
+  We say that $\mathcal{S}$ is \emph{centre-free} if for
+  any three different points $A$, $B$ and $C$ in $\mathcal{S}$,
+  there are no points $P$ in $\mathcal{S}$ such that $PA=PB=PC$.
+
+  \begin{enumerate}
+  \item[(a)] Show that for all integers $n\ge 3$,
+  there exists a balanced set consisting of $n$ points.
+  \item[(b)] Determine all integers $n\ge 3$ for which
+  there exists a balanced centre-free set consisting of $n$ points.
+  \end{enumerate}
+\end{problem} \printpuid{15IMO1}
+
+%% Type your solution to IMO 2015/1 (\href{https://otis.evanchen.cc/arch/15IMO1/}{15IMO1}), proposed by Merlijn Staps (NLD) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p2670037}{USAMO 2012/6}, $3\clubsuit$]
+  For integer $n \ge 2$,
+  let $x_1$, $x_2$, \dots, $x_n$ be real numbers satisfying
+  \[ x_1 + x_2 +  \dots + x_n = 0
+  \quad\text{and}\quad x_1^2 + x_2^2 + \dots + x_n^2 = 1. \]
+  For each subset $A\subseteq\{1, 2, \dots, n\}$, define $S_A=\sum_{i\in A} x_i$.
+  (If $A$ is the empty set, then $S_A=0$.)
+  Prove that for any positive number $\lambda$,
+  the number of sets $A$ satisfying $S_A\geq\lambda$ is at most $2^{n-3}/\lambda^2$.
+  For which choices of $x_1$, $x_2$, \dots, $x_n$, $\lambda$ does equality hold?
+\end{problem} \printpuid{12AMO6}
+
+%% Type your solution to USAMO 2012/6 (\href{https://otis.evanchen.cc/arch/12AMO6/}{12AMO6}), proposed by Gabriel Carroll here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p170957}{Russia 1999}, $5\clubsuit$]
+  In a certain finite nonempty school, every boy likes at least one girl.
+  Prove that we can find a set $S$ of strictly more than half
+  the students in the school such that each
+  boy in $S$ likes an odd number of girls in $S$.
+\end{reqproblem} \printpuid{99RUS}
+
+%% Type your solution to Russia 1999 (\href{https://otis.evanchen.cc/arch/99RUS/}{99RUS}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p131872}{Shortlist 1999 C4}, $2\clubsuit$]
+  Let $n$ be a positive integer
+  and let $Z = \ZZ / n^2 \ZZ$ denote the set of integers modulo $n^2$.
+  Suppose $A \subseteq Z$ with $|A| = n$.
+  Prove that there exists $B \subseteq Z$
+  with $|B| = n$ such that $|A+B| \ge \half n^2$.
+\end{problem} \printpuid{99SLC4}
+
+%% Type your solution to Shortlist 1999 C4 (\href{https://otis.evanchen.cc/arch/99SLC4/}{99SLC4}) here ...
+Choose $B$ randomly out of all $n$ element subsets of $Z$.
+The probability that any given number $i$ appears in $A+B$
+is the probability that $i-a \in B$ for some $a \in A$.
+This is equivalent to $B$ overlapping with
+an arbitrary subset of size $n$, which has probability
+\[1 - \frac{\binom{n^2-n}{n}}{\binom{n^2}{n}}. \]
+Thus,
+\[ \mathbb{E}[|A+B|] = n^2\left(1 - \frac{\binom{n^2-n}{n}}{\binom{n^2}{n}}\right). \]
+Since
+\begin{align*}
+    \frac{\binom{n^2-n}{n}}{\binom{n^2}{n}} &\le \left(\frac{n-1}{n}\right)^n \\
+    &< \frac 1e < \frac 12,
+\end{align*}
+we have $\mathbb{E}[|A+B|] \ge \frac12 n^2$, so there must exist
+some $B$ satisfying $|A+B| \ge \frac12 n^2$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p1544473}{Ireland 1994/10}, $3\clubsuit$]
+  Fix an integer $n \ge 1$.
+  A square is partitioned into $n$ convex polygons,
+  A line segment which joins two vertices of polygons in the dissection,
+  and does not contain any other vertices of the polygons in its interior,
+  is called a \emph{basic} segment.
+
+  Determine the maximum number of basic segments
+  which could be present in such a dissection, in terms of $n$.
+\end{problem} \printpuid{94IRL10}
+
+%% Type your solution to Ireland 1994/10 (\href{https://otis.evanchen.cc/arch/94IRL10/}{94IRL10}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p105128}{Extension of IMO 1970, due to Ravi Boppana}, $9\clubsuit$]
+  Prove that for all sufficiently large positive integers $n$,
+  within any $n$ points on the plane in general position,
+  at most $66.67\%$ of the triangles with vertices
+  among the points are acute.
+\end{problem} \printpuid{70IMO6}
+
+%% Type your solution to Extension of IMO 1970, due to Ravi Boppana (\href{https://otis.evanchen.cc/arch/70IMO6/}{70IMO6}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p1136962}{Iran TST 2008/6}, $3\clubsuit$]
+  Suppose $799$ teams participate in a round-robin tournament.
+  Prove that one can find two disjoint groups $A$ and $B$ of seven teams each
+  such that all teams in $A$ defeated all teams in $B$.
+\end{problem} \printpuid{08IRNTST6}
+
+%% Type your solution to Iran TST 2008/6 (\href{https://otis.evanchen.cc/arch/08IRNTST6/}{08IRNTST6}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p2362302}{Shortlist 2010 C5}, $5\clubsuit$]
+  Suppose $n \geq 4$ players participate in a tennis tournament.
+  Any two players have played exactly one game,
+  and there was no tie game.
+  We call a company of four players \emph{bad} if one player
+  was defeated by the other three players, and each of these
+  three players won a game and lost another game among themselves.
+  Suppose that there is no bad company in this tournament.
+
+  Let $w_i$ and $\ell_i$ be respectively
+  the number of wins and losses of the $i$-th player.
+  Prove that
+  \[\sum^n_{i=1} \left(w_i - \ell_i\right)^3 \geq 0. \]
+\end{reqproblem} \printpuid{10SLC5}
+
+%% Type your solution to Shortlist 2010 C5 (\href{https://otis.evanchen.cc/arch/10SLC5/}{10SLC5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p15952773}{USAMO 2020/2}, $5\clubsuit$]
+  An empty $2020 \times 2020 \times 2020$ cube is given,
+  and a $2020 \times 2020$ grid of square unit cells is drawn on each of its six faces.
+  A \emph{beam} is a $1 \times 1 \times 2020$ rectangular prism.
+  Several beams are placed inside the cube subject to the following conditions:
+  \begin{itemize}
+  \item The two $1 \times 1$ faces of each beam coincide
+  with unit cells lying on opposite faces of the cube.
+  (Hence, there are $3 \cdot 2020^2$ possible positions for a beam.)
+  \item No two beams have intersecting interiors.
+  \item The interiors of each of the four $1 \times 2020$ faces of each beam touch
+  either a face of the cube or the interior of the face of another beam.
+  \end{itemize}
+  What is the smallest positive number of beams that can be placed to satisfy these conditions?
+\end{problem} \printpuid{20AMO2}
+
+%% Type your solution to USAMO 2020/2 (\href{https://otis.evanchen.cc/arch/20AMO2/}{20AMO2}), proposed by Alex Zhai here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p1860794}{USAMO 2010/6}, $9\clubsuit$]
+  There are $68$ ordered pairs (not necessarily distinct)
+  of nonzero integers on a blackboard.
+  It's known that for no integer $k$ does both $(k,k)$ and $(-k,-k)$ appear.
+  A student erases some of the $136$ integers such that
+  no two erased integers have sum zero, and scores one point
+  for each ordered pair with at least one erased integer.
+  What is the maximum possible score the student can guarantee?
+\end{reqproblem} \printpuid{10AMO6}
+
+%% Type your solution to USAMO 2010/6 (\href{https://otis.evanchen.cc/arch/10AMO6/}{10AMO6}), proposed by Gerhard Woeginger here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p7743073}{RMM 2017/5}, $9\clubsuit$]
+  Fix an integer $n \geq 2$. An $n\times n$ sieve is an $n\times n$
+  array with $n$ cells removed so that exactly one cell
+  is removed from every row and every column.
+  A stick is a $1\times k$ or $k\times 1$ array for any integer $k \ge 1$.
+  For any sieve $A$, let $m(A)$ be the minimal number
+  of sticks required to partition $A$.
+  Find all possible values of $m(A)$,
+  as $A$ varies over all possible $n\times n$ sieves.
+\end{problem} \printpuid{17RMM5}
+
+%% Type your solution to RMM 2017/5 (\href{https://otis.evanchen.cc/arch/17RMM5/}{17RMM5}), proposed by Palmer Mebane, Nikolai Beluhov here ...
+
+%% --------------------------------------------------
+
+\end{document}

@@ -1,0 +1,559 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{derivative}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{DCW-hall}}
+\ohead{\footnotesize Updated Wed 14 Aug 2024 23:43:07 UTC}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\clubg}[1]{\bgroup\color{green!40!black}[$#1\clubsuit$]\egroup}
+
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}{\textbf}
+\providecommand{\opname}{\operatorname}
+\providecommand{\ts}{\textsuperscript}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+    linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+    mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+    nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+    mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+    linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+    mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+    linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmredbox,name=Problem]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmblackbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmblackbox,name=Example,numbered=no]{example*}
+
+\newenvironment{walkthrough}{\noindent\textbf{\color{green!40!black}Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+
+\usepackage{asymptote}
+\begin{asydef}
+size(8cm); // set a reasonable default
+usepackage("amsmath");
+usepackage("amssymb");
+settings.tex="pdflatex";
+settings.outformat="pdf";
+import geometry;
+void filldraw(picture pic = currentpicture, conic g, pen fillpen=defaultpen, pen drawpen=defaultpen) { filldraw(pic, (path) g, fillpen, drawpen); }
+void fill(picture pic = currentpicture, conic g, pen p=defaultpen) { filldraw(pic, (path) g, p); }
+pair foot(pair P, pair A, pair B) { return foot(triangle(A,B,P).VC); }
+pair centroid(pair A, pair B, pair C) { return (A+B+C)/3; }
+\end{asydef}
+
+\newcommand{\goals}[2]{\bgroup
+\sffamily\small \emph{Instructions}: Solve \clubg{#1}.
+If you have time, solve \clubg{#2}.\egroup\par}
+
+%% 426c616e6b204c615465587e
+\begin{document}
+\title{Submission for DCW-HALL}
+\subtitle{OTIS (internal use)}
+\author{Michael Middlezong}
+\date{\today}
+\maketitle
+
+\begin{example*}[PUMaC 2016, Alex Song, $0\clubsuit$]
+  There are twelve candies arranged in a circle, four of which are rare candies.
+  Chad and Eric want to collaborate on a strategy for the following act.
+  First, Eric comes and is told which four candies are rare candies,
+  then removes four non-rare candies from the circle.
+  Then Eric leaves, and Chad comes and must determine which of the
+  four candies (of the eight remaining candies) are rare.
+  Decide whether this is possible or not.
+\end{example*} \printpuid{16PUMACFA1}
+
+\begin{walkthrough}
+Let $|S| = 12$.
+Most of this problem is trying to think about the problem
+in the right way; afterwards, Hall will destroy it.
+\begin{walk}
+  \ii Phrase the problem as trying to match $\binom{S}{4}$ to itself.
+  \ii What are the constraints on this matching?
+  \ii Apply regular Hall to finish.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\newpage
+
+% ========================================
+\section*{Practice problems}
+\goals{24}{32}
+
+\epigraph{I'm looking for something that can deliver a
+50-pound payload of snow on a small feminine target.
+Can you suggest something? Hello\dots?}
+{Calvin on the phone in \emph{Calvin and Hobbes}}
+
+\begin{problem}[Another useful-later special case of Hall, $2\clubsuit$]
+  Let $G = A \cup B$ be a bipartite graph on $2n$ vertices
+  with minimum degree $n/2$ and $|A|=|B|=n$.
+  Show that $G$ has a perfect matching.
+\end{problem} \printpuid{ZB9281DC}
+
+%% Type your solution to Another useful-later special case of Hall (\href{https://otis.evanchen.cc/arch/ZB9281DC/}{ZB9281DC}) here ...
+If $k \le \frac{n}{2}$, then the desired result is trivial.
+Otherwise, we claim that any set of $k > \frac n2$ gifts is compatible with all $n$ boxes.
+Assume not; then, some box is only compatible with less than $\frac n2$ gifts, which is a contradiction.
+%% --------------------------------------------------
+
+\begin{problem}[Infinite Hall, added by Edward Yu, $2\clubsuit$]
+  Show that Hall's theorem does not hold for infinite graphs,
+  even if they are countable.
+  That is, find an infinite bipartite graph between
+  countably infinite sets $A$ and $B$
+  for which every finite subset of $S \subseteq A$
+  has at least $|S|$ neighbors in $B$,
+  but there is no way of matching $A$ to a subset of $B$.
+\end{problem} \printpuid{ZB1FC962}
+
+%% Type your solution to Infinite Hall, added by Edward Yu (\href{https://otis.evanchen.cc/arch/ZB1FC962/}{ZB1FC962}) here ...
+Let $A = \{0,1,2,\dots\}$ and $B = \{1,2,\dots\}$.
+Match $0$ in $A$ with all numbers in $B$, and
+for any $i \neq 0 \in A$, match it with only $i$ in $B$.
+Clearly, there cannot be a perfect matching, even though the two sets
+have the same cardinality.
+%% --------------------------------------------------
+
+\begin{problem}[Birkoff von Neumann, $2\clubsuit$]
+  Let $A$ be a square $n \times n$ matrix whose entries are nonnegative
+  and whose rows and columns have sum $1$ (such a matrix is \emph{doubly stochastic}).
+  Show that it's possible to write
+  \[ A = c_1 P_1 + \dots + c_m P_m \]
+  where each $P_i$ is a permutation matrix, and each $c_i$ is a positive real.
+\end{problem} \printpuid{ZFD257C4}
+
+%% Type your solution to Birkoff von Neumann (\href{https://otis.evanchen.cc/arch/ZFD257C4/}{ZFD257C4}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Baltic Way 2013, $2\clubsuit$]
+  Santa Claus has some gifts for $n$ children.
+  For $1 \le i \le n$, the $i$-th child considers $x_i > 0$ of these items to be desirable.
+  Assume that \[  \frac{1}{x_1} + \dots + \frac{1}{x_n} \le 1. \]
+  Prove that Santa Claus can give each child a gift that this child likes.
+\end{problem} \printpuid{13BWAY}
+
+%% Type your solution to Baltic Way 2013 (\href{https://otis.evanchen.cc/arch/13BWAY/}{13BWAY}) here ...
+We claim that in any set of $k$ children, at least one of them likes at least $k$ of Santa's gifts.
+This is clearly sufficient to prove Hall's condition, and thus, the desired conclusion.
+
+Suppose not. Then, summing over the $k$ children,
+\[ \sum_{i \in S} \frac{1}{x_i} > \sum_{i \in S} \frac{1}{k} = 1, \]
+which, when combined with the problem statement's condition, gives us a contradiction.
+%% --------------------------------------------------
+
+\begin{reqproblem}[$3\clubsuit$]
+  On a $1000 \times 1000$ chessboard, we delete some squares from the board
+  so that each row and each column has at most $k$ deleted squares.
+  For which values of $k$ is it always still possible to
+  place $1000$ non-attacking rooks on the board?
+  (Rooks may still attack across deleted squares.)
+\end{reqproblem} \printpuid{ZF13143F}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/ZF13143F/}{ZF13143F} here ...
+We form a relation (bipartite graph) between the columns and the rows.
+Specifically, we connect a row with a column if that row has a cell
+in that column (i.e. it wasn't deleted).
+Also, placing 1000 non-attacking rooks is just
+a perfect matching between the rows and columns.
+
+The condition of removing at most $k$ squares from each row and column
+is equivalent to saying that each vertex has degree
+greater than or equal to $1000-k$. If $1000-k \ge 1000/2 = 500$, meaning $k \le 500$,
+then by the result of Problem 1, we are done.
+
+If $k > 500$, then delete the bottom $k$ cells from the $k$ leftmost columns
+and delete the leftmost $k$ cells from the bottom $k$ rows.
+It can be easily checked that every row and column has either $k$ or $1000-k$ deleted cells,
+which satisfies the condition.
+Also, the first $k$ columns are only connected with $1000-k < k$ rows,
+so Hall's condition is not satisfied.
+%% --------------------------------------------------
+
+\begin{problem}[Tuymaada 2018/7, $3\clubsuit$]
+  A school has three senior classes of $M$ students each.
+  Every student knows at least $\frac34M$ people in each of the other two classes.
+  Prove that the school can send $M$ non-intersecting teams
+  to the olympiad so that each team consists of $3$ students
+  from different classes who know each other.
+\end{problem} \printpuid{18TMD7}
+
+%% Type your solution to Tuymaada 2018/7 (\href{https://otis.evanchen.cc/arch/18TMD7/}{18TMD7}) here ...
+The solution is to do Hall twice. First, we consider only two of the classes.
+By the result of problem 1, we can pair the students into $M$ pairs
+where each pair consists of $2$ students from different classes who know each other.
+
+Then, consider the $M$ pairs on one side of a bipartite graph,
+and the $M$ students of the third senior class on the other side.
+We connect a pair with a student from the third class if the student knows both students in the pair.
+Notice that this graph has minimum degree $\frac 12 M$, because otherwise,
+some student would not know at least $\frac 34 M$ students from each of the other two classes.
+So, we use the result of problem 1 again to create $M$ teams of $3$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p2865753}{Putnam 2012 B3}, $3\clubsuit$]
+  A round-robin tournament among $2n$ teams
+  lasted for $2n-1$ days, as follows.
+  On each day, every team played one game against another team,
+  with one team winning and one team losing in each of the $n$ games.
+  Over the course of the tournament,
+  each team played every other team exactly once.
+  Can one necessarily choose one winning team from each day
+  without choosing any team more than once?
+\end{problem} \printpuid{12PTNMB3}
+
+%% Type your solution to Putnam 2012 B3 (\href{https://otis.evanchen.cc/arch/12PTNMB3/}{12PTNMB3}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Halls Chessboard, $3\clubsuit$]
+  An $n \times n$ chessboard has some of its squares painted blue.
+  Assume that for every $n$ squares chosen, no two in the same row or column, at least one of the squares is blue.
+  Prove that one can find $a$ rows and $b$ columns whose intersection contains only blue squares, so that $a+b \ge n+1$.
+\end{problem} \printpuid{Z685102E}
+
+%% Type your solution to Halls Chessboard (\href{https://otis.evanchen.cc/arch/Z685102E/}{Z685102E}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[$3\clubsuit$]
+  A table has $m$ rows and $n$ columns with $m,n>1$.
+  The following permutations of its $mn$ elements are permitted:
+  any permutation leaving each element in the same row (a ``horizontal move''),
+  and any permutation leaving each element in the same column (a ``vertical move'').
+  Find the smallest integer $k$ in terms of $m$ and $n$
+  such that any permutation of the $mn$ elements
+  can be realized by at most $k$ permitted moves.
+\end{problem} \printpuid{WOOTPO46}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/WOOTPO46/}{WOOTPO46} here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[$3\clubsuit$]
+  Let $G$ be a graph.
+  Show that $G$ has an orientation in which every indegree
+  is at most
+  \[ \left\lceil \max_H \frac{\#E(H)}{\#V(H)} \right\rceil \]
+  where the maximum is taken over nonempty subgraphs of $H$.
+\end{problem} \printpuid{Z5F11887}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/Z5F11887/}{Z5F11887} here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p21567977}{Russia 2021, added by Rohan Goyal}, $3\clubsuit$]
+  Each gopher among $100$ gophers has $100$ balls;
+  there are in total $10000$ balls in $100$ colors,
+  from each color there are $100$ balls.
+  On a move, two gophers can exchange a ball
+  (the first gives the second one of her balls, and vice versa).
+  The operations can be made in such a way, that in the end,
+  each gopher has $100$ balls, colored in the $100$ distinct colors.
+
+  Prove that there is a sequence of operations,
+  in which each ball is exchanged no more than $1$ time,
+  and at the end, each gopher has $100$ balls,
+  colored in the $100$ colors.
+\end{problem} \printpuid{21RUS118}
+
+%% Type your solution to Russia 2021, added by Rohan Goyal (\href{https://otis.evanchen.cc/arch/21RUS118/}{21RUS118}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[$5\clubsuit$]
+  Let $G$ be a bipartite graph on $A \cup B$ with no isolated vertices.
+  Assume that for each edge $ab$ with $a \in A$ and $b \in B$,
+  we have $\deg a \ge \deg b$.
+  Prove that $G$ contains a matching using all vertices in $A$.
+\end{problem} \printpuid{Z043CFE1}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/Z043CFE1/}{Z043CFE1} here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/c6h42400p7704829}{Vietnam TST 2001/3, added by Milind Pattanik}, $3\clubsuit$]
+  A club has $42$ members, each of which is either a boy or girl.
+  Itâ€™s known that among $31$ arbitrary club members,
+  we can find a boy and a girl who know each other.
+  Show that there exist $12$ disjoint pairs of club members,
+  each of which is a boy and a girl that know each other.
+\end{problem} \printpuid{01VNMTST3}
+
+%% Type your solution to Vietnam TST 2001/3, added by Milind Pattanik (\href{https://otis.evanchen.cc/arch/01VNMTST3/}{01VNMTST3}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p875004}{Shortlist 2006 C6}, $9\clubsuit$]
+  An upward equilateral triangle of side length $n$
+  is divided into $n^2$ cells which are equilateral triangles of unit length.
+  A \emph{holey triangle} is such a triangle
+  with $n$ upward unit triangular holes cut out along gridlines.
+  A diamond is a $60^\circ-120^\circ$ unit rhombus.
+  Prove that a holey triangle $T$ can be tiled with diamonds
+  if and only if the following condition holds:
+  Every upward equilateral triangle of side length $k$ in $T$
+  contains at most $k$ holes, for $1 \le k \le n$.
+\end{problem} \printpuid{06SLC6}
+
+%% Type your solution to Shortlist 2006 C6 (\href{https://otis.evanchen.cc/arch/06SLC6/}{06SLC6}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Bulgaria 1997, $3\clubsuit$]
+  Let $n \ge 2$ be a positive integer,
+  and consider ordered $n$-tuples of
+  distinct integers in the set $\{1, \dots, n+1\}$.
+  Two such tuples $(a_1, \dots, a_n)$ and $(b_1, \dots, b_n)$
+  are called \emph{disjoint} if
+  there exists $1 \le i,j \le n$
+  such that $i \neq j$ and $a_i = b_j$.
+  What is the maximum possible number of pairwise disjoint $n$-tuples?
+\end{problem} \printpuid{97BGR}
+
+%% Type your solution to Bulgaria 1997 (\href{https://otis.evanchen.cc/arch/97BGR/}{97BGR}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p2362296}{Shortlist 2010 C2}, $5\clubsuit$]
+  Let $n \ge 4$ be an integer.
+  A \emph{flag} is a binary string of length $n$.
+  We say that a set of $n$ flags is \emph{diverse} if these flags
+  can be the rows of an $n \times n$ binary matrix
+  with the entries in its main diagonal all equal.
+  Determine the smallest positive integer $M$ such that among any $M$ distinct flags,
+  there exist $n$ flags forming a diverse set.
+\end{reqproblem} \printpuid{10SLC2}
+
+%% Type your solution to Shortlist 2010 C2 (\href{https://otis.evanchen.cc/arch/10SLC2/}{10SLC2}) here ...
+We claim the answer is $M = 2^{n-2} + 1$. First, $2^{n-2}$ doesn't work;
+just consider all the $2^{n-2}$ flags starting with $01$.
+
+Now, we show that $M = 2^{n-2} + 1$ works.
+Let $D$ be either $0$ or $1$, and construct a bipartite graph between
+the set of $M$ flags (arranged into an $M$ by $n$ grid) and the $n$ columns.
+We connect a row with column $i$ if that row has $D$ in column $i$.
+It suffices to find a perfect matching from the columns to the rows (flags).
+
+We claim that this graph satisfies Hall's condition for some choice of $D$, first starting with $k=1$.
+Hall's condition for $k=1$ is only false for some $D$ if a column
+has the binary digit other than $D$ in every row.
+But this can't be true for both choices of $D$, as that
+would restrict the number of unique flags to $2^{n-2} < M$.
+So, at least one choice of $D$ satisfies Hall's condition for $k=1$.
+
+We do casework on how many choices of $D$ satisfy Hall's condition for $k=1$.
+If both choices of $D$ satisfy it, then
+we claim that Hall's condition for $k=2$ must be true for some choice of $D$.
+Suppose not. Then, $M-1$ rows must have $0$'s in two fixed columns,
+and $M-1$ rows must have $1$'s in some two other fixed columns.
+These conditions overlap in at least $M-2$ rows,
+but the number of distinct flags that satisfy both is $2^{n-4} < M-2$, giving us a contradiction.
+
+If only one choice of $D$ satisfies Hall's condition for $k-1$, then
+WLOG let that choice be $D = 0$.
+We claim that Hall's condition for $k=2$ must be true for $D = 0$.
+Suppose not. Then, at least $M-1$ rows have $1$'s in two fixed columns.
+These rows also have $0$ in another fixed column, since $D=1$ fails Hall's condition for $k=1$.
+The number of distinct flags satisfying these conditions is $2^{n-3} < M-1$,
+so we have a contradiction.
+Therefore, Hall's condition must be true for $k=1,2$, for some choice of $D$.
+
+Again WLOG that choice to be $D=0$, and in one final sweep,
+we show Hall's condition for $k \ge 3$. Again, suppose not.
+Then, at least $M-k+1$ flags have $1$ in some $k$ fixed columns.
+But $2^{n-k}$ distinct flags satisfy that condition,
+and $k \ge 3 \implies 2^{n-k} < M-k+1$, so we are done.
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p7743073}{RMM 2017/5}, $5\clubsuit$]
+  Fix an integer $n \geq 2$. An $n\times n$ sieve is an $n\times n$
+  array with $n$ cells removed so that exactly one cell
+  is removed from every row and every column.
+  A stick is a $1\times k$ or $k\times 1$ array for any integer $k \ge 1$.
+  For any sieve $A$, let $m(A)$ be the minimal number
+  of sticks required to partition $A$.
+  Find all possible values of $m(A)$,
+  as $A$ varies over all possible $n\times n$ sieves.
+\end{problem} \printpuid{17RMM5}
+
+%% Type your solution to RMM 2017/5 (\href{https://otis.evanchen.cc/arch/17RMM5/}{17RMM5}), proposed by Palmer Mebane, Nikolai Beluhov here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p3160571}{Shortlist 2012 C5}, $5\clubsuit$]
+  The columns and the rows of a $3n \times 3n$
+  square board are numbered $1,2,\dots,3n$.
+  Every square $(x,y)$ with $1 \leq x,y \leq 3n$ is colored
+  asparagus, byzantium or citrine according as the modulo $3$ remainder
+  of $x+y$ is $0$, $1$ or $2$ respectively.
+  One token colored asparagus, byzantium or citrine is placed on each square,
+  so that there are $3n^2$ tokens of each color.
+
+  Suppose that one can permute the tokens so that each token
+  is moved to a distance of at most $d$ from its original position,
+  each asparagus token replaces a byzantium token,
+  each byzantium token replaces a citrine token,
+  and each citrine token replaces an asparagus token.
+  Prove that it is possible to permute the tokens so that each token
+  is moved to a distance of at most $d+2$ from its original position,
+  and each square contains a token with the same color as the square.
+\end{problem} \printpuid{12SLC5}
+
+%% Type your solution to Shortlist 2012 C5 (\href{https://otis.evanchen.cc/arch/12SLC5/}{12SLC5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Harder 2012 C5 by Ji Min Kim, $5\clubsuit$]
+  The columns and the rows of a $3n \times 3n$
+  square board are numbered $1,2,\dots,3n$.
+  Every square $(x,y)$ with $1 \leq x,y \leq 3n$ is colored
+  asparagus, byzantium or citrine according as the modulo $3$ remainder
+  of $x+y$ is $0$, $1$ or $2$ respectively.
+  One token colored asparagus, byzantium or citrine is placed on each square,
+  so that there are $3n^2$ tokens of each color.
+
+  Suppose that one can permute the tokens so that each token
+  is moved to a distance of at most $d$ from its original position,
+  each asparagus token replaces a byzantium token,
+  each byzantium token replaces a citrine token,
+  and each citrine token replaces an asparagus token.
+  Prove that it is possible to permute the tokens so that each token
+  is moved to a distance of at most $d+1$ from its original position,
+  and each square contains a token with the same color as the square.
+\end{problem} \printpuid{12SLC5GEN}
+
+%% Type your solution to Harder 2012 C5 by Ji Min Kim (\href{https://otis.evanchen.cc/arch/12SLC5GEN/}{12SLC5GEN}), proposed by Ji Min Kim (KOR) here ...
+
+%% --------------------------------------------------
+
+\begin{remark*}
+  The ``Harder 2012 C5'' is 2012 C5 with $d+2$ improved to $d+1$.
+  Solving this problem also gives you the \clubs{5} for the original.
+\end{remark*}
+
+\begin{reqproblem}[\href{https://aops.com/community/p26628764}{Math Prize 2022/4}, $9\clubsuit$]
+  Let $n > 1$ be an integer.
+  Let $A$ denote the set of divisors of $n$ that are less than $\sqrt n$.
+  Let $B$ denote the set of divisors of $n$ that are greater than $\sqrt n$.
+  Prove that there exists a bijective function $f \colon A \to B$
+  such that $a$ divides $f(a)$ for all $a \in A$.
+\end{reqproblem} \printpuid{22MPO4}
+
+%% Type your solution to Math Prize 2022/4 (\href{https://otis.evanchen.cc/arch/22MPO4/}{22MPO4}) here ...
+Split the divisors of $n$ into equivalence classes based on the following relation:
+divisors $a$ and $b$ are related if for every prime $p$ dividing $n$,
+either $\nu_p(a) + \nu_p(b) = \nu_p(n)$ or $\nu_p(a) = \nu_p(b)$.
+This relation is partially motivated by the representation of the
+divisors of $n$ as lattice points in a hypercuboid.
+
+We claim that in each equivalence class $C$, we can
+construct a bijection $f$: $A \cap C \to B \cap C$
+satisfying $d \mid f(d)$ for all $d$.
+
+Notice that within each equivalence class $C$ and for a fixed prime $p \mid n$,
+there are at most two possible values of $\nu_p(d)$ for $d \in C$. If
+a prime has only one possible value of $\nu_p(d)$ for all $d \in C$,
+then the divisibility condition is trivial for that prime (i.e. we might as well divide
+all numbers in $C$ by that prime raised to the maximal exponent).
+So, call a prime $p$ \textit{significant} when there are two possible values of $\nu_p(d)$,
+and let $e_p$ be the smaller value and $E_p$ be the greater value.
+
+Our bijection $f$ can be reframed as a bijection $g$ from $A \cap C$ to itself,
+by reframing our condition $d \mid f(d)$ as
+\[ \min\{\nu_p(d), \nu_p(g(d))\} = e_p \]
+for all significant primes $p$.
+From this, we can construct $f$ as $f(d) = \frac{n}{g(d)}$.
+
+Now, we reframe the problem again. Let $X$ be the set of prime divisors of $n$,
+and associate each element $d \in A \cap C$ with the set containing
+all significant primes $p$ such that $d$ is divisible by $p^{E_p}$.
+It is not hard to check that no two elements can be associated with the same set.
+
+Consider the collection $\mathcal F$ of sets associated with elements
+in $d$. This collection satisfies the property that for all $A \in \mathcal F$,
+all subsets of $A$ are also in $\mathcal F$ (i.e. $\mathcal F$ is closed downward).
+The central claim of the problem is that there exists a bijection
+$\sigma: \mathcal F \to \mathcal F$ such that $\sigma(A) \cap A = \varnothing$
+for every set $A \in \mathcal F$. This is indeed equivalent to the condition
+for the bijection $g$ that we stated earlier. It is also a problem
+from an earlier Iran olympiad: \url{https://aops.com/community/p20560}.
+
+We proceed by induction on $\left\lvert X \right\rvert$.
+The base case $\left\lvert X \right\rvert = 0$ is trivial.
+For the inductive step, fix an element $x \in X$.
+We divide the sets in $\mathcal F$ into three categories:
+\begin{itemize}
+  \item \textbf{Type 1 sets:} Sets that contain $x$.
+  \item \textbf{Type 2 sets:} Sets that don't contain $x$ but
+  would become a type 1 set if $x$ were added to it.
+  \item \textbf{Type 3 sets:} All other sets (not containing $x$).
+\end{itemize}
+Notice that the set of type 2 sets and the set of type 3 sets are each closed downward.
+We construct $\sigma$ as follows:
+\begin{itemize}
+  \item Let $\sigma_1$ be a bijection from the set of type 2 sets to itself,
+  satisfying the condition $\sigma_1(A) \cap A = \varnothing$. It exists
+  because of the inductive hypothesis.
+  \item Similarly, let $\sigma_2$ be a bijection from the set of type 3 sets to itself,
+  satisfying the condition.
+  \item If $A$ is a type 1 set, then $\sigma$ takes $A$ to $\sigma_1(A \setminus \{x\})$.
+  \item If $A$ is a type 2 set, then $\sigma$ takes $A$ to $\sigma_1(A) \cup \{x\}$.
+  \item If $A$ is a type 3 set, then $\sigma(A) = \sigma_2(A)$.
+\end{itemize}
+One can check that this is indeed a bijection that satisfies our criterion.
+
+%% --------------------------------------------------
+
+\end{document}

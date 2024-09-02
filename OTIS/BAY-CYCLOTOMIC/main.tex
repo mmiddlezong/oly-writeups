@@ -1,0 +1,704 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{derivative}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{BAY-cyclotomic}}
+\ohead{\footnotesize Updated Tue 6 Aug 2024 00:06:38 UTC}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\clubg}[1]{\bgroup\color{green!40!black}[$#1\clubsuit$]\egroup}
+
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}{\textbf}
+\providecommand{\opname}{\operatorname}
+\providecommand{\ts}{\textsuperscript}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+    linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+    mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+    nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+    mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+    linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+    mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+    linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmredbox,name=Problem]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmblackbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmblackbox,name=Example,numbered=no]{example*}
+
+\newenvironment{walkthrough}{\noindent\textbf{\color{green!40!black}Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+
+\usepackage{asymptote}
+\begin{asydef}
+size(8cm); // set a reasonable default
+usepackage("amsmath");
+usepackage("amssymb");
+settings.tex="pdflatex";
+settings.outformat="pdf";
+import geometry;
+void filldraw(picture pic = currentpicture, conic g, pen fillpen=defaultpen, pen drawpen=defaultpen) { filldraw(pic, (path) g, fillpen, drawpen); }
+void fill(picture pic = currentpicture, conic g, pen p=defaultpen) { filldraw(pic, (path) g, p); }
+pair foot(pair P, pair A, pair B) { return foot(triangle(A,B,P).VC); }
+pair centroid(pair A, pair B, pair C) { return (A+B+C)/3; }
+\end{asydef}
+
+\newcommand{\goals}[2]{\bgroup
+\sffamily\small \emph{Instructions}: Solve \clubg{#1}.
+If you have time, solve \clubg{#2}.\egroup\par}
+
+%% 426c616e6b204c615465587e
+\begin{document}
+\title{Submission for BAY-CYCLOTOMIC}
+\subtitle{OTIS (internal use)}
+\author{Michael Middlezong}
+\date{\today}
+\maketitle
+
+\begin{example*}[Product of diagonals of $n$-gon, $0\clubsuit$]
+  Let $n \ge 3$ be a positive integer.
+  Let $A_1 A_2 \dots A_n$ be a regular polygon
+  inscribed in a circle of radius $1$.
+  Prove that
+  \[ A_n A_1 \times A_n A_2 \times A_n A_3 \times
+  \dots \times A_n A_{n-1} = n.  \]
+\end{example*} \printpuid{Z6EF432B}
+
+\begin{walkthrough}
+Let $\zeta = \exp(2\pi i / n)$.
+Toss on the complex plane, with $A_k$ at $\zeta^k$,
+\begin{walk}
+  \ii Show that the desired quantity
+  equals $\prod_{k=1}^{n-1} \left\lvert 1-\zeta^k \right\rvert$.
+  \ii More generally, identify the coefficients
+  of the polynomial $(X-\zeta)(X-\zeta^2) \dots (X-\zeta^{n-1})$.
+  Possible hint: what are the roots of $X^n-1$?
+  \ii Show that the sum of coefficients of the polynomial in (b) is $n$.
+  \ii Finish the problem.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[Morrie's Law, $0\clubsuit$]
+  Evaluate $\cos(20\dg) \cos(40\dg) \cos(80\dg)$.
+\end{example*} \printpuid{Z45144C5}
+
+\begin{walkthrough}
+We define $\zeta = \cos(20\dg) + i \sin(20\dg)$.
+\begin{walk}
+  \ii Write $\cos(20\dg)$ in terms of $\zeta$.
+  \ii Write $\cos(40\dg)$ in terms of $\zeta$.
+  \ii Write $\cos(80\dg)$ in terms of $\zeta$.
+  \ii Multiply out the three preceding answers.
+  \ii Show that $1+\zeta^2+\zeta^4+\zeta^6+\dots+\zeta^{16}=0$.
+  \ii Use this to simplify the expanded expression
+  that you got in (d).
+  \ii Compute the answer (it should be a rational number).
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p5624333}{Putnam 2015 A3}, $0\clubsuit$]
+  Compute \[
+  \log_2\left(\prod_{a=1}^{2015}
+  \prod_{b=1}^{2015} \left(1+e^{2\pi iab/2015}\right)\right)
+  \]
+  Here $i$ is the imaginary unit (that is, $i^2=-1$).
+\end{example*} \printpuid{15PTNMA3}
+
+\begin{walkthrough}
+Not too bad.
+\begin{walk}
+  \ii Let $m$ be an odd integer
+  and let $\zeta$ be a primitive $m$th root of unity.
+  Compute \[ \prod_{1 \le b \le m} (1 + \zeta^b). \]
+
+  \ii For each integer $a$, evaluate
+  \[ \prod_{b=1}^{2015} \left(1+e^{2\pi iab/2015} \right) \]
+  using the result in (a).
+  Your answer should involve $\gcd(a, 2015)$.
+
+  \ii Conclude that the final answer equals
+  $\sum_{a=1}^{2015}\gcd(a, 2015)$.
+
+  \ii As $2015 = 5 \cdot 13 \cdot 31$,
+  factor the expression in (c) as $(5+1+\dots+1)(13+1+\dots+1)(31+\dots+1)$
+  (figure out how many $1$'s are in each of the ellipses).
+
+  \ii Extract the numerical answer $13725$.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[Gauss sum, $0\clubsuit$]
+  Let $p$ be an odd prime.
+  Show that
+  \[
+  \sum_{x=0}^{p-1}
+  \exp\left( \frac{2\pi i x^2}{p} \right)
+  =
+  \begin{cases}
+  \pm \sqrt p & p \equiv 1 \pmod 4 \\
+  \pm i \sqrt p & p \equiv 3 \pmod 4.
+  \end{cases}
+  \]
+\end{example*} \printpuid{18099PS}
+
+\begin{walkthrough}
+For brevity, we define \[ e(x) = \exp(2\pi i x). \]
+Thus
+\[ S = \sum_x e\left( \frac{x^2}{p} \right). \]
+We first show that $|S| = \sqrt p$.
+The usual way we handle absolute values in complex numbers
+is to square both sides:
+since $|S|^2 = S \cdot \ol S$ where $\ol S$
+is the complex conjugate of $S$.
+\begin{walk}
+  \ii Show that we have
+  \[ |S|^2 = S \cdot \ol S = \sum_{x=0}^{p-1} \sum_{y=0}^{p-1}
+    e\left( \frac{x^2-y^2}{p} \right).  \]
+  \ii Using the substitution $(x-y)(x+y) = ab$,
+  conclude that
+  \[ S \cdot \ol S
+    = \sum_{a=0}^{p-1} \sum_{b=0}^{p-1} e\left( \frac{ab}{p} \right). \]
+  Note that we use here that $p$ is an odd prime.
+\end{walk}
+At this point we imagine we are back in grade school
+and learning multiplication tables,
+except our school is teaching them modulo $p$.
+For example, here is the multiplication table modulo $5$.
+\[
+  \begin{array}{|c|ccccc|}
+    \hline
+    \FF_5 & 0 & 1 & 2 & 3 & 4 \\
+    \hline
+    0 & 0 & 0 & 0 & 0 & 0 \\
+    1 & 0 & 1 & 2 & 3 & 4 \\
+    2 & 0 & 2 & 4 & 1 & 3 \\
+    3 & 0 & 3 & 1 & 4 & 2 \\
+    4 & 0 & 4 & 3 & 2 & 1 \\
+    \hline
+  \end{array}
+\]
+\begin{walk}[resume]
+  \ii For each residue $r \pmod p$,
+  how many times does $r$ appear in the $p \times p$ multiplication table?
+  \ii Conclude that
+  \[ |S|^2 = (2p-1) \cdot 1
+    + (p-1) \cdot \left( e(1/p) + e(2/p) + e(3/p) + \dots
+      + e( (p-1) / p ) \right).  \]
+  \ii Finish the calculation of right-hand side.
+\end{walk}
+To finish the problem we then need to use the following fact.
+You can either view it as a corollary of Fermat's Christmas theorem,
+or one of the parts of the quadratic reciprocity theorem.
+\begin{quote}
+  Let $p$ be an odd prime.
+  There exists an integer $u$ with $u^2 \equiv -1 \pmod p$
+  if and only if $p \equiv 1 \pmod 4$.
+\end{quote}
+If you have not seen this fact before, then you should
+take it on faith now; this is a useful fact, though.
+(The fully general quadratic reciprocity theorem gives you a way to describe
+whether $q$ is a quadratic residue modulo $p$ for any $q$,
+but we will only need the special case $t = -1$ for this walkthrough.
+Wikipedia calls this the ``first supplement'' on the
+\href{https://w.wiki/9qxH}{Wikipedia page}.)
+\begin{walk}[resume]
+  \ii Use this fact to show that $\sum_x e(-x^2/p) = \sum_x e(x^2/p)$
+  if $p \equiv 1 \pmod 4$.
+  \ii Conclude that $S = \ol S$, i.e.\ that $S$
+  equals its own complex conjugate,
+  and therefore $S$ is a real number.
+  \ii On the other hand, for $p \equiv 3 \pmod 4$,
+  show that
+  \[ \sum_x e(-x^2/p) + \sum_x e(x^2/p) =
+    2\left( 1 + e(1/p) + e(2/p) + \dots + e((p-1)/p) \right)
+    = 0. \]
+  \ii Prove that for $p \equiv 3 \pmod 4$,
+  we have $S \in i \RR$, as needed.
+\end{walk}
+In fact it turns out that the sum mentioned in the problem
+always takes the sign $+$; but this is very difficult to prove.
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p2890150}{ELMO 2009/5}, $0\clubsuit$]
+  Let $ABCDEFG$ be a regular heptagon with center $O$.
+  Let $M$ be the centroid of $\triangle ABD$.
+  Prove that $\cos^2(\angle GOM)$ is rational and determine its value.
+\end{example*} \printpuid{09ELMO5}
+
+\begin{walkthrough}
+We use complex numbers setting $G$ as $1$,
+$A$ as $\omega = \exp(2\pi i / 7)$, etc.
+\begin{walk}
+  \ii Find the complex number corresponding to $M$.
+  \ii By quoting Gauss sum show that
+  $\omega + \omega^4 + \omega^9 = \frac{\sqrt 7 i - 1}{2}$.
+  \ii Use this to prove that $M$ is located
+  at $\frac{\sqrt 7 i -1 }{6}$.
+  \ii Show that $\cos^2 \angle GOM = 1/8$.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p2085947}{Math Prize 2010/20}, $0\clubsuit$]
+  Evaluate
+  \[ \sum_z \frac{1}{{\left|1 - z\right|}^2} \]
+  where $z$ ranges over all 7 complex solutions to $z^7 = -1$.
+\end{example*} \printpuid{10MP4G20}
+
+\begin{walkthrough}
+We present an approach based on differentiation due to Serena An.
+
+\begin{walk}
+  \ii Eliminate the absolute values by showing
+  $|1-z|^2 = (1-z) \cdot \ol{1-z} = (1-z)(1-\frac 1z)$ for any $|z| = 1$.
+  (Here the bar denotes the complex conjugate).
+
+  \ii Conclude that the desired sum equals $- \sum_z \frac{z}{(1-z)^2}$.
+\end{walk}
+Define $f(X) = X^7+1 = \prod_z (X-z)$.
+The idea is to consider the so-called
+\emph{logarithmic derivative} which lets us push
+the terms into denominators.
+\begin{walk}[resume]
+  \ii Prove that
+  \[ \frac{f'(X)}{f(X)} = \sum_z \frac{1}{X-z}. \]
+  \ii Differentiate both sides of (c) to get another equation
+  which has $(X-z)^2$ in the denominator.
+  \ii Substitute $X=1$ in (c) and (d) and add.
+  Show that the RHS is exactly the quantity in (b).
+  \ii Verify that $\frac{f'(1)}{f(1)} = \frac72$.
+  \ii Show that the derivative of $\frac{f'(X)}{f(X)}$
+  takes on the value $\frac{35}{4}$ when $X=1$.
+  \ii Extract the final answer.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\newpage
+
+% ========================================
+\section*{Practice problems}
+\goals{36}{50}
+
+\epigraph{All humans will, without exception, eventually die.
+When they die, the place they go is MU.}
+{From the rules of the \emph{Death Note}.}
+%%fakesubsection{Warm-up}
+\begin{problem}
+[2$\clubsuit$]  \begin{enumerate}[(a)]
+    \ii Find all complex numbers $z$ with $z^2=i$.
+    \ii Express $\cos(5\theta)$ as a function of $\cos(\theta)$.
+    \ii Is $\cos1\dg$ rational?
+  \end{enumerate}
+\end{problem} \marginpar{\emph{\footnotesize No PUID}}
+%% Type your solution here ...
+\begin{enumerate}[(a)]
+    \ii We must have $z^8 = 1$ but not $z^4 = 1$.
+    This leaves $4$ solutions, but two of them satisfy $z^2 = -i$.
+    The ones we want are $z = \pm e^{\frac{2\pi i}{8}}$.
+    \ii We have
+    \begin{align*}
+        \cos(5\theta) + i \sin(5\theta) &= (\cos \theta + i \sin \theta)^5 \\
+        &= \cos ^5 \theta + 5i \cos ^4 \theta \sin \theta - 10 \cos ^3 \theta \sin ^2 \theta \\
+        &\quad - 10i \cos ^2 \theta \sin ^3 \theta + 5 \cos \theta \sin ^4 \theta + i\sin ^5 \theta.
+    \end{align*}
+    Looking at the real part of both sides, we get the desired
+    \begin{align*}
+        \cos(5\theta) &= \cos^5 \theta - 10 \cos^3 \theta \sin^2 \theta + 5 \cos \theta \sin^4 \theta \\
+        &= \cos ^5 \theta - 10 \cos ^3 \theta (1 - \cos^2 \theta) + 5 \cos \theta (1 - \cos^2 \theta)^2 \\
+        &= 16 \cos ^5 \theta - 20 \cos ^3 \theta + 5 \cos \theta.
+    \end{align*}
+    \ii No, because $\cos45\dg = \frac{\sqrt2}2$ is an integer polynomial of $\cos1\dg$.
+\end{enumerate}
+%% --------------------------------------------------
+
+\begin{problem}
+[2$\clubsuit$]  Compute the coefficients of $\Phi_{30}(X)$.
+\end{problem} \marginpar{\emph{\footnotesize No PUID}}
+%% Type your solution here ...
+Factor $x^{30} - 1 = (x^{15} - 1)(x^{15} + 1)$.
+Our desired polynomial can't be in the first factor, so factor $x^{15} + 1$ to get
+\[ (x^5 + 1)(x^{10} - x^5 + 1). \]
+Again, our desired polynomial (which has degree $\varphi(30) = 8$) can't be in the first factor,
+so it must divide $x^{10} - x^5 + 1$.
+
+At this point, we notice that if $\omega$ is a primitive $6$th root of unity, then
+\[ \omega^{10} - \omega^5 + 1 = \omega^4 + \omega^2 + 1 = 0. \]
+This means $x^{10} - x^5 + 1$ is divisible by $\Phi_6(x) = x^2 - x + 1$, so the
+final step is to perform long division to get
+\[ \frac{x^{10} - x^5 + 1}{x^2 - x + 1} = x^8 + x^7 - x^5 - x^4 - x^3 + x + 1. \]
+(This long division took a while, so there might be a faster way.)
+%% --------------------------------------------------
+
+\begin{problem}
+[2$\clubsuit$]  A monic cubic polynomial has roots $\cos(2\pi/7)$, $\cos(4\pi/7)$, $\cos(6\pi/7)$.
+  Show that its coefficients are rational and determine their values.
+\end{problem} \marginpar{\emph{\footnotesize No PUID}}
+%% Type your solution here ...
+Set $z = e^{\frac{2\pi i}{7}}$. Then, the roots are
+\[ \frac 12 \left( z + \frac 1z \right), \frac12 \left( z^2 + \frac{1}{z^2} \right), \frac12 \left( z^3 + \frac{1}{z^3} \right), \]
+and now we can just bash Vieta's formulas or expand to get the coefficients.
+The answer is
+\[ x^3 + \frac 12 x^2 - \frac 12 x - \frac 18. \]
+%% --------------------------------------------------
+
+\begin{reqproblem}[Inspired by past mistakes, $3\clubsuit$]
+  Find seven distinct $30$\ts{th} roots of unity whose sum is $0$,
+  but for which no nonempty proper subset has sum $0$.
+\end{reqproblem} \printpuid{Z01B65DA}
+
+%% Type your solution to Inspired by past mistakes (\href{https://otis.evanchen.cc/arch/Z01B65DA/}{Z01B65DA}) here ...
+Let $\omega = e^{2\pi i / 30}$. Notice that by taking two triangles and a pentagon,
+\[ (\omega^1 + \omega^{11} + \omega^{21}) + (\omega^5 + \omega^{15} + \omega^{25}) + (\omega^4 + \omega^{10} + \omega^{16} + \omega^{22} + \omega^{28}) = 0. \]
+Also,
+\[ (\omega^1 + \omega^{16}) + (\omega^{10} + \omega^{25}) = 0, \]
+so we subtract the two equations to get
+\[ \omega^4 + \omega^5 + \omega^{11} + \omega^{15} + \omega^{21} + \omega^{22} + \omega^{28} = 0. \]
+To show that no proper subset of this sums to $0$, notice that if that were the case, it would
+partition the set into two sets each summing to $0$. One of these sets must have at most
+three elements. However, the only sets with two or three elements that sum to $0$
+are pairs of diametrically opposite points and equilateral triangles, which aren't present here.
+%% --------------------------------------------------
+
+\begin{problem}[$2\clubsuit$]
+  Find the real number $0 < x < 90$ for which
+  \[ \tan(x\dg) = \sin(1\dg)+\sin(2\dg)+\sin(3\dg)+\dots+\sin(179\dg). \]
+\end{problem} \printpuid{SINSUM}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/SINSUM/}{SINSUM} here ...
+The answer is $x = \frac{179}{2}$.
+The solution is a bunch of algebraic manipulation after
+setting $z = \opname{cis}(1\dg)$ and using the complex number definitions for sine and tangent.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p27101186}{AIME 2023, added by Hansen Shieh}, $2\clubsuit$]
+  Let $\omega = e^{\frac{2\pi i}{7}}$. Compute
+  \[\prod_{k=0}^{6} \left(\omega^{3k} + \omega^k + 1\right). \]
+\end{problem} \printpuid{23AIMEII8}
+
+%% Type your solution to AIME 2023, added by Hansen Shieh (\href{https://otis.evanchen.cc/arch/23AIMEII8/}{23AIMEII8}) here ...
+Notice that the term in the product for $k=0$ is equal to $3$, and for each $i$,
+the terms for $k=i$ and $k=7-i$ can be paired with each pair having a product of $2$.
+By this pairing argument, the answer is
+\[ 3 \cdot 2^3 = 24. \]
+%% --------------------------------------------------
+
+%%fakesubsection{Math Prize for Girls}
+These problems are in chronological order,
+not in difficulty order.
+
+\begin{problem}[\href{https://aops.com/community/p2808205}{Math Prize 2012/13}, $3\clubsuit$]
+  For how many integers $n$ with $1 \le n \le 2012$
+  is the product
+  \[ \prod_{k=0}^{n-1} \left( \left( 1 + e^{2 \pi i k / n} \right)^n + 1 \right) \]
+  equal to zero?
+\end{problem} \printpuid{12MP4G13}
+
+%% Type your solution to Math Prize 2012/13 (\href{https://otis.evanchen.cc/arch/12MP4G13/}{12MP4G13}) here ...
+The condition is equivalent to there existing a solution to $x^n+1$ such that when
+it is shifted left by $1$, it becomes a solution to $x^n - 1$.
+So, we are talking about a point on the unit circle that remains on the unit circle when
+shifted left by $1$.
+Geometrically, there are only two points satisfying this property, and both are $6$th roots of unity.
+It's not hard to conclude that the only $n$ that work satisfy $3 \mid n$ and $6 \nmid n$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p2808213}{Math Prize 2012/16}, $3\clubsuit$]
+  Say that a complex number $z$ is \emph{three-presentable}
+  if there is a complex number $w$ of absolute value $3$
+  such that $z = w - \frac{1}{w}$.
+  Let $T$ be the set of all three-presentable complex numbers.
+  The set $T$ forms a closed curve in the complex plane.
+  What is the area inside $T$?
+\end{problem} \printpuid{12MP4G16}
+
+%% Type your solution to Math Prize 2012/16 (\href{https://otis.evanchen.cc/arch/12MP4G16/}{12MP4G16}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p3613715}{Math Prize 2014/20}, $9\clubsuit$]
+  Determine how many complex numbers $z$
+  satisfy $|z| < 30$ and
+  \[ e^z = \frac{z - 1}{z + 1}. \]
+\end{problem} \printpuid{14MP4G20}
+
+%% Type your solution to Math Prize 2014/20 (\href{https://otis.evanchen.cc/arch/14MP4G20/}{14MP4G20}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p5390462}{Math Prize 2015/15}, $3\clubsuit$]
+  Let $z_1$, $z_2$, $z_3$, and $z_4$
+  be the four distinct complex solutions of the equation
+  \[ z^4 - 6z^2 + 8z + 1 = -4(z^3 - z + 2)i. \]
+  Find the sum of the six pairwise distances
+  between $z_1$, $z_2$, $z_3$, and $z_4$.
+\end{problem} \printpuid{15MP4G15}
+
+%% Type your solution to Math Prize 2015/15 (\href{https://otis.evanchen.cc/arch/15MP4G15/}{15MP4G15}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p6968101}{Math Prize 2016/12}, $2\clubsuit$]
+  Let $b_1$, $b_2$, $b_3$, $c_1$, $c_2$, and $c_3$
+  be real numbers such that for every real number $x$,
+  we have
+  \[ x^6 - x^5 + x^4 - x^3 + x^2 - x + 1
+  = (x^2 + b_1 x + c_1)(x^2 + b_2 x + c_2)(x^2 + b_3 x + c_3). \]
+  Compute $b_1 c_1 + b_2 c_2 + b_3 c_3$.
+\end{problem} \printpuid{16MP4G12}
+
+%% Type your solution to Math Prize 2016/12 (\href{https://otis.evanchen.cc/arch/16MP4G12/}{16MP4G12}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p6968234}{Math Prize 2016/18}, $3\clubsuit$]
+  Let $T = \{ 1, 2, 3, \dots, 14, 15 \}$.
+  Say that a subset $S$ of $T$ is \emph{handy} if the sum of all
+  the elements of $S$ is a multiple of $5$.
+  For example, the empty set is handy (because its sum is $0$)
+  and $T$ itself is handy (because its sum is 120).
+  Compute the number of handy subsets of $T$.
+\end{problem} \printpuid{16MP4G18}
+
+%% Type your solution to Math Prize 2016/18 (\href{https://otis.evanchen.cc/arch/16MP4G18/}{16MP4G18}) here ...
+Consider the polynomial $F(x) = (x+1)(x^2+1)\dots (x^{15}+1)$.
+Letting $a_i$ be the coefficient of the $i$th degree term,
+we want to find the sum of $a_i$ for all $i$ that is a multiple of $5$.
+
+This is done by roots of unity filter; letting $z = e^\frac{2\pi i}{5}$, we want to find
+\[ \frac 15 \sum_{i=0}^4 F(z^i). \]
+When $i=0$, we have $F(z^i) = 2^{15}$.
+For all $i \neq 0$,
+\[ F(z^i) = (1+z^i)(1+z^{2i})\dots (1+z^{15i}) = Q(1), \]
+where $Q(x)$ is a polynomial with roots
+\[ \{-1, -z, -z^2, -z^3, -z^4\}, \]
+all with multiplicity $3$.
+
+Clearly, $Q(x) = (x^5+1)^3$, so our final answer is
+\[ \frac 15 (2^{15} + 4 \cdot 2^3) = 6560. \]
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p6968272}{Math Prize 2016/20}, $9\clubsuit$]
+  Let $a_1$, $a_2$, $a_3$, $a_4$, and $a_5$ be random integers chosen
+  independently and uniformly from the set $\{ 0, 1, 2, \dots, 23 \}$.
+  (Note that the integers are not necessarily distinct.)
+  Find the probability that
+  \[ \sum_{k=1}^{5} \exp \left( \frac{a_k \pi i}{12} \right) = 0. \]
+\end{reqproblem} \printpuid{16MP4G20}
+
+%% Type your solution to Math Prize 2016/20 (\href{https://otis.evanchen.cc/arch/16MP4G20/}{16MP4G20}) here ...
+The problem is asking for the probability that five random $24$th roots of unity sum to $0$.
+The main idea is that the sum has to consist of a diameter and an equilateral triangle
+which each sum to $0$.
+
+To prove this, consider $f(x) = x^{a_1} + x^{a_2} + x^{a_3} + x^{a_4} + x^{a_5}$.
+If this choice of $a_i$ satisfies the condition, then $f(x)$ has $\omega = e^{\frac{2\pi i}{24}}$
+as a root.
+However, $\Phi_{24}(x) = x^8 - x^4 + 1$ is the minimal polynomial with this root, and by
+\href{https://math.stackexchange.com/questions/833535}{this result},
+we must have $\Phi_{24}(x) \mid f(x)$.
+Taking $f(x)$ mod $x^{12} + 1$ and looking at the quotient $q(x) = \frac{f(x)}{x^8 - x^4 + 1}$,
+we see that it has degree $3$.
+
+However, if we rewrite $f(x)$ as $q(x)(x^8 - x^4 + 1)$, we see that the sum of the
+absolute values of the coefficients of $f(x)$ mod $x^{12} + 1$ must be a multiple
+of $3$, which is only possible if there existed $i$ and $j$ with $a_i = 12 + a_j$.
+So, these two form a diameter, and it's obvious that the remaining three must form
+an equilateral triangle.
+
+The rest is just basic counting (split into two cases: all $a_i$ distinct and otherwise),
+and the final answer is $\frac{35}{27648}$.
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p9067822}{Math Prize 2017/19}, $5\clubsuit$]
+  Give an example of an equilateral $13$-gon, convex and nondegenerate,
+  whose internal angle measures are all multiples of $20\dg$.
+  (Specify the polygon by giving the angle measures.)
+\end{reqproblem} \printpuid{17MP4G19}
+
+%% Type your solution to Math Prize 2017/19 (\href{https://otis.evanchen.cc/arch/17MP4G19/}{17MP4G19}) here ...
+Let $\omega = e^\frac{2\pi i}{18}$. We have
+\[ (\omega^0 + \omega^6 + \omega^{12}) + (\omega^1 + \omega^{10}) + (\omega^4 + \omega^{13}) + (\omega^5 + \omega^{14}) + (\omega^7 + \omega^{16}) + (\omega^8 + \omega^{17}) = 0. \]
+These represent $13$ unit vectors that sum to $0$,
+so they can be arraged to form an equilateral $13$-gon.
+Also, the arguments are all multiples of $20\dg$,
+and since $180\dg$ is a multiple of $20\dg$,
+we are done.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p9067833}{Math Prize 2017/20}, $9\clubsuit$]
+  Determine the value of the sum
+  \[ \sum_{k=1}^{11} \frac{\sin\left( 2^{k+4} \frac{\pi}{89} \right)}
+  {\sin\left( 2^k \frac{\pi}{89} \right)}. \]
+\end{problem} \printpuid{17MP4G20}
+
+%% Type your solution to Math Prize 2017/20 (\href{https://otis.evanchen.cc/arch/17MP4G20/}{17MP4G20}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p11059310}{Math Prize 2018/18}, $5\clubsuit$]
+  Evaluate the expression
+  \[ \left\lvert \prod_{k=0}^{15}
+  \left( 1+e^{2\pi i k^2/{31}} \right) \right\rvert. \]
+\end{problem} \printpuid{18MP4G18}
+
+%% Type your solution to Math Prize 2018/18 (\href{https://otis.evanchen.cc/arch/18MP4G18/}{18MP4G18}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p13292586}{Math Prize 2019/16}, $5\clubsuit$]
+  Let $ABCDEFG$ be a regular heptagon of side length $1$
+  and construct rhombus $CDEP$.
+  Find the distance from $P$ to the midpoint of $\ol{AG}$.
+\end{problem} \printpuid{19MP4G16}
+
+%% Type your solution to Math Prize 2019/16 (\href{https://otis.evanchen.cc/arch/19MP4G16/}{19MP4G16}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p13292694}{Math Prize 2019/20}, $5\clubsuit$]
+  Evaluate
+  \[ \prod_{k = 2}^{\infty} \left( 1 -
+  4 \sin^2 \left( \frac{\pi}{3 \cdot 2^k} \right) \right). \]
+\end{problem} \printpuid{19MP4G20}
+
+%% Type your solution to Math Prize 2019/20 (\href{https://otis.evanchen.cc/arch/19MP4G20/}{19MP4G20}) here ...
+
+%% --------------------------------------------------
+
+%%fakesubsection{Bonus}
+
+\begin{problem}[\href{https://aops.com/community/p1341773}{Putnam 2008 A5}, $5\clubsuit$]
+  Let $f$ and $g$ be polynomials with real coefficients,
+  and let $n \ge 3$ be an integer.
+  Suppose that the $n$ points
+  $(f(0), g(0))$, $(f(1), g(1))$, \dots, $(f(n-1), g(n-1))$
+  are the vertices of a nondegenerate regular $n$-gon, in counterclockwise order.
+  Prove that $\max(\deg f, \deg g) \ge n-1$.
+\end{problem} \printpuid{08PTNMA5}
+
+%% Type your solution to Putnam 2008 A5 (\href{https://otis.evanchen.cc/arch/08PTNMA5/}{08PTNMA5}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p366472}{IMO 1990/6}, $9\clubsuit$]
+  Prove that there exists a convex equiangular $1990$-gon
+  whose side lengths are $1^2$, $2^2$, $3^2$, \dots, $1990^2$ in some order.
+\end{reqproblem} \printpuid{90IMO6}
+
+%% Type your solution to IMO 1990/6 (\href{https://otis.evanchen.cc/arch/90IMO6/}{90IMO6}) here ...
+This problem is asking us to assign distinct weights to the $1990$th roots of unity so that
+each weight is one of $\{1^2, 2^2, \dots, 1990^2\}$ and the weighted sum equals zero.
+
+Suppose we put consecutive squares on opposite ends of the circle. Then,
+using difference of squares, the problem is reduced to assigning the weights
+\[ \{3,7,11,\dots,995 \cdot 4 - 1\} \]
+to the $995$th roots of unity.
+
+Since the sum of the $995$th roots of unity is $0$, and scaling doesn't matter,
+we can add one copy of each $995$th root of unity and then scale down by $4$,
+reducing the desired weights to just
+\[ \{0,1,2,\ldots,994\}. \]
+For every $995$th root of unity $e^\frac{2k \pi i}{995}$, assign to it the weight $k \mod 199$.
+Notice that this makes the weighted sum $0$, because we are just adding a bunch of regular pentagons.
+
+Then, take any regular $199$-gon with vertices among the $995$th roots of unity,
+and consider the numbers assigned to the vertices.
+Since $\gcd(199,5) = 1$, the vertices together must have all of the residues mod $199$ exactly once.
+Each of these $199$-gons can then incremented by different multiples of $199$ to get the desired weights.
+The weighted sum remains $0$, because we are just adding a bunch of regular $199$-gons.
+
+Thus, the desired weighted sum is possible, and we are done.
+%% --------------------------------------------------
+
+\begin{problem}[Added by Robert Yang, $3\clubsuit$]
+  For any positive integers $n$ and $k$ prove that
+  \[ \frac{\prod_{i = n-k+1}^n (x^i-1)}{\prod_{i=1}^k (x^i-1)} \]
+  is a polynomial with integer coefficients.
+\end{problem} \printpuid{ZD708DAD}
+
+%% Type your solution to Added by Robert Yang (\href{https://otis.evanchen.cc/arch/ZD708DAD/}{ZD708DAD}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Indonesia TST 2021, added by Tilek Askerbekov, $3\clubsuit$]
+  Let $p$ be an odd prime.
+  Determine the number of nonempty subsets from $\{1, 2, \dots, p - 1\}$
+  for which the sum of its elements is divisible by $p$.
+\end{problem} \printpuid{21IDNTST132}
+
+%% Type your solution to Indonesia TST 2021, added by Tilek Askerbekov (\href{https://otis.evanchen.cc/arch/21IDNTST132/}{21IDNTST132}) here ...
+Consider the polynomial $F(x) = (x+1)(x^2+1)\dots(x^{p-1}+1)$.
+The coefficient of $x^k$ is just the number of subsets of $\{1,2,\dots,p-1\}$ with sum $k$.
+Therefore, we want to find the sum of the coefficients of $x^k$ for all $k$ that is a multiple of $p$.
+
+This is done by roots of unity filter. It suffices to find
+\[ \frac 1p \sum_{k=0}^{p-1} F(\omega^k), \]
+where $\omega = e^{2\pi i / p}$.
+However, when $k \neq 0$, we have (by expanding)
+\[ F(\omega^k) = P(-1), \]
+where $P$ is a polynomial with roots
+$\{\omega^k, \omega^{2k}, \dots, \omega^{(p-1)k}\} = \{\omega, \omega^2, \dots, \omega^{p-1}\}$.
+A polynomial satisfying this is $P(x) = 1+x+\dots + x^{p-1}$, and clearly, $P(-1) = 1$.
+So, this gives us
+\[ \frac 1p \sum_{k=0}^{p-1} F(\omega^k) = \frac 1p (2^{p-1} + \sum_{k=1}^{p-1} P(-1)) = \frac 1p (2^{p-1} + p-1). \]
+This counts the empty set, so we subtract one for a final answer of $\frac{2^{p-1} - 1}{p}$.
+%% --------------------------------------------------
+
+\end{document}

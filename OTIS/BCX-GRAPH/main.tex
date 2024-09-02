@@ -303,6 +303,34 @@ This information is enough to make a constructive argument for why $n=5$ is impo
 \end{problem} \printpuid{81AMO2}
 
 %% Type your solution to USAMO 1981/2 (\href{https://otis.evanchen.cc/arch/81AMO2/}{81AMO2}) here ...
+The answer to $n=4$.
+A construction for $n=4$ is to make a square with its sides all one mode of transportation, and the diagonals each a different mode of transportation from the sides and other diagonal.
+
+It remains to show $n \geq 5$ is impossible, and it suffices to show $n=5$ is impossible (since we are working with complete graphs).
+This problem admits certain not-so-elegant brute force solutions.
+The key to a more elegant solution is to partition the communities into three groups.
+
+Let group $X$ contain communities that allow only bus and train.
+Let group $Y$ contain communities that allow only train and airplane.
+Let group $Z$ contain communities that allow only bus and airplane.
+
+If a town only allows one mode of transportation, it can be put in any of the two groups that allow that mode.
+In this partition, at least two of the groups must be non-empty, based on the condition that all three modes of transportation are used at least once.
+
+Suppose exactly two of the groups are non-empty, and WLOG let them be groups $X$ and $Y$.
+We claim that neither group can have more than two communities.
+For contradiction, assume WLOG that group $X$ has any three communities $x_1, x_2, x_3$, and that $y$ is any community in group $Y$.
+Then, the link between $x_i$ and $y$ for each $i$ must be by train.
+This means that in order to not form triangles of the same mode, the link between $x_i$ and $x_j$ for $i \neq j$ must be by bus.
+However, this means that we have created a triangle anyway.
+Thus, when exactly two of the groups are non-empty, the maximum number of communities is $2 \cdot 2 = 4$.
+
+Next, suppose that all three groups are non-empty.
+We claim that each group can only have one community.
+Suppose for contradiction that a group, WLOG $X$, has any two communities $x_1$ and $x_2$, and let $y$ and $z$ be communities from their respective groups.
+Then, $x_1y$ and $x_2y$ are connected by train, $yz$ is connected by airplane, and $x_1z$ and $x_2z$ are connected by bus.
+Now, no matter what, the connection of $x_1x_2$ will produce a contradiction.
+Thus, in this case, we cannot have more than $3$ communities, concluding the proof.
 
 %% --------------------------------------------------
 
@@ -324,7 +352,34 @@ This information is enough to make a constructive argument for why $n=5$ is impo
 \end{problem} \printpuid{SICKNESS}
 
 %% Type your solution to \href{https://otis.evanchen.cc/arch/SICKNESS/}{SICKNESS} here ...
+\begin{enumerate}[(a)]
+  \ii Let $G$ be a connected graph where the vertices represent people and the edges represent friendship.
+  Let $S_0$ be the set of vertices initially sick on day $0$.
+  For each vertex $v \in G$, we label it with a number;
+  this number equals the shortest distance from $v$ to any vertex in $S_0$
+  (the distance from a vertex to itself is $0$).
+  
+  We claim that the set of people sick on day $k$ is precisely the set of vertices labeled $k$,
+  which we will denote by $S_k$.
+  We will prove this using induction.
+  The base case $k=0$ is true by definition.
+  Then, suppose it is true for $k$; we aim to show it is true for $k+1$.
 
+  Consider a vertex $v$ which is sick on day $k+1$.
+  Then, by our inductive hypothesis, it must neighbor a vertex labeled $k$.
+  From this, it follows from the definition of our label that $v$ has label $k-1$ or $k+1$.
+  It also must not have been sick on day $k-1$,
+  because otherwise, it would be immune on day $k$.
+  Thus, $v$ must be labeled $k+1$.
+  It remains to show that all vertices labeled $k+1$ neighbor a vertex labeled $k$,
+  but this is trivial by moving along the shortest path from the vertex to a vertex in $S_0$.
+
+  \ii Consider three people who are all friends with each other.
+  Call them $A$, $B$, and $C$.
+  Suppose $A$ is sick and $C$ is immune on day $1$.
+  Then, $B$ is sick on day $2$, $C$ is sick on day $3$, $A$ is sick on day $4$, and so on.
+  In this way, the epidemic continues indefinitely.
+\end{enumerate}
 %% --------------------------------------------------
 
 \begin{problem}[$5\clubsuit$]
@@ -335,6 +390,18 @@ This information is enough to make a constructive argument for why $n=5$ is impo
 \end{problem} \printpuid{H2024647}
 
 %% Type your solution to \href{https://otis.evanchen.cc/arch/H2024647/}{H2024647} here ...
+We use induction.
+The base case $n=3$ is obvious.
+Assuming the statement is true for $n$, we try to prove it for $n+1$.
+
+Take $G \cong K_n$ inside $K_{n+1}$ and let $V$ be the vertex in $K_{n+1}$ but not in $G$.
+Then, by the inductive hypothesis, $c \le n-1$ colors are used to color the edges of $G$.
+The remaining edges in $K_{n+1}$ must be colored with $n+1-c \ge 2$ unused colors,
+and they are the edges connecting the $n$ vertices in $G$ with $V$.
+
+Then, let $VA$ and $VB$ be two differently colored edges,
+both colored with a color not used to color the edges of $G$.
+Then, $\triangle VAB$ is a triangle with three edges colored differently, so we are done.
 
 %% --------------------------------------------------
 
@@ -388,7 +455,14 @@ These two lengths add up to $2l + 2m > 2l$, so clearly, one of them exceeds $l$.
 \end{reqproblem} \printpuid{19PUMACFA1}
 
 %% Type your solution to PUMaC Finals 2019 A1 (\href{https://otis.evanchen.cc/arch/19PUMACFA1/}{19PUMACFA1}) here ...
+Consider $K$, a connected component of $G$, and let $v$ and $e$ be the number of vertices and edges in $K$ at any given point in time.
+Note that initially, $e \geq v - 1$.
 
+If $K$ has no cycles (i.e. $e = v-1$), we are done.
+Otherwise, each move adds one vertex to $K$ while keeping the number of edges the same.
+Also, $K$ remains connected after every move.
+So, eventually, we will have $e = v-1$, and thus, $K$ will have no cycles and the process terminates.
+Since each connected component of $G$ is independent, this concludes the proof.
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p6696508}{Tuymaada 2016/8}, $5\clubsuit$]
