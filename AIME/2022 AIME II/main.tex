@@ -1,0 +1,243 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{2022 AIME II Solutions}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+The total number of people before the bus arrived
+must be a multiple of $12$ so that the number of adults is an integer.
+Let this amount be $12x$ for an integer $x$.
+
+After the bus arrives, the total number of people must be a multiple of $25$.
+Call this amonunt $25y$ for an integer $y$.
+We have the equation
+\[ 12x + 50 = 25y. \]
+Taking mod $25$, we see that $25 \mid x$.
+So, the least possible value of $x$ is $25$.
+This gives $y = 14$, so there are $350$ people in total
+after the bus arrived.
+This means that the least possible number of adults
+is $\frac{11}{25} \cdot 350 = \boxed{154}$.
+(Note that minimizing the number of adults is equivalent
+to minimizing the total number of people.)
+
+\section*{Problem 2}
+There are three cases with equal probability:
+A faces C, A faces J, or A faces S.
+The last two are symmetric so we only consider two cases.
+
+In the first case, there is a $\frac13$ chance C wins the semifinals
+and no matter the outcome of the other semifinal,
+there is a $\frac34$ chance C wins the finals, giving us an overall chance of $\frac14$.
+
+In the second case, C will be facing either J or S,
+and he has a $\frac34$ chance of winning that match.
+A will be facing either J or S, and we must consider two sub-cases.
+If A wins his match, which happens with probability $\frac34$, then C will have a $\frac13$
+chance of winning the finals.
+If A loses, which happens with probability $\frac14$, then C will have a $\frac34$ chance
+of winning the finals.
+This gives us an overall probability of
+\[ \frac34 \cdot \left(\frac34 \cdot \frac13 + \frac14 \cdot \frac34 \right) = \frac{21}{64}. \]
+
+So, our final probability is
+\[ \frac13 \cdot \frac14 + \frac23 \cdot \frac{21}{64} = \frac{29}{96}, \]
+giving us an answer of $29 + 96 = \boxed{125}$.
+
+\section*{Problem 3}
+Use $V = \frac13 bh$ to get $h = \frac92$.
+Then, it is obvious by symmetry that the center of the sphere lies on the central altitude.
+So, placing it a distance of $r$ away from the apex,
+we get the following by the Pythagorean theorem:
+\[ \left( \frac92 - r \right)^2 + 18 = r^2 \implies r = \frac{17}{4}. \]
+So, our answer is $17 + 4 = \boxed{21}$.
+
+\section*{Problem 4}
+Change of base yields
+\[ \frac{\log (22x)}{\log (20x)} = \frac{\log (202x)}{\log (2x)}. \]
+However, it is a useful fact that whenever $\frac{a}{b} = \frac{c}{d}$, the quantity $\frac{a+c}{b+d}$
+is equal to both of them too. Since we have
+\[ \frac{\log (22x)}{\log (20x)} = \frac{-\log (202x)}{-\log (2x)} = \frac{\log (22x) - \log (202x)}{\log (20x) - \log (2x)} = \frac{\log\left(\frac{22x}{202x}\right)}{\log 10} = \log\left(\frac{11}{101}\right), \]
+we are done and our answer is $11 + 101 = \boxed{112}$.
+
+\section*{Problem 5}
+Suppose a triangle is formed with vertices at $a$, $b$, and $c$,
+with $a<b<c$.
+
+Then, $b-a=p$ for some prime $p$, $c-b=q$ for some prime $q$, and $c-a=r$ for some prime $r$.
+Furthermore, $p+q=r$.
+
+We can easily find all the solutions to $p+q=r$ satisfying $r \le 19$.
+Since one of $p$ and $q$ must be $2$, we simply list the twin primes, giving us
+$(2,3,5)$, $(2,5,7)$, $(2,11,13)$, $(2,17,19)$, and those but with $p$ and $q$ swapped.
+
+Now, in the case that $(p,q,r) = (2,3,5)$, $a$ can be anything from $1$ to $15$, giving us $15$ cases.
+In the other cases, we get $13$, $7$, and $1$ triangles, respectively.
+
+This adds up to $36$ triangles, but we must multiply by two to account for swapping $p$ and $q$.
+This gives $36 \cdot 2 = \boxed{72}$ in total.
+
+\section*{Problem 6}
+Clearly, there must be some index $i$ such that $x_i$ is the first nonnegative number.
+Also, the sum of the absolute values of the negative numbers
+is $\frac12$, and the sum of the positive numbers is also $\frac12$.
+There are $i-1$ negative numbers and $101-i$ positive numbers.
+
+In order to maximize $x_{76} - x_{16}$, we claim $x_{76}$ must be positive and $x_{16}$ must be negative.
+Suppose they were both positive. Then, we could get a bigger value by setting $x_{16}$ and
+any positive value below it to $0$ and
+compensating in the other direction with $x_{100}$.
+A similar argument works in the case that they are both negative.
+
+So, $i$ must be between $17$ and $76$, inclusive.
+Consider fixing $i$.
+Then, the maximum difference is attained by setting $x_1 = x_2 = \cdots = x_{16}$
+and $x_{76} = x_{77} = \cdots = x_{100}$.
+Otherwise, one could ``smooth out'' the values and obtain a higher difference.
+Furthermore, every other value should be $0$. Otherwise, any negative values could be absorbed by $x_0$
+and smoothed out, and any positive values could be absorbed by $x_{100}$ and smoothed out,
+creating a larger difference.
+Using the sum restriction we got earlier,
+we get an answer of
+\[ \frac{1}{32} + \frac{1}{50} = \frac{41}{800}, \]
+so we bubble in $\boxed{841}$.
+\section*{Problem 7}
+One-minute solve by similar triangles and PoP. The answer is $\boxed{192}$.
+
+\section*{Problem 8}
+It evidently repeats every $60$,
+so we just create a table with the first $60$ numbers
+and manually count the ones that are uniquely identifiable.
+We get a total of $8$ for the first $60$,
+so the answer is $10 \cdot 8 = \boxed{80}$.
+
+\section*{Problem 9}
+Start with $5$ points on one side and $1$ point on the other.
+This gives us $4$ regions.
+Now, add another point to the side with $1$ point.
+As we connect this new point with the $5$ points on the other side,
+we create $1 + 2 + 3 + 4 + 5 = 15$ more regions.
+Add yet another point to the side with $2$ points.
+We create $1 + 3 + 5 + 7 + 9 = 25$ more regions.
+Do it again, and we create $1 + 4 + 7 + 10 + 13 = 35$ more regions.
+Continuing the pattern, we get an answer of
+\[ 4 + 15 + 25 + 35 + 45 + 55 + 65 = \boxed{244}. \]
+
+\section*{Problem 10}
+Algebraic manipulation yields
+\[ \dbinom{\binom{n}{2}}{2} = \frac{(n-2)(n-1)(n)(n+1)}{8} = 3 \dbinom{n+1}{4}. \]
+So, a simple application of the hockey stick identity yields a final answer of
+\[ 3 \dbinom{42}{5} \equiv \boxed{4} \pmod{1000}. \]
+
+\section*{Problem 11}
+Extend rays $AB$ and $DC$ to meet at $X$,
+and note that the midpoint $M$ of $BC$ is the incenter.
+
+Since $XM$ bisects $\angle X$, we know by the angle bisector theorem
+that $XB = XC$. Let this length be $x$.
+
+Now, let $E$, $F$, and $G$ be the tangency points of the
+incircle with $AD$, $XA$, and $XB$, respectively.
+The semiperimeter $s$ is $6+x$.
+We know $AF = s - XD = 3$, so $BF = 1$.
+By the Pythagorean theorem, the inradius is $\sqrt{x-1}$.
+
+Now, Heron's formula gives that the area of the triangle is
+\[ A = \sqrt{12(x+6)(x-1)}, \]
+but this is also equal to $sr$ where $r = \sqrt{x-1}$.
+Solving this yields $x = 6$, so the inradius is $\sqrt{5}$.
+
+The rest is easy, and the answer is $(6\sqrt5)^2 = \boxed{180}$.
+
+\section*{Problem 12}
+Interpret as two ellipses having an intersection.
+One of the ellipses has foci at $A(-4,0)$ and $B(4,0)$, with a semimajor axis $a$.
+The other one has foci at $C(20,10)$ and $D(20,12)$, with a semimajor axis $b$.
+
+Consider any point $P$ on both ellipses.
+We have
+\[ PA + PB = 2a \]
+and
+\[ PC + PD = 2b. \]
+So, we are effectively trying to minimize $a+b = \frac12 (PA + PB + PC + PD)$.
+However, because of the triangle inequality,
+\[ \frac12 (PA + PB + PC + PD) \le \frac12 (AC + BD) = \frac12 (26 + 20) = \boxed{23}, \]
+and this bound is achievable with $P$ as the intersection point of $AC$ and $BD$.
+\begin{remark*}
+    I sillied because I wrote $PA + PB = a$ instead of $PA + PB = 2a$.
+    Remember, $a$ is the semimajor axis!
+\end{remark*}
+
+\section*{Problem 13}
+Interpret using geometric series formula:
+\[ P(x) = (x^{2310} - 1)^2 (1+x^{105} + x^{210} + \cdots + x^{2310-105})(1+x^{70} + \cdots + x^{2310-70})(1+\dots)(1+\dots).\]
+For finding the coefficient of $x^{2022}$, the $(x^{2310} - 1)^2$ part doesn't matter.
+The rest is counting the number of nonnegative integer solutions to
+\[ 105a + 70b + 42c + 30d = 2022. \]
+Mod 5 and mod 7 analysis reveals $c \equiv 1\pmod{5}$ and $d \equiv 3 \pmod{7}$.
+
+Now, we can rewrite the LHS to get
+\[ 210\left(\frac{a}{2} + \frac{b}{3} + \frac{c}{5} + \frac{d}{7}\right) = 2022. \]
+
+Letting $c' = c-1$ and $d' = d-3$, notice that $c'$ and $d'$ are still guaranteed to be nonnegative.
+After simplifying, we get
+\[ \frac{a}{2} + \frac{b}{3} + \frac{c'}{5} + \frac{d'}{7} = 9. \]
+Our mod analysis from earlier reveals that these are all nonnegative integers.
+After a quick check that our steps were reversible,
+we get an answer using stars-and-bars of $\binom{12}{3} = \boxed{220}$.
+\begin{remark*}
+    I sillied by saying $\binom{12}{3} = 660$ for some reason.
+\end{remark*}
+
+\section*{Problem 14}
+Note that $a$ must be $1$.
+It can be shown that
+\[ \left\lceil \frac{1000}{c} \right\rceil \le f(a,b,c) \le \left\lfloor \frac{1000}{c} \right\rfloor + \left\lfloor \frac{c}{b} \right\rfloor + (b-1). \]
+Bash to get the solutions $(1,7,11)$, $(1,86,88)$, and $(1,86,89)$,
+yielding a total of $11 + 88 + 89 = \boxed{188}$.
+\begin{remark*}
+I sillied because I assumed $n_c = \left\lfloor \frac{1000}{c} \right\rfloor$ in the $c=87$ case.
+In fact, $n_c = 10$ is more optimal.
+\end{remark*}
+
+\section*{Problem 15}
+Reflect $AB$ across the perpendicular bisector of $O_1O_2$
+to create symmetry.
+Note that this does not change the area of $ABCD$.
+Then, $ABCD$ is an isosceles trapezoid.
+Also, $AO_1DO_2$ and $BO_1CO_2$ are also isosceles trapezoids,
+so $AD = BC = O_1O_2 = 15$.
+
+By dropping an altitude from $A$ to $CD$,
+we find that $\cos(\angle ADC) = \frac35$.
+Furthermore, the height of trapezoid $ABCD$ is $12$.
+So, the area of trapezoid $ABCD$ is
+\[ 12 \cdot 9 = 108. \]
+
+It remains to find the area of $\triangle AO_1C \cong \triangle DO_2B$.
+
+This area is equal to $\frac12 r_1r_2 \sin (\angle AO_1C)$.
+And, $\sin (\angle AO_1C) = \sin (\angle ADC) = \frac45$,
+so we just have to find $r_1r_2$.
+
+For this, we use the law of cosines on $\triangle AO_1C$.
+This gives
+\[ AC^2 = r_1^2 + r_2^2 - 2r_1r_2 \cos (\angle AO_1C). \]
+We know from the altitude from earlier that
+\[ AC^2 = 7^2 + 12^2 = 193. \]
+We also know
+\[ r_1^2 + r_2^2 = (r_1 + r_2)^2 - 2r_1r_2 = 225 - 2r_1r_2. \]
+Finally, we know (from cyclic quads)
+\[ \cos (\angle AO_1C) = -\cos (\angle ADC) = -\frac35. \]
+Putting everything together, we get $r_1r_2 = 40$.
+The final area is $\boxed{140}$.
+
+
+\end{document}

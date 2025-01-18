@@ -507,7 +507,13 @@ the distance from $X$ to $s_i$. This gives us a contradiction.
 \end{problem} \printpuid{15ELMO2}
 
 %% Type your solution to ELMO 2015/2 (\href{https://otis.evanchen.cc/arch/15ELMO2/}{15ELMO2}) here ...
+Write the left side as
+\[ \sum_{i=1}^{n} \sum_{j=1}^{\min\left(\left\lfloor \frac{x}{i} \right\rfloor, m\right)} 1\]
+and swap the order of summation.
+We just need to use the fact that $\left\lfloor \frac{x}{i} \right\rfloor \ge j$
+if and only if $\left\lfloor \frac{x}{j} \right\rfloor \ge i$ (both are equivalent to $ij \le x$).
 
+Note: this problem nicely represents a $m \times n$ multiplication table.
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p5913929}{BAMO 2014/5}, $3\clubsuit$]
@@ -657,7 +663,23 @@ which concludes the proof.
 \end{problem} \printpuid{15IMO1}
 
 %% Type your solution to IMO 2015/1 (\href{https://otis.evanchen.cc/arch/15IMO1/}{15IMO1}), proposed by Merlijn Staps (NLD) here ...
+For part (a), drop one of the points anywhere, and consider a circle centered at that point.
+We can then add pairs or triplets of points that are separated by an arc measuring $60^\circ$.
+Any points $A$ and $B$ on the circle will satisfy the balanced condition, because the center
+of the circle is equidistant from the two points.
+Also, the center and any point $A$ on the circle will also satisfy the condition, because
+there is at least one point a $60^\circ$ arc away from $A$, which will be equidistant from $A$
+and the center of the circle.
 
+We claim the answer to part (b) is all odd $n$. For any odd $n$, the set of
+vertices of a regular $n$-gon is a balanced center-free set. This fact can easily be verified.
+
+It remains to show that even $n$ is impossible.
+There are $\binom n2$ pairs of points, so there must be a point $P$
+that is equidistant from at least $\frac{n-1}{2}$ pairs of points.
+However, this is not an integer, so $P$ must be equidistant from at least
+$\frac{n}{2}$ pairs of points.
+These pairs cannot all be disjoint, so $P$ is the desired center.
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p2670037}{USAMO 2012/6}, $3\clubsuit$]
@@ -684,7 +706,20 @@ which concludes the proof.
 \end{reqproblem} \printpuid{99RUS}
 
 %% Type your solution to Russia 1999 (\href{https://otis.evanchen.cc/arch/99RUS/}{99RUS}) here ...
+Pick a subset $G$ of the girls randomly such that each girl has a $\frac12$ chance of being in the set.
+Then, construct the subset $B$ of the boys consisting of all the boys who like
+an odd number of girls in $G$.
+The desired set will be $B \cup G$.
+We have $\mathbb{E}(|G|) = \frac{g}{2}$
+(where $b$ and $g$ are the number of boys and girls, respectively),
+so it remains to show that $\mathbb{E}(|B|) \ge \frac{b}{2}$.
+Let $n_i$ be the number of girls liked by boy $i$.
+Then, by counting, the probability that boy $i$ is in $B$ is
+\[ \frac{\binom{n_i}{1} + \binom{n_i}{3} + \cdots}{2^{n_i}}. \]
+The numerator is always at least $2^{n_i - 1}$, so the probability is at least $\frac12$.
+Summing over all boys yields the desired conclusion.
 
+(Note: to get a strict inequality, note that the empty set satisfies the condition.)
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p131872}{Shortlist 1999 C4}, $2\clubsuit$]
@@ -746,7 +781,13 @@ some $B$ satisfying $|A+B| \ge \frac12 n^2$.
 \end{problem} \printpuid{08IRNTST6}
 
 %% Type your solution to Iran TST 2008/6 (\href{https://otis.evanchen.cc/arch/08IRNTST6/}{08IRNTST6}) here ...
-
+Pick a random group of seven teams and call it $A$.
+Then, let $S$ be the set of teams that lost to all teams in $A$.
+Let $l_i$ denote the number of losses of team $i$.
+The expected value of the size of $S$ is then
+\[ \sum_{i=1}^{799} \frac{\binom{l_i}{7}}{\binom{799}{7}} \ge 799 \cdot \frac{\binom{399}{7}}{\binom{799}{7}} > 6, \]
+so there must exist some choice of $A$ such that $|S| \ge 7$.
+By letting $B = S$ in this case, we are done.
 %% --------------------------------------------------
 
 \begin{reqproblem}[\href{https://aops.com/community/p2362302}{Shortlist 2010 C5}, $5\clubsuit$]
@@ -765,7 +806,31 @@ some $B$ satisfying $|A+B| \ge \frac12 n^2$.
 \end{reqproblem} \printpuid{10SLC5}
 
 %% Type your solution to Shortlist 2010 C5 (\href{https://otis.evanchen.cc/arch/10SLC5/}{10SLC5}) here ...
-
+Companies of four players can be classified by the multiset of outdegrees into four groups:
+\begin{enumerate}[A.]
+  \item Outdegrees $\{3,2,1,0\}$.
+  \item Outdegrees $\{3,1,1,1\}$.
+  \item Outdegrees $\{2,2,1,1\}$.
+  \item Outdegrees $\{2,2,2,0\}$, which we call bad.
+\end{enumerate}
+Let $a$ be the number of companies of four players of type $A$, and define $b$, $c$, and $d$ similarly.
+By double counting,
+\begin{align*}
+  \sum \binom{w_i}{3} &= a+b,\\
+  \sum \binom{l_i}{3} &= a+d,\\
+  \sum \binom{w_i}{2} \cdot l_i &= 3d + a + 2c,\\
+  \sum \binom{l_i}{2} \cdot w_i &= 3b + a + 2c.
+\end{align*}
+By expanding,
+\[ (w_i - l_i)^3 = 6\left(\binom{w_i}{3} - \binom{l_i}{3} - \binom{w_i}{2}l_i + \binom{l_i}{2}w_i\right)
++ 3w_i^2 - 2w_i - 3l_i^2 + 2l_i. \]
+This means
+\begin{align*}
+  \sum (w_i - l_i)^3 &= 24(b-d) + 3\sum (w_i^2 - l_i^2) + 2 \sum (l_i - w_i) \\
+  &= 24(b-d) \\
+  &= 24b \\
+  &\ge 0.
+\end{align*}
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p15952773}{USAMO 2020/2}, $5\clubsuit$]
@@ -799,7 +864,28 @@ some $B$ satisfying $|A+B| \ge \frac12 n^2$.
 \end{reqproblem} \printpuid{10AMO6}
 
 %% Type your solution to USAMO 2010/6 (\href{https://otis.evanchen.cc/arch/10AMO6/}{10AMO6}), proposed by Gerhard Woeginger here ...
+The answer is $43$. To show that this is always attainable,
+notice that for each integer $k > 0$, we can erase all the $k$'s or all the $-k$'s.
+Suppose WLOG that all pairs of the form $(k,k)$ satisfy $k > 0$.
+Then, for each $k > 0$, we choose at random whether to erase all the $k$'s or all the $-k$'s.
+Specifically, we erase all the $k$'s with probability $p$, where $p = 1 - p^2$.
+Then,
+\begin{itemize}
+  \item If an ordered pair has a positive number in it, one of its elements
+  is erased with probability at least $p$.
+  \item If an ordered pair consists of two different negative numbers,
+  then by basic counting, one of its elements is erased with probability $1-p^2 = p$.
+\end{itemize}
+In either case, the probability is at least $p$.
+By linearity of expectation, the expected value of points scored is $68p \approx 42.024$.
+Thus, there must exist a scenario where we achieve $43$ points scored.
 
+A construction to show that $44$ is not always attainable is
+to write $5$ copies of each ordered pair $(k,k)$ for $1 \le k \le 8$,
+and then write the $\binom 82 = 28$ pairs $(i,j)$ where $1 \le i < j \le 8$.
+If we choose to erase the positive numbers for $m$ of the $8$ different values,
+then the total number of points scored is
+\[ 5m + \left( \binom 82 - \binom m2 \right) \le 43. \]
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p7743073}{RMM 2017/5}, $9\clubsuit$]

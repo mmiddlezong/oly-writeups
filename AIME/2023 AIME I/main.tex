@@ -1,0 +1,304 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{2023 AIME I Solutions}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+We will only consider where the men are standing, since
+the women are guaranteed to fill in the $9$ remaining spots.
+To count the number of working cases, we fix the first man
+to be somewhere to account for the possible rotations of the circle.
+Then we have $12$ choices for the second man, since he cannot
+sit diametrically opposite the first man. Similarly,
+we have $10$, $8$, and $6$ choices for the third, fourth, and fifth man, respectively.
+This gives us $12 \cdot 10 \cdot 8 \cdot 6$ cases that work.
+For the total number of cases, we get $13 \cdot 12 \cdot 11 \cdot 10$.
+This gives us a final probability of
+\[ \frac{12 \cdot 10 \cdot 8 \cdot 6}{13 \cdot 12 \cdot 11 \cdot 10} = \frac{48}{143}. \]
+Thus, the answer is $48 + 143 = \boxed{191}$.
+\section*{Problem 2}
+Let $a = \log_b n$. Our equations become $\sqrt{a} = \frac12 a$ and $ba = 1 + a$, using log rules.
+The first equation gives $a=0$ or $a=4$, but $a=0$ yields no solutions to the second equation.
+Taking $a=4$, we get $b = \frac54$, and finally, $n = b^4 = \frac{625}{256}$. Our answer is then
+$625 + 256 = \boxed{881}$.
+\section*{Problem 3}
+Two non-parallel lines define an intersection point.
+There are $\binom{40}{2}$ of these intersections, but some of them coincide.
+From ``there are $3$ points where exactly $3$ lines intersect,''
+we get that there are $3$ triplets of coinciding points,
+so we must subtract $3 \cdot 3$ from our total count.
+Similarly, there are $4$ sets of $\binom42 = 6$ points that coincide,
+so we have to subtract $4 \cdot \binom42$.
+Continuing on, we get
+\[ \binom{40}{2} - 3\cdot 3 - 4\cdot 6 - 5\cdot 10 - 6\cdot 15 = \boxed{607}. \]
+\section*{Problem 4}
+First, we prime factorize $13! = 2^{10} 3^5 5^2 7^1 11^1 13^1$.
+Consider picking the number of each prime in the factorization of $m$
+so that $\frac{13!}{m}$ is a perfect square.
+For $2$, we can choose an exponent of $0$, $2$, $4$, $6$, $8$, or $10$.
+For $3$, we can choose an exponent of $1$, $3$, or $5$.
+For $5$, we can choose an exponent of $0$ or $2$.
+However, for $7$, $11$, and $13$, we must choose an exponent of $1$ in each case.
+Finally, we use the trick of factoring the sum of all possible $m$ to get
+a sum of
+\[ (2^0 + 2^2 + \cdots + 2^{10})(3^1 + 3^3 + 3^5)(5^0 + 5^2)(7)(11)(13) = 2^13^25^17^311^113^4. \]
+Our answer is then $1+2+1+3+1+4 = \boxed{12}$.
+\section*{Problem 5}
+Let $s = AB$, let $x$ be the height from $P$ to $AC$, and let $y$ be the height from $P$ to $BD$.
+Using triangle area, we have
+\begin{align*}
+PA \cdot PC &= sx \sqrt 2, \\
+PB \cdot PD &= sy \sqrt 2.
+\end{align*}
+Squaring both equations and adding them yields
+\[ (PA \cdot PC)^2 + (PB \cdot PD)^2 = (sx \sqrt 2)^2 + (sy \sqrt 2)^2. \]
+We can simplify this to get
+\[ 56^2 + 90^2 = 2s^2 (x^2 + y^2). \]
+Notice that $x^2 + y^2 = r^2$, where $r$ is the radius of the circle.
+Since $r = \frac{s}{\sqrt 2}$, we have
+\[ 56^2 + 90^2 = s^4. \]
+We're looking for $s^2$, which is $\sqrt{56^2 + 90^2} = \boxed{106}$.
+\section*{Problem 6}
+List out the $\binom63$ orders in which the cards can be revealed,
+and calculate the number of correct guesses for each order.
+We make the assumption that whenever the number of red and black cards
+remaining is equal, Alice will guess black.
+We get an expected value of $\frac{41}{10}$, so our answer is $\boxed{51}$.
+\section*{Problem 7}
+Let's find the possible sets of remainders.
+If $n$ is $1 \pmod{2}$, then notice that $n$ physically
+cannot be $0$ or $2 \pmod{4}$.
+So, to satisfy the conditions, $n$ must be $3 \pmod{4}$.
+Similarly, $n$ must be $5 \pmod{6}$.
+This means that $n$ is $2 \pmod{3}$,
+and the only remaining options are for $n$ to be $0$ or $4 \pmod{5}$.
+So, we have
+\[ (n \bmod 2, n \bmod 3, n \bmod 4, n \bmod 5, n \bmod 6) = (1,2,3,4,5) \]
+or
+\[ (n \bmod 2, n \bmod 3, n \bmod 4, n \bmod 5, n \bmod 6) = (1,2,3,0,5). \]
+
+If $n$ is $0 \pmod{2}$,
+then we use a similar line of reasoning to get that
+the only possible case is
+\[ (n \mod 2, n \mod 3, n \mod 4, n \mod 5, n \bmod 6) = (0,1,2,3,4). \]
+
+Now that we only have three possible cases,
+note that for each case, a unique residue mod $60$ satisfies all of the congruences
+at the same time, because of CRT.
+In the $(1,2,3,4,5)$ case, we have $n \equiv 59 \pmod{60}$, giving us $16$ possible values
+of $n$ less than $1000$.
+In the $(1,2,3,0,5)$ case, we have $n \equiv 35 \pmod{60}$, giving us $17$ possible values
+of $n$ less than $1000$.
+Finally, in the $(0,1,2,3,4)$ case, we have $n \equiv 58 \pmod{60}$,
+giving us $16$ possible values of $n$ less than $1000$.
+
+Adding up, we get a final answer of $16+17+16 = \boxed{49}$.
+\section*{Problem 8}
+Let $E$ and $F$ be the feet of the altitudes
+from $P$ to $AD$ and $AB$, respectively.
+Let $G$ and $H$ be the foot of the altitudes
+from $I$ to $AD$ and $AB$, respectively.
+
+From the information given, it is not hard to tell
+that the radius of the incircle is $\frac{25}{2}$.
+Then, a Pythagorean relation can be obtained (say, by drawing a perpendicular from $I$ to line $PE$)
+which gives $EG^2 = \left( \frac{25}{2} \right)^2 - \left( \frac{7}{2} \right)^2 = 12^2$.
+Thus, $EG = 12$.
+We can do a similar thing to get $FH = 10$.
+Letting $x = AG = AH$, we have $AE = x - 12$ and $AF = x - 10$.
+Notice that $AF^2 + FP^2 = AE^2 + EP^2 = AP^2$. This gives us
+\[ (x-10)^2 + 5^2 = (x-12)^2 + 9^2 \implies x = 25. \]
+By similar triangles, $AG \cdot GD = IG^2 = \left( \frac{25}{2} \right)^2$,
+so $GD = \frac{25}{4}$.
+So, the perimeter is $4(25 + \frac{25}{4}) = \boxed{125}$.
+\section*{Problem 9}
+The given condition can be written as
+\[ m^3 + am^2 + bm + c = 8 + 4a + 2b + c. \]
+We see that the value of $c$ doesn't matter, so we ignore it and remember
+to multiply by $41$ at the end.
+Now, let $n = m-2$.
+The equation simplifies to
+\[ n^3 + (6+a)n^2 + (12 + 4a + b)n = 0. \]
+We already know that $n=0$ works,
+and indeed, we are trying to find cases where there is another integer root.
+So, assuming $n \neq 0$, we can divide by $n$ to get a quadratic:
+\[ n^2 + (6+a)n + (12 + 4a + b) = 0. \]
+Note that because the coefficients are integers,
+the existence of an integer root implies that both roots are integers.
+So, we have two cases:
+
+\begin{itemize}
+\item \textbf{Case 1: there is a double root and it is not $n=0$.}
+In this case, the discriminant must be $0$:
+\[ a^2 - 4a - 12 - 4b = 0 \implies (a-6)(a+2) = 4b. \]
+Forget about the condition that $n \neq 0$ for now; we will
+return to it after handling Case 2.
+For this case, the possible values of $(a,b)$ in the desired range are
+\[ (-6,12), (-4,5), (-2,0), (0,-3), (2,-4), (4,-3), (6,-0), (8,5), (10,12). \]
+\item \textbf{Case 2: there is no double root and one of the roots is $n=0$.}
+This means we need $12 + 4a + b = 0$. The ordered pairs in the desired range that satisfy that equation are
+\[ (-8, 20), (-7, 16), \dots, (1, -16), (2,-20). \]
+But there cannot be a double root. All the ordered pairs that lead to a double root
+were listed during Case 1, so we simply need to recognize that $(-6,12)$ appears in both lists
+and remove it from both lists.
+This simultaneously handles the condition that $n \neq 0$ in Case 1.
+\end{itemize}
+Putting everything together, we count $18$ cases for $(a,b)$.
+Since $c$ can be anything, our final answer is $18 \cdot 41 = \boxed{738}$.
+
+\section*{Problem 10}
+Let $S = \sum_{n=1}^{2023} n$ and $S_2 = \sum_{n=1}^{2023} n^2$.
+Then
+\[ U = \frac15 (S_2 - aS) - E, \]
+where $E$ is an error term resulting from the floor operations.
+We can bound $E$: the minimum is $0$ and the maximum will result from
+a ``loss'' of $\frac45$ with each operation, giving us $E = \frac45 \cdot 2023$.
+Since $E \ll S$, we can conclude that the value of $a$ must be the one such that $|S_2 - aS|$ is
+minimized.
+A quick computation reveals that when $a = 1349$, we have $S_2 = aS$.
+So, it remains to find $E$ when $a = 1349$.
+
+For this, we simply count the number of times $n^2 - na$ attains each residue mod $5$.
+Simple modular arithmetic reveals that it is $0$ mod $5$ $808$ times,
+$1$ mod $5$ 405 times, and $2$ mod $5$ $810$ times.
+This gives us $E = 405$, so $U = -405$
+Our final answer is $1349 - 405 = \boxed{944}$.
+
+\section*{Problem 11}
+Let $F_n$ be the number of subsets of $\{1,2,\dots, n\}$ with no pairs of consecutive integers.
+This satisfies the recurrence relation $F_n = F_{n-1} + F_{n-2}$ by casework on whether $n$ is
+included in the subset.
+So, we get $F_1 = 2$, $F_2 = 3$, $F_3 = 5$, and so on.
+
+Returning to the original problem, we do casework on what the one pair of consecutive integers is.
+If it's $\{1,2\}$, for example, then what remains is to select a subset of
+$\{4,5,\dots, 10\}$ with no pairs of consecutive integers.
+We know this can be done in $F_7 = 34$ ways.
+We can do a similar thing for each possible pair of consecutive integers.
+For example, if it's $\{4,5\}$,
+then we select a subset of $\{1,2\}$ with no consecutive integers
+and a subset of $\{7,8,9,10\}$ with no consecutive integers.
+There are $F_2 \cdot F_4$ ways to do that.
+Doing this for every case, we get a final answer of
+\[ 2(F_7 + F_6 + F_5 \cdot F_1 + F_4 \cdot F_2) + F_3 \cdot F_3 = \boxed{235}. \]
+
+\begin{remark*}
+I got this wrong in-contest because I thought the base cases were $F_1 = 1$ and $F_2 = 2$.
+I had forgotten about the empty set.
+\end{remark*}
+\section*{Problem 12}
+It is well known that $(AEF)$, $(BDF)$, and $(CDE)$ intersect
+at the Miquel point, which satisfies the properties that $P$ has to satisfy.
+So, $P$ is the Miquel point.
+Using the law of cosines, we get $EF = 35$, $DF = 13$, and $DE = 42$.
+Let $x = PD$, $y = PE$, and $z = PF$.
+We use the law of cosines again on triangles $PEF$, $PDF$, and $PDE$ to get
+\begin{align*}
+y^2 + yz + z^2 &= 35^2, \\
+x^2 + xz + z^2 &= 13^2, \\
+x^2 + xy + y^2 &= 42^2.
+\end{align*}
+The area of the triangle can be calculated in two ways.
+One is by adding the areas of triangles $PEF$, $PDF$, and $PDE$,
+which can be found using the sin area formula,
+to get
+\[ A = \frac{\sqrt3}{4} (xy + yz + zx). \]
+We can also use Heron's formula with $s = \frac{35 + 13 + 42}{2} = 45$ to obtain
+\[ A = \sqrt{45 \cdot 10 \cdot 32 \cdot 3} = 120 \sqrt3. \]
+So, $xy + yz + zx = 480$.
+Now,
+\[ (x+y+z)^2 = x^2 + y^2 + z^2 + 2(xy + yz + zx) = \frac12(35^2 + 13^2 + 42^2 + 3 \cdot 480) = 2299. \]
+From this, we get $x+y+z = 11 \sqrt{19}$.
+Let $\theta = \angle PDC$. By splitting triangle $ABC$ into many triangles,
+we get
+\[ \frac{55^2 \sqrt3}{4} = [ABC] = \frac12 \cdot 55 \cdot (x+y+z) \cdot \sin \theta \implies \sin \theta = \frac{5\sqrt 3}{2 \sqrt{19}}. \]
+Then,
+\[ \cos ^2 \theta = 1 - \sin ^2 \theta = 1 - \frac{75}{76} \implies \cos \theta = \frac{1}{2\sqrt{19}}. \]
+Finally, $\tan \theta = 5 \sqrt 3$, so our final answer is $\tan^2 \theta = \boxed{75}$.
+\section*{Problem 13}
+Take for granted that in one of the parallelepipeds,
+there is a vertex whose three edges create three acute angles with each other,
+and in the other,
+there is a vertex whose three edges create three obtuse angles with each other.
+(I'm not sure how to visualize it yet.)
+
+Let $a$, $b$, and $c$ be the vectors corresponding to the edges emanating from this vertex,
+such that the angles formed by the vectors are either all acute or all obtuse.
+The angle is one of the angles of the rhombus,
+and we can calculate the cosine of the two possible cases:
+\[ \cos \theta_1 = \frac{5}{26} \qquad \text{and} \qquad \cos \theta_2 = -\frac{5}{26}. \]
+Let's focus on the $\theta_1$ case for now.
+We want the height of the parallelepiped, which
+is just $\sqrt{13} \sin \phi$, where $\phi$ is the angle between the vectors
+$a$ and $b+c$.
+Now,
+\[ \cos \phi = \frac{a \cdot (b+c)}{\|a\| \|b+c\|} = \frac{a \cdot b + a \cdot c}{\sqrt{13} \cdot \sqrt{31}} = \frac{2 \cdot 13 \cdot \frac{5}{26}}{\sqrt{13} \cdot \sqrt{31}} = \frac{5}{\sqrt{403}}. \]
+So,
+\[ h_1 = \sqrt{13} \sin \phi = \sqrt{13} \sqrt{\frac{378}{403}} = \sqrt{\frac{378}{31}}. \]
+Similarly, in the other case,
+\[ \cos \phi = \frac{a \cdot (b+c)}{\|a\| \|b+c\|} = \frac{a \cdot b + a \cdot c}{\sqrt{13} \cdot \sqrt{21}} = \frac{2 \cdot 13 \cdot \left(-\frac{5}{26}\right)}{\sqrt{13} \cdot \sqrt{21}} = -\frac{5}{\sqrt{273}}. \]
+So,
+\[ h_2 = \sqrt{13} \sin \phi = \sqrt{13} \sqrt{\frac{248}{273}} = \sqrt{\frac{248}{21}}. \]
+So, the ratio between the heights, which is the ratio between the volumes, is
+\[ \frac{h_1}{h_2} = \frac{63}{62}. \]
+Our final answer is $63 + 62 = \boxed{125}$.
+
+\section*{Problem 14}
+Associate each state with an ordered pair $(i,j)$
+with $0 \le i,j \le 11$.
+Each action is either adding $(0,1)$ or $(1,0)$, mod 12.
+We can plot this on a 12x12 grid of points, and now
+our actions are either ``up arrows'' or ``right arrows.''
+Since this is mod 12, we have portals on the top side and the right side
+that loop us back to the bottom and left side, respectively.
+
+Consider a working sequence of 144 actions.
+We claim that it is periodic with period 12.
+Notice that from any point, precisely one arrow will emanate from it.
+If an up arrow emanates from the point $(x,y)$, for example,
+then notice that we are forced to have an up arrow out of the point $(x+1,y-1)$.
+Likewise, if a right arrow emanates from the point $(x,y)$,
+we need a right arrow out of $(x+1,y-1)$. Thus, the first 12 arrows placed
+can together determine the rest of the arrows.
+
+Now, consider the number $m$ of right arrows in the first 12 arrows.
+We claim that $m$ must be relatively prime to $12$.
+This is because each period of $12$ actions is equivalent to adding $(m,12-m)$,
+and we have to add this $12$ times to get back to the origin.
+If $m$ shared a factor with $12$, then we would get back to the origin too fast.
+
+As long as $m$ is relatively prime to $12$, any sequence of $m$ right arrows
+and $12-m$ up arrows will generate a compatible sequence of $144$ actions (by repeating it $12$ times).
+So, the answer is
+\[ \dbinom{12}{1} + \dbinom{12}{5} + \dbinom{12}{7} + \dbinom{12}{11} = 1608 \equiv \boxed{608} \pmod{1000}. \]
+\section*{Problem 15}
+Write $z = a + bi$.
+We need $p > \abs{\opname{Re}(z^3) - \opname{Im}(z^3)}$.
+This can be rewritten as
+\[ a^2 + b^2 > |a+b| |a^2 - 4ab + b^2|. \]
+Since the magnitude of $z^3$ is $p^{3/2}$, assuming $p$ is somewhat large,
+this means the real and imaginary parts of $z^3$ are close to each other.
+Also, both the real and imaginary parts of $z^3$ must be positive as per the given condition.
+This means that the argument of $z^3$ should be close to $45$ degrees.
+
+So, the argument of $z$ should be around $15$, $135$, or $255$ degrees.
+It can't be around $135$ because that would imply $a \approx -b$, which,
+along with the fact that $a^2 \neq b^2$, leads to $|a+b| |a^2 - 4ab + b^2|$
+being too big.
+The cases where the argument of $z$ is around $15$ or $255$ degrees are symmetric,
+so we assume WLOG that $a,b > 0$ and thus, the argument of $z$ is around $15$ degrees.
+In other words,
+\[ a \approx \tan(75\dg) \approx 3.7. \]
+
+We can now bound $b \le 8$ because $a^2 + b^2 = p < 1000$.
+The rest is just trying every single possibility.
+We eventually find that $5^2 + 18^2 = \boxed{349}$ works.
+
+\end{document}

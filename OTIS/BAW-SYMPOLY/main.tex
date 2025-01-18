@@ -1,0 +1,664 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{derivative}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{BAW-sympoly}}
+\ohead{\footnotesize Updated Sun 15 Sep 2024 18:35:37 UTC}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\clubg}[1]{\bgroup\color{green!40!black}[$#1\clubsuit$]\egroup}
+
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}{\textbf}
+\providecommand{\opname}{\operatorname}
+\providecommand{\ts}{\textsuperscript}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+    linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+    mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+    nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+    mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+    linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+    mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+    linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmredbox,name=Problem]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmblackbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmblackbox,name=Example,numbered=no]{example*}
+
+\newenvironment{walkthrough}{\noindent\textbf{\color{green!40!black}Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+
+\usepackage{asymptote}
+\begin{asydef}
+size(8cm); // set a reasonable default
+usepackage("amsmath");
+usepackage("amssymb");
+settings.tex="pdflatex";
+settings.outformat="pdf";
+import geometry;
+void filldraw(picture pic = currentpicture, conic g, pen fillpen=defaultpen, pen drawpen=defaultpen) { filldraw(pic, (path) g, fillpen, drawpen); }
+void fill(picture pic = currentpicture, conic g, pen p=defaultpen) { filldraw(pic, (path) g, p); }
+pair foot(pair P, pair A, pair B) { return foot(triangle(A,B,P).VC); }
+pair centroid(pair A, pair B, pair C) { return (A+B+C)/3; }
+\end{asydef}
+
+\newcommand{\goals}[2]{\bgroup
+\sffamily\small \emph{Instructions}: Solve \clubg{#1}.
+If you have time, solve \clubg{#2}.\egroup\par}
+
+%% 426c616e6b204c615465587e
+\begin{document}
+\title{Submission for BAW-SYMPOLY}
+\subtitle{OTIS (internal use)}
+\author{Michael Middlezong}
+\date{\today}
+\maketitle
+
+\begin{example*}[$0\clubsuit$]
+  Show that $a^4 + b^4 \ge a^3b + ab^3$ for $a,b > 0$.
+\end{example*} \printpuid{Z68B4C1C}
+
+\begin{walkthrough}
+For the purposes of this example, assume you don't know AM-GM or Muirhead, etc.
+The goal is to show how to solve the problem with ``bare hands''.
+
+We will prove $a^4 + b^4 - a^3b - ab^3 \ge 0$.
+\begin{walk}
+  \ii Noting that equality holds when $a=b$,
+  what factor must divide the left-hand side?
+  \ii Imagine fixing $b$, and treating the left-hand side
+  as a polynomial $P(a)$.
+  It has a root at $a = b$.
+  If you also know that $P \ge 0$ everywhere,
+  what kind of root must that root be?
+  \ii Use this to factor the left-hand side completely.
+  (There should be three factors.)
+\end{walk}
+The condition $a,b > 0$ isn't actually used here
+but makes things simpler to think about.
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p1813805}{AIME 2010}, $0\clubsuit$]
+  Compute the maximum possible value of $a^3+b^3+c^3$
+  over all real numbers $(a,b,c)$ satisfying
+  \begin{align*}
+  a^3 &= abc + 2 \\
+  b^3 &= abc + 6 \\
+  c^3 &= abc + 20.
+  \end{align*}
+\end{example*} \printpuid{10AIME9}
+
+\begin{walkthrough}
+\begin{walk}
+   \ii Express $a^3+b^3+c^3$ in terms of $abc$.
+   Thus it suffices to compute $abc$.
+   \ii Find a way to get a quadratic equation in $abc$.
+   \ii Solve for $abc$ and use it to get the final answer.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p5556379}{Evan Chen, Fall 2015}, $0\clubsuit$]
+  Let $a$, $b$, $c$ be the distinct roots of the polynomial
+  \[ P(x) = x^3 - 10x^2 + x - 2015. \]
+  The cubic polynomial $Q(x)$ is monic
+  and has distinct roots $bc-a^2$, $ca-b^2$, $ab-c^2$.
+  What is the sum of the coefficients of $Q$?
+\end{example*} \printpuid{15OMOF12}
+
+\begin{walkthrough}
+This can be done with brute force, by actually finding $Q$,
+but there is a trick to it.
+\begin{walk}
+  \ii Show the answer is given by
+  $Q(1) = (1-bc+a^2)(1-ca+b^2)(1-ab+c^2)$.
+  \ii Show that $ab+bc+ca=1$.
+  \ii Prove that $Q(1) = 2015000$.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p1810905}{USAMO 1975/3}, $0\clubsuit$]
+  If $P(x)$ denotes a polynomial of degree $n$ such that
+  $P(k)=\frac{k}{k+1}$ for $k=0,1,2,\dots,n$, determine $P(n+1)$.
+\end{example*} \printpuid{75AMO3}
+
+\begin{walkthrough}
+The main idea is to define $Q(x) = (x+1)P(x) - x$.
+\begin{walk}
+  \ii Compute $\deg Q$ (in terms of $n$).
+  \ii Determine the roots of $Q$.
+  \ii Use (a) and (b) to establish the factorization,
+  of $Q$ up to a constant factor.
+  \ii Show that $Q(-1) = 1$
+  and use this to conclude that the leading
+  coefficient of $Q$ is equal to
+  \[ c = \frac{(-1)^{n+1}}{(n+1)!}. \]
+  \ii Compute $Q(n+1)$.
+  \ii Prove that $P(n+1) = \frac{n+1 + (-1)^{n+1}}{n+2}$.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p27125715}{HMMT 2023 T2}, $0\clubsuit$]
+  Prove there don't exist pairwise distinct complex numbers $a$, $b$, $c$, and $d$
+  such that \[ a^3-bcd = b^3-cda = c^3-dab = d^3-abc. \]
+\end{example*} \printpuid{23HMMTT2}
+
+\begin{walkthrough}
+There is a brute-force approach along the lines of taking
+\[ a^3-b^3 = bcd-cda \]
+and factoring out the common $a-b$.
+\begin{walk}
+  \ii Use this idea to show that $a^2+b^2 = c^2+d^2$.
+  \ii Similarly, show that $a^2+c^2 = b^2+d^2$, and $a^2+d^2=b^2+c^2$.
+\end{walk}
+However, I think the following Vieta-based approach is more conceptually nice,
+since it does not require any factoring and obviously generalizes to more
+variables.
+\begin{walk}[resume]
+  \ii Let's assume $abcd \neq 0$.
+  By scaling, show that we may in fact assume $abcd = 1$.
+  \ii Conclude that we may define the number $k$ by
+  \[ k \coloneqq a^3 - \frac 1a = \dots = d^3 - \frac 1d. \]
+
+  \ii Let \[ P(X) = (X-a)(X-b)(X-c)(X-d). \]
+  Find the coefficients of $P$ in terms of $k$.
+
+  \ii Derive a contradiction by noticing $P(0) = -1$.
+
+  \ii Weed out the edge case $abcd = 0$ we didn't address earlier.
+  This gives a complete solution to the problem.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\newpage
+
+% ========================================
+\section*{Practice problems}
+\goals{40}{52}
+
+\epigraph{The Law speaks: you are cast out.
+You are un-dwarf. I AM A WITNESS!}
+{Angarthing in \emph{The Hammer of Thursagan}, \\
+from \emph{The Battle for Wesnoth}}
+
+\begin{problem}[\href{https://aops.com/community/p1088467}{Added by Eric Wang}, $2\clubsuit$]
+  Let $r$, $s$, and $t$ be the three roots of the equation
+  \[ 8x^3 + 1001x + 2008 = 0. \]
+  Compute $(r + s)^3 + (s + t)^3 + (t + r)^3$.
+\end{problem} \printpuid{08AIME7}
+
+%% Type your solution to Added by Eric Wang (\href{https://otis.evanchen.cc/arch/08AIME7/}{08AIME7}) here ...
+The sum of the roots is $0$. The desired quantity is then
+\[ -t^3 - r^3 - s^3, \]
+which is $753$ by Newton sums.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p1799885}{USAMO 1973/4}, $2\clubsuit$]
+  Determine all triples $(x,y,z)$ of complex numbers satisfying
+  \begin{align*}
+  x+y+z &= 3, \\
+  x^2+y^2+z^2 &= 3, \\
+  x^3+y^3+z^3 &= 3.
+  \end{align*}
+\end{problem} \printpuid{73AMO4}
+
+%% Type your solution to USAMO 1973/4 (\href{https://otis.evanchen.cc/arch/73AMO4/}{73AMO4}) here ...
+Consider the cubic polynomial $(t - x)(t - y)(t - z)$.
+From Newton's sums and Vieta's, this cubic polynomial
+must equal $t^3 - 3t^2 + 3t - 1$.
+The only factorization of this is $(t - 1)^3$,
+so the only solution must be $(x,y,z)=(1,1,1)$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p445333}{Canada 1996, added by Haozhe Yang}, $2\clubsuit$]
+  If $\alpha$, $\beta$, and $\gamma$ are the roots of $x^3 - x - 1 = 0$,
+  compute $\frac{1+\alpha}{1-\alpha} + \frac{1+\beta}{1-\beta} + \frac{1+\gamma}{1-\gamma}$.
+\end{problem} \printpuid{96CAN1}
+
+%% Type your solution to Canada 1996, added by Haozhe Yang (\href{https://otis.evanchen.cc/arch/96CAN1/}{96CAN1}) here ...
+It is easy to show that $1-\alpha$, $1-\beta$, and $1-\gamma$
+are the roots of the polynomial
+\[ x^3 - 3x^2 + 2x + 1 \]
+using Vieta's.
+
+Then, we can easily calculate the desired expression using Vieta's as well. The answer is $-7$.
+%% --------------------------------------------------
+
+\begin{problem}[HMMT November 2016 Guts, added by Rohan Bodke, $2\clubsuit$]
+  Let $r_1$, $r_2$, $r_3$, $r_4$ be
+  the complex roots of the polynomial $x^4-4x^3+8x^2-7x+3$.
+  Calculate
+  \[ \frac{r_1^2}{r_2^2+r_3^2+r_4^2}+\frac{r_2^2}{r_1^2+r_3^2+r_4^2}
+  +\frac{r_3^2}{r_1^2+r_2^2+r_4^2}+\frac{r_4^2}{r_1^2+r_2^2+r_3^2}. \]
+\end{problem} \printpuid{16HMNTGUTS27}
+
+%% Type your solution to HMMT November 2016 Guts, added by Rohan Bodke (\href{https://otis.evanchen.cc/arch/16HMNTGUTS27/}{16HMNTGUTS27}) here ...
+By Newton's sums, the sum of the squares of the roots is $0$.
+This means each term in the requested expression is $-1$, giving us a total answer of $-4$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p3228708}{NIMO \#8}, $2\clubsuit$]
+  Let $x$, $y$, $z$ be complex numbers satisfying
+  \begin{align*}
+  x^2 + 5y &= 10x \\
+  y^2 + 5z &= 10y \\
+  z^2 + 5x &= 10z.
+  \end{align*}
+  Find the sum of all possible values of $z$.
+\end{problem} \printpuid{NIMO85}
+
+%% Type your solution to NIMO \#8 (\href{https://otis.evanchen.cc/arch/NIMO85/}{NIMO85}), proposed by Evan Chen here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p1595153}{USAMO 1984/1}, $2\clubsuit$]
+  The product of two of the four roots of the quartic
+  equation $x^4-18x^3+kx^2+200x-1984=0$ is $-32$.
+  Determine $k$.
+\end{problem} \printpuid{84AMO1}
+
+%% Type your solution to USAMO 1984/1 (\href{https://otis.evanchen.cc/arch/84AMO1/}{84AMO1}) here ...
+Notice that we can write the polynomial as
+\[ (x^2 + ax - 32)(x^2 + bx + 62) \]
+for constants $a$ and $b$. Expanding this and matching coefficients, we get the system of equations
+\begin{align*}
+    a + b &= -18 \\
+    62a - 32b &= 200.
+\end{align*}
+We can solve this system to get $a = -4$, $b = -14$.
+We also know $k = 30 + ab$ from the earlier expansion, so $k = 86$.
+%% --------------------------------------------------
+
+\begin{reqproblem}[$3\clubsuit$]
+  The cubic $x^3 - 7x^2 + 3x + 2$ has irrational roots $r > s > t$.
+  There exists a unique set of rational numbers $A$, $B$, and $C$,
+  such that the cubic $x^3 + Ax^2 + Bx + C$ has $r+s$ as a root.
+  What is $A+B+C$?
+\end{reqproblem} \printpuid{JASONMAO}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/JASONMAO/}{JASONMAO} here ...
+Consider the polynomial with roots $r + s$, $s + t$, and $r + t$. We will find its coefficients and show that it is the desired polynomial.
+Using Vieta's, we can see that
+\[ A = -2(r + s + t) = -14. \]
+We can also see that
+\[ B = (r + s)(s + t) + (s + t)(r + t) + (r + s)(r + t). \]
+Expanding and simplifying with Vieta's and Newton sums, we get $B = 52$.
+
+The $C$ term is slightly more involved, but we can use a combination of Newton sums, Vieta's, and grouping of terms to get $C = -23$.
+
+All these terms are rational, so overall, our answer is $A + B + C = -14 + 52 - 23 = 15$.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p15681035}{AIME II 2020, added by Benjamin Wang-Tie}, $3\clubsuit$]
+  Let $P(x) = x^2 - 3x - 7$, and let $Q(x)$ and $R(x)$ be two quadratic
+  polynomials also with the coefficient of $x^2$ equal to $1$.
+  David computes each of the three sums $P + Q$, $P + R$, and $Q + R$
+  and is surprised to find that each pair of these sums has a common root,
+  and these three common roots are distinct.
+  If $Q(0) = 2$, compute $R(0)$.
+\end{problem} \printpuid{20AIMEII11}
+
+%% Type your solution to AIME II 2020, added by Benjamin Wang-Tie (\href{https://otis.evanchen.cc/arch/20AIMEII11/}{20AIMEII11}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p11972643}{AIME I 2019, added by Joshua Im}, $2\clubsuit$]
+  For distinct complex numbers $z_1$, $z_2$, \ldots, $z_{673}$, the polynomial
+  \[ (x-z_1)^3(x-z_2)^3 \cdots (x-z_{673})^3 \]
+  can be expressed as $x^{2019}+20x^{2018}+19x^{2017}+g(x)$,
+  where $g(x)$ is a polynomial with complex coefficients and with degree at most $2016$.
+  Compute \[  \sum_{1\leq j<k\leq 673} z_jz_k. \]
+\end{problem} \printpuid{19AIME10}
+
+%% Type your solution to AIME I 2019, added by Joshua Im (\href{https://otis.evanchen.cc/arch/19AIME10/}{19AIME10}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p6412925}{Austria 2016/6, added by Abdullahil Kafi}, $3\clubsuit$]
+  Let $a$, $b$, $c$ be three integers for which the sum
+  \[ \frac{ab}{c}+ \frac{ac}{b}+ \frac{bc}{a}\]
+  is an integer.
+  Prove that each of the three numbers
+  \[ \frac{ab}{c}, \quad \frac{ac}{b}, \quad \frac{bc}{a}\]
+  is an integer.
+\end{problem} \printpuid{16AUT6}
+
+%% Type your solution to Austria 2016/6, added by Abdullahil Kafi (\href{https://otis.evanchen.cc/arch/16AUT6/}{16AUT6}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[$2\clubsuit$]
+  Factor the polynomial \[ a(b-c)^3 + b(c-a)^3 + c(a-b)^3. \]
+\end{problem} \printpuid{ZEAC3666}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/ZEAC3666/}{ZEAC3666} here ...
+We notice that the polynomial vanishes whenever $a=b$, $a=c$, or $b=c$.
+So, the polynomial is divisible by $(a-b)(a-c)(b-c)$.
+We know the last factor must be a multiple of $a+b+c$.
+We can match the coefficient of $ab^3$ to get that the factored form is
+\[ (a-b)(a-c)(b-c)(-a-b-c). \]
+%% --------------------------------------------------
+
+\begin{problem}[$3\clubsuit$]
+  Let $a$, $b$, $c$ be real numbers.
+  Prove that
+  \[ a^3+b^3+c^3 = (a+b+c)^3 \quad\text{if and only if}\quad
+  a^5+b^5+c^5 = (a+b+c)^5.  \]
+\end{problem} \printpuid{H1883820}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/H1883820/}{H1883820} here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[$2\clubsuit$]
+  Let $a$, $b$, $c$, $d$ be distinct real numbers such that
+  \[
+  a + b + c + d = 0
+  \quad \text{and} \quad
+  \frac{1}{a} + \frac{1}{b} + \frac{1}{c} + \frac{1}{d} = 0.
+  \]
+  Prove that two of the four numbers have sum zero.
+\end{problem} \printpuid{BMCQ54}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/BMCQ54/}{BMCQ54} here ...
+We notice that quartic polynomial with roots $a,b,c,d$ is even, and the result follows.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p713214}{AIME II 2003, added by Lincoln Liu}, $3\clubsuit$]
+  Consider the polynomials $P(x) = x^{6} - x^{5} - x^{3} - x^{2} - x$
+  and $Q(x) = x^{4} - x^{3} - x^{2} - 1$.
+  Given that $z_1$, $z_2$, $z_3$, and $z_4$ are the roots of $Q(x) = 0$,
+  find $P(z_1) + P(z_2) + P(z_3) + P(z_4)$.
+\end{problem} \printpuid{03AIMEII9}
+
+%% Type your solution to AIME II 2003, added by Lincoln Liu (\href{https://otis.evanchen.cc/arch/03AIMEII9/}{03AIMEII9}) here ...
+Write
+\[ P(x) = (x^2 + x)Q(x) + x^2 - x + 1. \]
+Then,
+\begin{align*}
+    \sum_{i=1}^4 P(z_i) &= \sum_{i=1}^4 ((x^2 + x)Q(x) + x^2 - x + 1) \\
+    &= \sum_{i=1}^4 (x^2 - x + 1) \\
+    &= \sum_{i=1}^4 x^2 - \sum_{i=1}^4 x + \sum_{i=1}^4 1\\
+    &= 3 - 1 + 4 = \boxed{6}.
+\end{align*}
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p9768199}{CMIMC 2018 A9}, $9\clubsuit$]
+  Given the polynomial identity
+  \[ (x^2-3x+1)^{1009} = \sum_{k=0}^{2018} a_k x^k \]
+  calculate the remainder when
+  $a_0^2 + a_1^2 + \dots + a_{2018}^2$ is divided by $2017$.
+\end{problem} \printpuid{18CMIMCA9}
+
+%% Type your solution to CMIMC 2018 A9 (\href{https://otis.evanchen.cc/arch/18CMIMCA9/}{18CMIMCA9}), proposed by David Altizio here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p28369648}{Stanford Math Tournament 2011}, $3\clubsuit$]
+  Let $P(x)$ be a polynomial of degree $2011$ such that
+  $P(1) = 0$, $P(2) = 1$, $P(4) = 2$, \dots, and $P(2^{2011}) = 2011$.
+  Find the coefficient of $x^1$ in $P$.
+\end{reqproblem} \printpuid{11SMTA7}
+
+%% Type your solution to Stanford Math Tournament 2011 (\href{https://otis.evanchen.cc/arch/11SMTA7/}{11SMTA7}) here ...
+We can notice that the polynomial $P(2x) - P(x) - 1$ has roots $x = 2^i$ for $0 \leq i \leq 2010$.
+Thus, we can write
+\[
+    P(2x) - P(x) - 1 = c(x - 2^0)(x - 2^1)\cdots(x - 2^{2010}).
+\]
+Plugging in $x = 0$, we can find $\frac{1}{c} = 1 + 2 + \cdots + 2010$ (denote by $S$ this sum).
+
+Now, let $a$ be the coefficient of the linear term in $P(x)$.
+Then, the linear term of $P(2x) - P(x) - 1$ is $2ax - ax = ax$.
+So, it suffices to find the linear coefficient of $c(x - 2^0)(x - 2^1)\cdots(x - 2^{2010})$.
+
+For this, we can use Vieta's. We end up with
+\[
+    a = 2^S + 2^{S-1} + \cdots + 2^{S - 2010}.
+\]
+We can simplify this to $a = 2 - \frac{1}{2^{2010}}$.
+%% --------------------------------------------------
+
+\begin{problem}[$5\clubsuit$]
+  Let $a$, $b$, $c$ be integers with $c \neq 0$.
+  Suppose the cubic polynomial $x^3 + ax^2 + bx + c$ has roots $r \le s \le t$.
+  Show that $\frac rs + \frac st + \frac tr$ can be written as $u \pm \sqrt v$
+  for some rational numbers $u$ and $v$.
+\end{problem} \printpuid{NOTVIETA}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/NOTVIETA/}{NOTVIETA} here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p29632847}{Mock ARML 2022, added by Shaheem Samsudeen}, $2\clubsuit$]
+  Let $a,b,c$ complex numbers with $ab+bc+ca = 61$ such that
+  \begin{align*}
+  \frac{1}{b+c}+\frac{1}{c+a}+\frac{1}{a+b} &= 5 \\
+  \frac{a}{b+c}+\frac{b}{c+a}+\frac{c}{a+b} &= 32.
+  \end{align*}
+  Find the value of $abc$.
+\end{problem} \printpuid{H3233958}
+
+%% Type your solution to Mock ARML 2022, added by Shaheem Samsudeen (\href{https://otis.evanchen.cc/arch/H3233958/}{H3233958}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p28369661}{Stanford Math Tournament 2013}, $3\clubsuit$]
+  Let $a = -\sqrt3 + \sqrt5 + \sqrt7$, $b = \sqrt3 - \sqrt5 + \sqrt 7$,
+  $c = \sqrt3 + \sqrt5 - \sqrt 7$. Compute
+  \[ \frac{a^4}{(a-b)(a-c)} + \frac{b^4}{(b-c)(b-a)} + \frac{c^4}{(c-a)(c-b)}. \]
+\end{reqproblem} \printpuid{13SMTA9}
+
+%% Type your solution to Stanford Math Tournament 2013 (\href{https://otis.evanchen.cc/arch/13SMTA9/}{13SMTA9}) here ...
+Putting the three terms over a common denominator and factoring the numerator,
+we can find that the expression equals
+\[
+    a^2 + b^2 + c^2 + ab + bc + ca.
+\]
+We can rewrite this as $(a + b + c)^2 - (ab + bc + ca)$.
+
+Let $x = \sqrt{3}$, $y = \sqrt{5}$, $z = \sqrt{7}$,
+and $S = a + b + c = x + y + z$. Then, our desired expression is
+\[
+    S^2 - [(S - 2x)(S - 2y) + (S - 2y)(S - 2z) + (S - 2z)(S - 2x)].
+\]
+We can simplify this to get the answer of
+\[
+    2S^2 - 4(xy + yz + zx) = 30.
+\]
+%% --------------------------------------------------
+
+\begin{problem}[Ritwin Narra, $5\clubsuit$]
+  Fix an integer $n \neq 1$.
+  Prove that if real numbers $a$, $b$, $c$, $d$ satisfy
+  \[ a+b+c+d = a^n+b^n+c^n+d^n = 0 \]
+  then two of $a$, $b$, $c$, $d$ sum to $0$.
+\end{problem} \printpuid{Z5394300}
+
+%% Type your solution to Ritwin Narra (\href{https://otis.evanchen.cc/arch/Z5394300/}{Z5394300}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p28369559}{Black MOP 2012}, $5\clubsuit$]
+  Let $ABC$ be a triangle and let $h_A$, $h_B$, $h_C$ be the lengths of the altitudes
+  from $A$, $B$, and $C$. Let $a = BC$, $b = CA$, $c = AB$.
+  Suppose that
+  \[ \sqrt{a+h_B} + \sqrt{b+h_C} + \sqrt{c+h_A}
+  = \sqrt{a+h_C} + \sqrt{b+h_A} + \sqrt{c+h_B}. \]
+  Prove that triangle $ABC$ is isosceles.
+\end{reqproblem} \printpuid{12BLACKMOP}
+
+%% Type your solution to Black MOP 2012 (\href{https://otis.evanchen.cc/arch/12BLACKMOP/}{12BLACKMOP}) here ...
+Let $\sqrt{a + h_B}$, $\sqrt{b + h_C}$, and $\sqrt{c + h_A}$ be the roots of a polynomial.
+
+Then, we claim this polynomial also has roots $\sqrt{a + h_C}$, $\sqrt{b + h_A}$, and $\sqrt{c + h_B}$.
+This can be shown with Vieta's and Newton sums, along with the fact that
+\[
+    (a + h_B)(b + h_C)(c + h_A) = (a + h_C)(b + h_A)(c + h_B),
+\]
+which can be shown by expanding and simplifying using the triangle area formula.
+
+Thus, we have three cases:
+\begin{enumerate}
+    \item $\sqrt{a + h_B} = \sqrt{a + h_C}$.
+    Let $A$ be the area of the triangle. Then it is obvious that $b = c$.
+    \item $\sqrt{a + h_B} = \sqrt{b + h_A}$.
+    We can derive that $a = b$ or $ab = -1$, the latter of which is impossible.
+    \item $\sqrt{a + h_B} = \sqrt{c + h_B}$.
+    Obviously $a = c$.
+\end{enumerate}
+In any case, the triangle is isosceles.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p26456432}{Added by Jason Lee}, $5\clubsuit$]
+  Consider all complex numbers $k$ for which there exist complex numbers
+  $a$, $b$, $c$, $d$ and $e$ satisfying
+  \begin{align*}
+  \frac{a}{b} + \frac{b}{c} &= 1 \\
+  \frac{b}{c} + \frac{c}{d} &= 2 \\
+  \frac{c}{d} + \frac{d}{e} &= 3 \\
+  \frac{d}{e} + \frac{e}{a} &= 4 \\
+  \frac{e}{a} + \frac{a}{b} &= k.
+  \end{align*}
+  Find the sum of all possible values of $k^4$.
+\end{problem} \printpuid{H2954369}
+
+%% Type your solution to Added by Jason Lee (\href{https://otis.evanchen.cc/arch/H2954369/}{H2954369}) here ...
+
+%% --------------------------------------------------
+
+\begin{remark*}
+  For the previous problem by Jason Lee, avoid using a calculator ---
+  you can solve it with rather little arithmetic if you set it up correctly.
+\end{remark*}
+
+\begin{problem}[\href{https://w.wiki/Ay2P}{Prove the Newton sums in the reading}, $5\clubsuit$]
+  Suppose the complex-coefficient polynomial
+  \[ f(x) = a_n x^n + a_{n-1} x^{n-1} + \dots + a_0 \]
+  has complex roots $z_1$, $z_2$, \dots, $z_n$.
+  For each $d \ge 0$, define $p_d = z_1^d + z_2^d + \dots + z_n^d$.
+  Prove that for every integer $k \ge 1$ we have the identity
+  \[ a_n p_k + a_{n-1} p_{k-1} + \dots + a_{n-(k-1)} p_1 + k \cdot a_{n-k} = 0. \]
+  where we by convention let $a_i = 0$ if $i < 0$.
+\end{problem} \printpuid{ZC01F573}
+
+%% Type your solution to Prove the Newton sums in the reading (\href{https://otis.evanchen.cc/arch/ZC01F573/}{ZC01F573}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p2014940}{Longlist 1985/19}, $9\clubsuit$]
+  Solve over $\RR$ the system of simultaneous equations
+  \begin{align*}
+  \sqrt x - \frac 1y - 2w + 3z &= 1, \\
+  x + \frac{1}{y^2} - 4w^2 - 9z^2 &= 3, \\
+  x \sqrt x - \frac{1}{y^3} - 8w^3 + 27z^3 &= -5, \\
+  x^2 + \frac{1}{y^4} - 16w^4 - 81z^4 &= 15.
+  \end{align*}
+\end{reqproblem} \printpuid{85LL19}
+
+%% Type your solution to Longlist 1985/19 (\href{https://otis.evanchen.cc/arch/85LL19/}{85LL19}) here ...
+After the obvious substitution we have
+\begin{align*}
+    a+b-c-d &= 1\\
+    a^2 + b^2 - c^2 - d^2 &= 3 \\
+    a^3 + b^3 - c^3 - d^3 &= -5 \\
+    a^4 + b^4 - c^4 - d^4 &= 15.
+\end{align*}
+Guessing small integer solutions, we find that $(a,b,c,d) = (1,-2,-1,-1)$
+is a solution. We claim that it is the only solution (up to swapping $a$ and $b$).
+
+Notice that we can write
+\[ a^n + b^n + (-1)^n + (-1)^n = c^n + d^n + (-2)^n + 1^n \]
+for $n = 1,2,3,4$. This means that the Newton sums of the polynomials
+with roots $\{a,b,-1,-1\}$ and $\{c,d,-2,1\}$ are the same.
+This uniquely determines the polynomial (up to leading coefficient).
+Thus, the multisets of roots must be equal, and we are done.
+
+Finally, our original substitution requires $a$ to be positive,
+so the only solution is
+\[ (x,y,w,z) = \left(1,\frac12, -\frac12, \frac13 \right). \]
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p28369832}{{$\ol{\ZZ}$} is a ring}, $9\clubsuit$]
+  Suppose that $\alpha$ and $\beta$ are complex numbers
+  and monic polynomials $P,Q \in \ZZ[x]$ satisfy $P(\alpha) = Q(\beta) = 0$.
+  \begin{enumerate}[(a)]
+  \ii Show that there is monic polynomial $R \in \ZZ[x]$
+  such that $R(\alpha + \beta) = 0$.
+  \ii Show that there is a monic polynomial $S \in \ZZ[x]$
+  such that $S(\alpha \beta) = 0$.
+  \end{enumerate}
+\end{problem} \printpuid{Z40B5559}
+
+%% Type your solution to {$\ol{\ZZ}$} is a ring (\href{https://otis.evanchen.cc/arch/Z40B5559/}{Z40B5559}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p14065082}{HMMT 2020, added by Guanjie Lu}, $9\clubsuit$]
+  Let $P(x)=x^{2020}+x+2$.
+  Let $Q(x)$ be the monic polynomial of degree $\binom{2020}{2}$
+  whose roots are the pairwise products of the roots of $P(x)$.
+  Let $\alpha$ satisfy $P(\alpha)=4$.
+  Compute the sum of all possible values of $Q(\alpha^2)^2$.
+\end{problem} \printpuid{20HMMTA9}
+
+%% Type your solution to HMMT 2020, added by Guanjie Lu (\href{https://otis.evanchen.cc/arch/20HMMTA9/}{20HMMTA9}) here ...
+
+%% --------------------------------------------------
+
+\end{document}

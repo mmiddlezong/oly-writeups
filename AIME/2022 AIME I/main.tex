@@ -1,0 +1,300 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{2022 AIME I Solutions}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+Let the quadratics be $2x^2 + ax + b$
+and $2x^2 + cx + d$.
+We want $b+d$.
+
+The sum of the quadratics is $(a+c)x + (b+d)$.
+Plugging in $x=16$ and $x=20$, we get
+\begin{align*}
+16(a+c) + (b+d) &= 108,\\
+20(a+c) + (b+d) &= 106.
+\end{align*}
+Solve to get $b+d = \boxed{116}$.
+
+\section*{Problem 2}
+Use mod $9$ to greatly reduce the cases.
+Trial and error yields $\boxed{227}$.
+
+\section*{Problem 3}
+Angle chasing reveals $\angle APD = 90^\circ$.
+Extend ray $AP$ to hit $CD$ at $E$, and let $M$ be the midpoint of $AD$.
+Then, $AD = DE$ and $P$ is the midpoint of $AE$.
+So, line $MP$ is parallel to line $CD$ and has length $\frac{333}{2}$.
+
+Repeat this on the other side and note by symmetry that line $PQ$ is parallel to line $CD$.
+This means that
+\[ PQ = 575 - 2 \cdot \frac{333}{2} = \boxed{242}. \]
+
+\section*{Problem 4}
+Note that $w = \cis(30\dg)$ and $z = \cis(120\dg)$.
+We can take the argument of both sides of the desired equation to get
+\[ 90 + 30r \equiv 120s \pmod{360}. \]
+Dividing out by $30$ and rearranging yields
+\[ r \equiv 4s - 3 \pmod{12}. \]
+The RHS cycles every $3$, so we only have to consider $s \pmod{3}$.
+We get $9$ values for $r$ whenever $s \equiv 1\pmod{3}$ and $8$ values otherwise.
+Adding them up, we get an answer of
+\[ 33(9+8+8) + 9 = \boxed{834}. \]
+
+\section*{Problem 5}
+Let $t$ be the time that the two swam for.
+From the moving water's perspective,
+it is as if the two landed $14t$ meters upstream of the point
+equidistant from their starting positions; call this new point $P_S$.
+In this frame of reference,
+Melanie swam for $80t$ meters
+and Sherry swam for $60t$ meters.
+Setting up a coordinate system where the origin is at the midpoint of their starting positions,
+we get the equations
+\begin{align*}
+    \left(-14t + \frac{D}{2}\right)^2 + 264^2 &= (60t)^2, \\
+    \left(-14t - \frac{D}{2}\right)^2 + 264^2 &= (80t)^2.
+\end{align*}
+Subtracting the first equation from the second,
+we get $D = 100t$.
+
+Suppose Sherry started at point $S$ and Melanie started at point $M$.
+Then, $P_SSM$ is a right triangle. The altitude to its hypotenuse has length $264$.
+This means we can solve for $t$ using the area formula.
+We get $t = \frac{11}{2}$, so $D = \boxed{550}$.
+
+\section*{Problem 6}
+We use complementary counting.
+Consider the arithmetic progression that forms.
+It can either involve only $a$ (and three of the constant terms),
+involve only $b$ (and three of the constant terms),
+or involve both $a$ and $b$.
+Technically, these cases are not necessarily disjoint because
+multiple arithmetic progressions can form,
+but we will easily be able to tell if we overcount.
+
+In the case that it involves only $a$, notice that the first two terms
+or the last two terms must consist of only constant terms.
+So, the common difference can only take values which can be obtained by
+subtracting two of the constant terms.
+These values are $1$, $2$, $10$, and a lot of other values which are much too big.
+If the common difference is $1$, then this happens when $a=6$.
+If the common difference is $2$, there are no cases.
+If the common difference is $10$, then this happens when $a=20$.
+
+Similarly, if it involves only $b$,
+then there is the case where $b=20$, and nothing else.
+
+If it involves both $a$ and $b$, then
+we have to choose two constant terms to include in our sequence.
+The two constant terms can either be next to each other in the sequence
+or have two terms ($a$ and $b$) in between.
+If they are next to each other, then as before,
+the common difference must be $1$, $2$, or $10$.
+This gives us the case $(a,b)=(6,7)$, which we already included under $a=6$,
+the case $(7,9)$, and the case $(10,20)$, which we already included.
+
+If there are two terms in between, then the two constant terms must differ
+by a multiple of $3$.
+We can enumerate the cases pretty quickly and deduce that $(12,21)$ and $(16,28)$
+are the only possibilities.
+
+Summing it up, we want to count the cases
+where either $a=6$, $a=20$, or $b=20$ (be careful not to double count).
+There are also three extra cases.
+
+It is easy to see that this yields $23 + 9 + 13 + 3 = 48$ cases in the complement,
+so our answer is $\binom{24}{2} - 48 = \boxed{228}$.
+
+\begin{remark*}
+I initially sillied and got 49 cases in the complement because I overcounted $(6,20)$.
+Rookie mistake.
+\end{remark*}
+
+\section*{Problem 7}
+There are two approaches: maximizing the denominator, and minimizing the numerator.
+
+First, let's try minimizing the numerator.
+We can achieve a numerator of $1$ with
+\[ \frac{1 \cdot 5 \cdot 7 - 2 \cdot 3 \cdot 6}{4 \cdot 8 \cdot 9} = \frac{1}{288}. \]
+
+Now, the only concern remaining is that something with a numerator greater than $1$ would be better.
+However, the maximum possible denominator is $7 \cdot 8 \cdot 9 = 504 < 2 \cdot 288$, so this is
+impossible.
+
+So, our minimum is $\frac{1}{288}$, so our answer is $\boxed{289}$.
+
+\begin{remark*}
+I sillied because I thought $1$ was impossible,
+but I blame this on having seen the problem before and being overconfident.
+\end{remark*}
+
+\section*{Problem 8}
+Let $X$ be the intersection point opposite $B$,
+let $O$ be the center of $\omega$,
+and let $O_A$ be the center of $\omega_A$.
+
+It is well known (see: mixtilinear incircle properties)
+that $O$ is the midpoint of the tangency points of
+$\omega_A$ with lines $AB$ and $AC$, respectively.
+From this, we can use $30-60-90$ triangles to deduce
+that $OO_A = 6$ and that the radius of $\omega_A$ is $12$.
+
+Now, we can use the law of cosines on triangle $OO_AX$ with known angle $\angle O_AOX = 120\dg$
+to get
+\[ x^2 + 36 + 6x = 144, \]
+where $x = OX$.
+
+We solve to get $x = \sqrt{117} - 3$.
+Multiplying this by $\sqrt3$ evidently gives us the side length of the
+equilateral triangle formed by the intersection points,
+so our answer is $\sqrt{351} - \sqrt{27}$, and we bubble in $351 + 27 = \boxed{378}$.
+
+\section*{Problem 9}
+Note that an arrangement is even if and only if
+the 1st, 3rd, 5th, 7th, 9th, and 11th slots together contain
+all six types colors of blocks.
+To prove this, consider an arrangement where this is true.
+Then, take any color you want, WLOG red.
+One of the red blocks must be in an even numbered position,
+and the other one must be in an odd numbered position.
+So, the number of blocks in between is even.
+
+For the other direction, suppose that this were not true.
+That means some color is repeated in the odd-numbered slots.
+This color then violates the even property.
+
+Finally, basic combo gives us a probability of
+\[ \frac{(6!)^2 \cdot 2^6}{12!} = \frac{16}{231}. \]
+Our answer is $16 + 231 = \boxed{247}$.
+
+\section*{Problem 10}
+Let $r$ be the shared radius of the three congruent circles.
+Let $h_A$ be the distance from $A$ to the center of the sphere in which it lies,
+and define $h_B$ and $h_C$ similarly.
+First, get the equations
+
+\begin{align*}
+r^2 + h_A^2 &= 11^2,\\
+r^2 + h_B^2 &= 13^2,\\
+r^2 + h_C^2 &= 19^2.
+\end{align*}
+
+Then, take the cross section passing through $A$, $B$, and the center of $A$'s sphere.
+This plane also passes through the center of $B$'s sphere,
+because the circles line on the same plane, making their normal vectors parallel.
+This cross section gives the equation
+\[ (h_B - h_A)^2 + 560 = 24^2 \implies h_B - h_A = 4. \]
+We can now go back to the first set of equations to get $h_A = 4$ and $h_B = 8$.
+This also gives us $r^2 = 105$.
+Finally, we take a similar cross section but with $A$ and $C$ instead of $A$ and $B$,
+and this gives us the answer
+\[ AC^2 = 30^2 - 12^2 = \boxed{756}. \]
+
+\section*{Problem 11}
+Let $E$ be the tangency point on $AD$,
+let $F$ be the tangency point on $BC$,
+and let $G$ be the tangency point on $AB$.
+PoP yields $CF = 20$ and $AE = AG = 6$.
+
+Let $H$ be the projection of $B$ onto $AD$.
+Pythag on $\triangle AHB$ gives $r^2 = 6x$ after simplification.
+
+Note $\cos(\angle ABC) = -\cos(\angle BAH) = \frac{x-6}{x+6}$.
+Now, law of cosines on $\triangle ABC$ leads to a linear equation which yields $x = \frac92$,
+so $r = 3\sqrt 3$.
+The area is then
+\[ (20 + \frac92) \cdot 6\sqrt3 = 147 \sqrt{3}. \]
+Our answer is $147 + 3 = \boxed{150}$.
+
+\section*{Problem 12}
+Consider a fixed element, WLOG $1$.
+We count the number of times it is included in the sum.
+This is equivalent to the number of ordered pairs $(A,B)$
+such that $1 \in A$ and $1 \in B$.
+Doing casework on the size of the set,
+we see that this number is
+\[ \dbinom{n-1}{0}^2 + \dbinom{n-1}{1}^2 + \cdot + \dbinom{n-1}{n-1}^2. \]
+Using Vandermonde's identity, this simplifies to $\binom{2n-2}{n-1}$.
+This is how much $1$ contributes to $S_n$, but we have to multiply by $n$
+because there are $n$ numbers.
+So, we get the formula
+\[ S_n = n \dbinom{2n-2}{n-1}. \]
+Thus,
+\[ \frac{S_{2022}}{S_{2021}} = \frac{2022\binom{4042}{2021}}{2021\binom{4040}{2020}} = \frac{4044 \cdot 4041}{2021 \cdot 2021}. \]
+We can see that the numerator and denominator are relatively prime now.
+So, the answer is
+\[ 44 \cdot 41 + 21 \cdot 21 \equiv \boxed{245} \pmod{1000}. \]
+
+\begin{remark*}
+I sillied at the end and thought $\binom{4042}{2021} = \binom{4042}{2}$ which makes no sense but oh well.
+\end{remark*}
+
+\section*{Problem 13}
+Let $m$ be a possible numerator.
+We do casework on whether each of $3$, $11$, or $101$ divides $m$.
+For each case,
+one obtains a upper bound $b$ on $m$, making it a simple PIE exercise.
+The final answer is $3+55+334+6000 \equiv \boxed{392}$.
+
+\section*{Problem 14}
+The splitting line through $M$ is parallel to the $C$-angle bisector,
+and the line through $N$ is parallel to the $B$-angle bisector.
+Angle chasing reveals $\angle A = 120\dg$, so
+it suffices to solve $b^2 + bc + c^2 = 219^2$ (by the Law of Cosines).
+
+Bashing mod 3 and mod 9 reveals that $3 \mid b$ and $3 \mid c$,
+so it suffices to solve $x^2 + xy + y^2 = 73^2$.
+Note that $x^2 + xy + y^2$ is the norm of $x - y\omega$ in $\ZZ[\omega]$,
+where $\omega$ is a primitive third root of unity.
+
+So, we can just solve $N(u-v\omega) = 73$ and then square it.
+It is easy to guess $N(8-\omega) = 73$,
+so then, we have $N((8-\omega)^2) = 73^2$.
+Furthermore,
+\[ (8 - \omega)^2 = 64 - 16\omega + \omega^2 = 64 - 16\omega + (-1 - \omega) = 63 - 17\omega, \]
+giving us the solution $(x,y) = (63,17)$.
+We multiply by three to get $(b,c) = (189, 51)$, so the perimeter is $\boxed{459}$.
+
+\section*{Problem 15}
+Let $u = 1-x$, $v = 1-y$, and $w = 1-z$.
+Substituting yields
+\begin{align*}
+\sqrt{(1-u)(1+v)} + \sqrt{(1+u)(1-v)} &= 1 \\
+\sqrt{(1-v)(1+w)} + \sqrt{(1+v)(1-w)} &= \sqrt 2 \\
+\sqrt{(1-w)(1+u)} + \sqrt{(1+w)(1-u)} &= \sqrt 3.
+\end{align*}
+Squaring both sides and simplifying yields
+\begin{align*}
+    \sqrt{(1-u^2)(1-v^2)} - uv &= -\frac12 \\
+    \sqrt{(1-v^2)(1-w^2)} - vw &= 0 \\
+    \sqrt{(1-w^2)(1-u^2)} - wu &= \frac12.
+\end{align*}
+We are motivated to do trig sub.
+Let $u = \sin a$, $v = \sin b$, and $w = \sin c$.
+Then, substituting and simplifying yields
+\begin{align*}
+\cos(a+b) &= -\frac12 \\
+\cos(b+c) &= 0 \\
+\cos(c+a) &= \frac12.
+\end{align*}
+Trial and error (while respecting constraints) yields the solution
+\[ (a,b,c) = \left(\frac{\pi}{4}, \frac{5\pi}{12}, \frac{\pi}{12}\right) \]
+which satisfies the domain constraints of the problem.
+The problem is asking for $[(\sin a)(\sin b)(\sin c)]^2$,
+which we evaluate to be $\frac{1}{32}$.
+We bubble in $1 + 32 = \boxed{33}$.
+
+\begin{remark*}
+I sillied because I got $a = \frac{\pi}{2}$ which can't be right because then $x = 0$.
+On an unrelated note, in general, we must be careful because squaring both sides is irreversible.
+\end{remark*}
+
+\end{document}

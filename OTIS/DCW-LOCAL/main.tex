@@ -1,0 +1,680 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{derivative}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{DCW-local}}
+\ohead{\footnotesize Updated Wed 20 Sep 2023 15:41:36 UTC}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\clubg}[1]{\bgroup\color{green!40!black}[$#1\clubsuit$]\egroup}
+
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}{\textbf}
+\providecommand{\opname}{\operatorname}
+\providecommand{\ts}{\textsuperscript}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+    linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+    mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+    nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+    mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+    linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+    mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+    linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmredbox,name=Problem]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmblackbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmblackbox,name=Example,numbered=no]{example*}
+
+\newenvironment{walkthrough}{\noindent\textbf{\color{green!40!black}Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+
+\usepackage{asymptote}
+\begin{asydef}
+size(8cm); // set a reasonable default
+usepackage("amsmath");
+usepackage("amssymb");
+settings.tex="pdflatex";
+settings.outformat="pdf";
+import geometry;
+void filldraw(picture pic = currentpicture, conic g, pen fillpen=defaultpen, pen drawpen=defaultpen) { filldraw(pic, (path) g, fillpen, drawpen); }
+void fill(picture pic = currentpicture, conic g, pen p=defaultpen) { filldraw(pic, (path) g, p); }
+pair foot(pair P, pair A, pair B) { return foot(triangle(A,B,P).VC); }
+pair centroid(pair A, pair B, pair C) { return (A+B+C)/3; }
+\end{asydef}
+
+\newcommand{\goals}[2]{\bgroup
+\sffamily\small \emph{Instructions}: Solve \clubg{#1}.
+If you have time, solve \clubg{#2}.\egroup\par}
+
+%% 426c616e6b204c615465587e
+\begin{document}
+\title{Submission for DCW-LOCAL}
+\subtitle{OTIS (internal use)}
+\author{Michael Middlezong}
+\date{\today}
+\maketitle
+
+\begin{example*}[$0\clubsuit$]
+  Suppose $4951$ distinct points in the plane are given
+  such that no four points are collinear.
+  Show that it is possible to select $100$ of the points
+  for which no three points are collinear.
+\end{example*} \printpuid{ZEBE7889}
+
+\begin{walkthrough}
+Following RUST, keep grabbing points until we cannot take any more.
+Suppose at this point we have $n$ points.
+\begin{walk}
+  \ii Show that $4951-n \le \binom n2$.
+  \ii Prove that $n \ge 100$.
+\end{walk}
+So this is an example of a greedy algorithm
+of the most direct sort.
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[Putnam 1979, $0\clubsuit$]
+  Given $n$ red points and $n$ blue points in the plane,
+  no three collinear, prove that we can draw $n$ segments,
+  each joining a red point to a blue point,
+  such that no segments intersect.
+\end{example*} \printpuid{79PTNM}
+
+\begin{walkthrough}
+Starting from an arbitrary configuration,
+we will use the algorithm ``given a crossing, un-cross it''.
+This is a very natural algorithm to come up with,
+and playing with some simple examples one finds that it always work.
+So we just have to prove that.
+\begin{walk}
+  \ii Show that a step of this algorithm does
+  \emph{not} necessarily decrease the total number of intersections.
+  (But this is the first thing we \emph{should} try,
+  given that our goal is to get zero intersections at the end.)
+
+  \ii Find a different monovariant $M$ which \emph{does} decrease
+  at each step of the algorithm.
+
+  \ii Remark on the finiteness of the configuration space,
+  and complete the problem using (b).
+\end{walk}
+
+I want to say a few words about why I chose this example.
+This problem is touted in olympiad cultures as an example
+of ``extremal principle'', with ``choose the minimal $M$''
+as the poster description.
+In my humble opinion, I think this is hogwash.
+The motivation should be the natural algorithm we used;
+the monovariant comes after the fact.
+
+Indeed, the fact that the natural guess of the monovariant
+in (a) fails is what makes this problem a little interesting
+(and not completely standard).
+However, it doesn't change the fact that the algorithm
+comes before the monovariant in our thought process.
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p63591}{USAMO 1999/4}, $0\clubsuit$]
+  Let $a_1$, $a_2$, \dots, $a_n$ be a sequence of $n > 3$ real numbers
+  such that
+  \[ a_1 + \dots + a_n \ge n \quad\text{and}\quad
+  a_1^2 + \dots + a_n^2 \ge n^2. \]
+  Prove that $\max(a_1, \dots, a_n) \ge 2$.
+\end{example*} \printpuid{99AMO4}
+
+\begin{walkthrough}
+We will proceed by contradiction,
+and assume that there exists \emph{some} sequence of $(a_i)$
+satisfying all three of the following conditions:
+\begin{enumerate}[(1)]
+  \ii $\sum a_i \ge n$,
+  \ii $\sum a_i^2 \ge n^2$,
+  \ii but also $a_i < 2$ for all $i$.
+\end{enumerate}
+Our game plan is then to take this starting sequence,
+and smooth the variables to obtain a new simpler sequence
+satisfying (1)-(3).
+We'll then derive a contradiction in the simplified setting.
+\begin{walk}
+  \ii If $a_i \le 0$ and $a_j \le 0$,
+  how can we smooth these two terms while preserving (1), (2), and (3)?
+  \ii If $a_i \ge 0$, how can we smooth
+  the $a_i$ while preserving (1), (2) and (3)?
+  \ii Combining (a) and (b),
+  reduce the case where one term is negative and the rest are $2-\eps$
+  for some small $\eps$.
+  \ii Solve the problem in the situation of (c).
+\end{walk}
+One can avoid the issue of $\eps$ in (c) as well
+if one notes that increasing $2-\eps$ to $2$
+makes the inequalities (1) and (2) strict
+(while relaxing (3) to be non-strict).
+This makes the calculations a little less technical.
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[\href{https://aops.com/community/p9513105}{USA TST 2018/3}, $0\clubsuit$]
+  At a university dinner,
+  there are $2017$ mathematicians who each order two distinct entr\'ees,
+  with no two mathematicians ordering the same pair of entr\'{e}es.
+  The cost of each entr\'ee is equal
+  to the number of mathematicians who ordered it,
+  and the university pays for each mathematician's
+  less expensive entr\'ee (ties broken arbitrarily).
+  Over all possible sets of orders,
+  what is the maximum total amount the university could have paid?
+\end{example*} \printpuid{18USATST3}
+
+\begin{walkthrough}
+%%fakesection Walk
+This is a rather detail-oriented problem which requires a lot of care
+in order to get all the arguments to be correct.
+In my opinion, being able to work out a flawless solution
+in the time limit of the exam is an impressive feat.
+
+The original proposed solution is pretty combinatorial,
+and the walkthrough for that is below;
+it uses a \emph{local} smoothing idea in the first half
+and then a \emph{global} idea in the second part.
+(There is also an algebraic solution using
+inequality smoothing instead.)
+
+Viewing the problem in graph theory terms,
+let \[ S(G) \coloneqq \sum_{e = vw} \min \left( \deg v, \deg w \right) \]
+and thus we want to maximize $S(G)$ over simple graphs $G$ with $2017$ edges.
+
+Let's get started.
+\begin{walk}
+  \ii Find an example of a graph achieving $S(G) = 127009$.
+  We will prove this is the maximum value.
+
+  \ii Make a conjecture what the answer is if $2017$
+  is replaced by $\binom k2+1$ where $k \ge 4$.
+
+  \ii Show that the natural extension of (b) does \emph{not} hold when $k = 3$.
+  This edge case will haunt us briefly later on again.
+\end{walk}
+Here is the local half:
+\begin{walk}[resume]
+  \ii Suppose $G$ is a graph with $\binom k2$ edges for $k \ge 3$.
+  Assume $G$ has no universal vertex,
+  and let $w$ denote the vertex of minimal degree.
+
+  Prove that one can delete $w$, and rewire the edges originally adjacent to $w$,
+  to obtain a graph $G^\ast$ with fewer vertices and $S(G^\ast) \ge S(G)$.
+
+  \ii Repeat part (d) where $G$ has $\binom k2 + 1$ edges
+  and $k \ge 4$, and $\#V(G) > k+1$.
+  Then check the existence of $G^\ast$ by hand for $\#V(G) = k+1$.
+
+  \ii Show that (e) is false if $k=3$.
+\end{walk}
+So, we can reduce to the case where $G$ has a universal vertex.
+We will now prove by induction on $k \ge 3$ the following claim:
+\begin{quote}
+  For any graph $G$,
+  \begin{itemize}
+    \ii If $G$ has at most $\binom k2$ edges for $k \ge 3$,
+    then $S(G) \le \binom k2 \cdot (k-1)$.
+    \ii If $G$ has at most $\binom k2 + 1$ edges for $k \ge 4$,
+    then $S(G) \le \binom k2 \cdot (k-1) + 1$.
+  \end{itemize}
+\end{quote}
+This is the global half.
+\begin{walk}[resume]
+  \ii Check the base case $k=3$.
+  (We won't need a base case for the second bullet;
+  it will reduce to the first one.)
+  \ii WLOG, let $v$ be the universal vertex of $G$.
+  Show that if $v$ is deleted,
+  the resulting graph $H$ has at most $\binom{k-1}{2}$ edges
+  (in both cases) and thus we can apply
+  the induction hypothesis to the resulting graph $H$.
+  \ii Prove that $S(G) = S(H) + 3\#E(H) + \#V(H)$.
+  \ii Combine the previous two parts to complete the problem.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\newpage
+
+% ========================================
+\section*{Practice problems}
+\goals{36}{50}
+
+\epigraph{Mario, I will follow you to the end, I swear it!
+I feel bad for the princess, but that queen must fall before us!
+And when she does, you and I can\dots Well, anyway, let's take this fight to her!}
+{Vivian in the Shadow Queen battle, from \\ \emph{Paper Mario: The Thousand Year Door}}
+%%fakesubsection*{Local problems}
+
+\begin{reqproblem}[\href{https://aops.com/community/p3286455}{PUMaC 2013}, $2\clubsuit$]
+  Let $G$ be a graph and let $k$ be a positive integer.
+  A $k$-\emph{star} is a set of $k$ edges with a common endpoint
+  and a $k$-\emph{matching} is a set of $k$ edges such that
+  no two have a common endpoint.
+  Prove that if $G$ has more than $2(k-1)^2$ edges then
+  it either has a $k$-star or a $k$-matching.
+\end{reqproblem} \printpuid{13PUMACFA3}
+
+%% Type your solution to PUMaC 2013 (\href{https://otis.evanchen.cc/arch/13PUMACFA3/}{13PUMACFA3}) here ...
+Assume there is no $k$-star. This means every vertex has a degree which is at most $k-1$.
+Then, for the sake of contradiction, take a maximal matching of size $m < k$.
+Every edge in the graph must either be in the matching or
+share an endpoint with an edge in the matching.
+The maximum number of edges not in the matching is then
+\[ 2m(k-2). \]
+Counting up the total number of edges in the graph, we get
+\[ 2m(k-2) + m \le 2(k-1)(k-2) + (k-1) = 2k^2 - 5k + 3 \le 2(k-1)^2, \]
+contradicting the assumption that $G$ has more than $2(k-1)^2$ edges.
+%% --------------------------------------------------
+
+\begin{problem}[$3\clubsuit$]
+  Prove that if $n$ is a sufficiently large positive integer
+  then it is possible to find a collection $\mathcal F$
+  of subsets of $\{1, \dots, n\}$,
+  such that $|\mathcal F| > 1.001^n$
+  and whenever $X$ and $Y$ are distinct elements of $\mathcal F$,
+  we have
+  \[ \left\lvert X \cup Y \right\rvert
+  - \left\lvert X \cap Y \right\rvert
+  \ge \frac n3. \]
+\end{problem} \printpuid{GOWERSE3}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/GOWERSE3/}{GOWERSE3} here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p261}{IMO 2003/1}, $3\clubsuit$]
+  Let $A$ be a $101$-element subset of $S=\{1,2,\dots,10^6\}$.
+  Prove that there exist numbers $t_1$, $t_2, \dots, t_{100}$ in $S$ such that the sets
+  \[ A_j=\{x+t_j\mid x\in A\},\qquad j=1,2,\dots,100  \]
+  are pairwise disjoint.
+\end{reqproblem} \printpuid{03IMO1}
+
+%% Type your solution to IMO 2003/1 (\href{https://otis.evanchen.cc/arch/03IMO1/}{03IMO1}), proposed by Carlos Gustavo Moreira (BRA) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p8651644}{BAMO 2017/3}, $2\clubsuit$]
+  Let $n$ be a positive integer and consider an
+  $n \times n$ multiplication table as shown below,
+  where the entry in the $i$th column and the $j$th row is $ij$.
+  \[
+  \begin{bmatrix}
+  1 & 2 & 3 & \dots & n-1 & n \\
+  2 & 4 & 6 & \dots & 2n-2 & 2n \\
+  3 & 6 & 9 & \dots & 3n-3 & 3n \\
+  \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+  n & 2n & 3n & \dots & n^2-n & n^2
+  \end{bmatrix}
+  \]
+  An ant starts on the cell labeled $1$,
+  and walks towards the cell labeled $n^2$
+  by taking $2n-2$ steps each either right or down.
+  Determine the minimum and maximum possible sum
+  of the labels in such a path, as a function of $n$.
+\end{problem} \printpuid{17BAMO3}
+
+%% Type your solution to BAMO 2017/3 (\href{https://otis.evanchen.cc/arch/17BAMO3/}{17BAMO3}) here ...
+Consider the set of elements $ij$ for $i+j=k$; call this ``diagonal $k$.'' Clearly,
+in any path the ant takes, the number of the diagonal it is in increments by $1$ with each step.
+Thus, if we could get the ant to always choose the maximum number in each diagonal,
+that would produce the maximum sum (and vice versa for minimum).
+
+It is not hard to show that the element(s) in the middle of each diagonal are the greatest
+and the elements on the ends of each diagonal are the smallest.
+This means that it is possible to always choose the maximum/minimum element in each diagonal.
+The maximum sum is achieved by taking a zigzag path down the main diagonal of the matrix,
+and the minimum sum is achieved by going right $n-1$ times and then going down $n-1$ times.
+
+The minimum sum is then
+\begin{align*}
+    (1+2+\dots + (n-1)) + (n + 2n + \dots + n^2) &= \frac{n(n-1)}{2} + \frac{n^2(n+1)}{2} \\
+    &= \frac{n(n^2 + 2n - 1)}{2}.
+\end{align*}
+
+Finally, the maximum sum is
+\begin{align*}
+    \sum_{i=1}^n (i^2 + i(i-1)) &= \sum_{i=1}^n (2i^2 - i) \\
+    &= 2\frac{n(n+1)(2n+1)}{6} - \frac{n(n+1)}{2} \\
+    &= \frac{n(n+1)(4n-1)}{6}.
+\end{align*}
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p7357500}{Putnam 2016 A5}, $5\clubsuit$]
+  Suppose that $G$ is a finite group generated
+  by the two elements $g$ and $h$, where the order of $g$ is odd.
+  Show that every element of $G$ can be written in the form
+  \[ g^{m_1} h^{n_1} g^{m_2} h^{n_2} \dots g^{m_r} h^{n_r} \]
+  with $1\le r\le |G|$ and $m_1,n_1,m_2,n_2,\dots,m_r,n_r\in\{1,-1\}$.
+  (Here $|G|$ is the number of elements of $G$.)
+\end{problem} \printpuid{16PTNMA5}
+
+%% Type your solution to Putnam 2016 A5 (\href{https://otis.evanchen.cc/arch/16PTNMA5/}{16PTNMA5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p2114068}{MP4G 2010}, $3\clubsuit$]
+  Let $S$ be a set of $n$ points in the coordinate plane.
+  Say that a pair of points is \emph{aligned} if the two points
+  have the same $x$-coordinate or $y$-coordinate.
+  Prove that $S$ can be partitioned into disjoint subsets such that
+  (a) each of these subsets is a collinear set of points, and
+  (b) at most $n^{3/2}$ unordered pairs of distinct points in $S$
+  are aligned but not in the same subset.
+\end{problem} \printpuid{10MPO4}
+
+%% Type your solution to MP4G 2010 (\href{https://otis.evanchen.cc/arch/10MPO4/}{10MPO4}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p17852}{Russia 2004}, $5\clubsuit$]
+  A country has $1001$ cities,
+  and each two cities are connected by a one-way street.
+  From each city exactly $500$ roads begin,
+  and in each city $500$ roads end.
+  Now an independent republic splits itself off the country,
+  which contains $668$ of the $1001$ cities.
+  Prove that one can reach every other city of the republic
+  from each city of this republic
+  without being forced to leave the republic.
+\end{problem} \printpuid{04RUS106}
+
+%% Type your solution to Russia 2004 (\href{https://otis.evanchen.cc/arch/04RUS106/}{04RUS106}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p17829157}{Shortlist 2019 C2}, $3\clubsuit$]
+  You're given $n$ blocks each with weight at least $1$ and total weight $2n$.
+  Prove that for every real number $r \in [0, 2n-2]$ there is a subset of
+  the blocks whose total weight is between $r$ and $r+2$ inclusive.
+\end{problem} \printpuid{19SLC2}
+
+%% Type your solution to Shortlist 2019 C2 (\href{https://otis.evanchen.cc/arch/19SLC2/}{19SLC2}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p119173}{Shortlist 2001 C1, added by Pranav Choudhary}, $3\clubsuit$]
+  Let $A = (a_1, a_2, \dots, a_{2001})$ be a sequence of positive integers.
+  Let $m$ be the number of 3-element subsequences $(a_i,a_j,a_k)$
+  with $1 \leq i < j < k \leq 2001$, such that $a_j = a_i + 1$ and $a_k = a_j + 1$.
+  Considering all such sequences $A$, find the greatest value of $m$.
+\end{problem} \printpuid{01SLC1}
+
+%% Type your solution to Shortlist 2001 C1, added by Pranav Choudhary (\href{https://otis.evanchen.cc/arch/01SLC1/}{01SLC1}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p3543144}{IMO 2014/5}, $9\clubsuit$]
+  For every positive integer $n$,
+  the Bank of Cape Town issues coins of denomination $\frac 1n$.
+  Given a finite collection of such coins (of not necessarily different denominations)
+  with total value at most $99 + \frac12$, prove that it is possible to split
+  this collection into $100$ or fewer groups, such that each group has total value at most $1$.
+\end{reqproblem} \printpuid{14IMO5}
+
+%% Type your solution to IMO 2014/5 (\href{https://otis.evanchen.cc/arch/14IMO5/}{14IMO5}), proposed by Gerhard Woeginger (LUX) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p24775345}{USAMO 2022/2}, $5\clubsuit$]
+  Let $b\geq 2$ and $w\geq 2$ be fixed integers, and $n=b+w$.
+  Given are $2b$ identical black rods and $2w$ identical white rods,
+  each of side length $1$.
+
+  We assemble a regular $2n$-gon using these rods
+  so that parallel sides are the same color.
+  Then, a convex $2b$-gon $B$ is formed by translating the black rods,
+  and a convex $2w$-gon $W$ is formed by translating the white rods.
+  An example of one way of doing the assembly when $b=3$ and $w=2$ is shown below,
+  as well as the resulting polygons $B$ and $W$.
+  \begin{center}
+  \begin{asy}
+  size(10cm);
+  real w = 2*Sin(18);
+  real h = 0.10 * w;
+  real d = 0.33 * h;
+  picture wht;
+  picture blk;
+
+  draw(wht, (0,0)--(w,0)--(w+d,h)--(-d,h)--cycle);
+  fill(blk, (0,0)--(w,0)--(w+d,h)--(-d,h)--cycle, black);
+
+  // draw(unitcircle, blue+dotted);
+
+  // Original polygon
+  add(shift(dir(108))*blk);
+  add(shift(dir(72))*rotate(324)*blk);
+  add(shift(dir(36))*rotate(288)*wht);
+  add(shift(dir(0))*rotate(252)*blk);
+  add(shift(dir(324))*rotate(216)*wht);
+
+  add(shift(dir(288))*rotate(180)*blk);
+  add(shift(dir(252))*rotate(144)*blk);
+  add(shift(dir(216))*rotate(108)*wht);
+  add(shift(dir(180))*rotate(72)*blk);
+  add(shift(dir(144))*rotate(36)*wht);
+
+  // White shifted
+  real Wk = 1.2;
+  pair W1 = (1.8,0.1);
+  pair W2 = W1 + w*dir(36);
+  pair W3 = W2 + w*dir(108);
+  pair W4 = W3 + w*dir(216);
+  path Wgon = W1--W2--W3--W4--cycle;
+  draw(Wgon);
+  pair WO = (W1+W3)/2;
+  transform Wt = shift(WO)*scale(Wk)*shift(-WO);
+  draw(Wt * Wgon);
+  label("$W$", WO);
+  /*
+  draw(W1--Wt*W1);
+  draw(W2--Wt*W2);
+  draw(W3--Wt*W3);
+  draw(W4--Wt*W4);
+  */
+
+  // Black shifted
+  real Bk = 1.10;
+  pair B1 = (1.5,-0.1);
+  pair B2 = B1 + w*dir(0);
+  pair B3 = B2 + w*dir(324);
+  pair B4 = B3 + w*dir(252);
+  pair B5 = B4 + w*dir(180);
+  pair B6 = B5 + w*dir(144);
+  path Bgon = B1--B2--B3--B4--B5--B6--cycle;
+  pair BO = (B1+B4)/2;
+  transform Bt = shift(BO)*scale(Bk)*shift(-BO);
+  fill(Bt * Bgon, black);
+  fill(Bgon, white);
+  label("$B$", BO);
+  \end{asy}
+  \end{center}
+  Prove that the difference of the areas of $B$ and $W$
+  depends only on the numbers $b$ and $w$,
+  and not on how the $2n$-gon was assembled.
+\end{problem} \printpuid{22AMO2}
+
+%% Type your solution to USAMO 2022/2 (\href{https://otis.evanchen.cc/arch/22AMO2/}{22AMO2}), proposed by Ankan Bhattacharya here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p131846}{IMO 1999/2}, $3\clubsuit$]
+  Find the least constant $C$ such that for any integer $n > 1$ the inequality
+  \[\sum_{1 \le i < j \le n} x_i x_j (x_i^2 + x_j^2)
+  \le C \left( \sum_{1 \le i \le n} x_i \right)^4\]
+  holds for all real numbers $x_1, \dots, x_n \ge 0$.
+  Determine the cases of equality.
+\end{problem} \printpuid{99IMO2}
+
+%% Type your solution to IMO 1999/2 (\href{https://otis.evanchen.cc/arch/99IMO2/}{99IMO2}) here ...
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[\href{https://aops.com/community/p9853492}{HMMT 2018 T6}, $5\clubsuit$]
+  Let $n \ge 2$ be a positive integer.
+  A subset of positive integers $S$ is said to be
+  \emph{comprehensive} if for every integer $0 \le x < n$,
+  there is a subset of $S$ (possibly empty)
+  whose sum has remainder $x$ when divided by $n$.
+  Show that if a set $S$ is comprehensive,
+  then there is some (not necessarily proper) subset of $S$
+  with at most $n-1$ elements which is also comprehensive.
+\end{reqproblem} \printpuid{18HMMTT6}
+
+%% Type your solution to HMMT 2018 T6 (\href{https://otis.evanchen.cc/arch/18HMMTT6/}{18HMMTT6}), proposed by Allen Liu here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[$3\clubsuit$]
+  Prove that in any tournament, either
+  \begin{itemize}
+  \ii there exists a directed Hamiltonian cycle, or
+  \ii there exists a nontrivial partition $A \sqcup B$
+  of the vertices such that $A$ and $B$ are nonempty and
+  whenever $a \in A$ and $b \in B$,
+  there is an edge from $a$ to $b$.
+  \end{itemize}
+\end{problem} \printpuid{GRTH6}
+
+%% Type your solution to \href{https://otis.evanchen.cc/arch/GRTH6/}{GRTH6} here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p7389115}{USA TST 2017/1}, $5\clubsuit$]
+  In a sports league, each team uses a set of at most $t$ signature colors.
+  A set $S$ of teams is \emph{color-identifiable} if one can assign
+  each team in $S$ one of their signature colors,
+  such that no team in $S$ is assigned
+  \emph{any} signature color of a different team in $S$.
+  For all positive integers $n$ and $t$,
+  determine the maximum integer $g(n,t)$ such that:
+  In any sports league with exactly $n$ distinct colors
+  present over all teams, one can always
+  find a color-identifiable set of size at least $g(n,t)$.
+\end{problem} \printpuid{17USATST1}
+
+%% Type your solution to USA TST 2017/1 (\href{https://otis.evanchen.cc/arch/17USATST1/}{17USATST1}), proposed by Po-Shen Loh here ...
+
+%% --------------------------------------------------
+
+(This TST1 is easy to misread and quite easy to mess up, so be careful.)
+
+\begin{problem}[\href{https://aops.com/community/p21040403}{Moscow 1957, added by Tilek Askerbekov}, $3\clubsuit$]
+  Let $1=a_1 \le a_2 \le \dots \le a_n$ be integers.
+  Assume $a_{i+1} \leq 2a_i$ for all $i=1,\dots,n-1$
+  and $a_1+\dots+a_n$ is even.
+  Prove that the $n$ integers can be split into two piles with equal sum.
+\end{problem} \printpuid{57MOSCOW}
+
+%% Type your solution to Moscow 1957, added by Tilek Askerbekov (\href{https://otis.evanchen.cc/arch/57MOSCOW/}{57MOSCOW}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p27258650}{Canada 2023, added by Haozhe Yang}, $9\clubsuit$]
+  Let $n \ge 1$ and $k \ge 1$ be fixed positive integers.
+  A simple graph on $n$ vertices has the property that whenever
+  it its vertices are partitioned into two sets,
+  then at most $kn$ edges have endpoints in different sets.
+  What is the largest integer $m$ (in terms of $n$ and $k$) such that
+  there is guaranteed to be a set of $m$ vertices with no edge between them?
+\end{problem} \printpuid{23CAN5}
+
+%% Type your solution to Canada 2023, added by Haozhe Yang (\href{https://otis.evanchen.cc/arch/23CAN5/}{23CAN5}) here ...
+
+%% --------------------------------------------------
+
+%%fakesubsection*{A couple extra problems on extremal principle}
+\begin{remark*}
+It's debatable whether these problems really count as ``local'':
+some find them suitable, while others find them unconnected.
+In my opinion, these feel different because they are not algorithmic.
+\end{remark*}
+
+\begin{problem}[\href{https://aops.com/community/p7357521}{Korea 1995, also Putnam 2016 B3}, $3\clubsuit$]
+  Consider finitely many points in the plane such that,
+  if we choose any three points $A$, $B$, $C$ among them,
+  the area of triangle $ABC$ is always less than $1$.
+  Show that all these points lie within the interior
+  of some triangle with area $4$.
+\end{problem} \printpuid{16PTNMB3}
+
+%% Type your solution to Korea 1995, also Putnam 2016 B3 (\href{https://otis.evanchen.cc/arch/16PTNMB3/}{16PTNMB3}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p1871433}{Iran TST 2010/7}, $3\clubsuit$]
+  Let $\mathcal P = P_1P_2 \dots P_{2n}$ be a polygon,
+  possibly concave but not self-intersecting.
+  Suppose there is a line $\ell$ such that for each $k=1,2,\dots,n$,
+  ray $P_{2k-1} P_{2k}$ intersects $\ell$ and is perpendicular to it.
+  Prove that $\ell$ intersects $\mathcal P$.
+\end{problem} \printpuid{10IRNTST7}
+
+%% Type your solution to Iran TST 2010/7 (\href{https://otis.evanchen.cc/arch/10IRNTST7/}{10IRNTST7}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Sylvester-Gallai, $3\clubsuit$]
+  Finitely many points in the plane are given, not all collinear.
+  Prove that there exists a line passing through exactly two of them.
+\end{problem} \printpuid{ZC62C56E}
+
+%% Type your solution to Sylvester-Gallai (\href{https://otis.evanchen.cc/arch/ZC62C56E/}{ZC62C56E}) here ...
+
+%% --------------------------------------------------
+
+\end{document}

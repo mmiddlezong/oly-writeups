@@ -1,0 +1,120 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{2024 AIME I Solutions}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 11}
+We do casework on the number of blue vertices.
+If there are $0$, $1$, or $2$ blue vertices,
+then any arrangement is valid,
+giving us $1$, $8$, and $\binom82 = 28$ cases, respectively.
+
+If there are $3$ blue vertices, then suppose no two of them are adjacent.
+Then, we can just rotate by one in either direction.
+Suppose two of them are adjacent.
+Then, it is clear that no matter where the third is,
+it will still work out.
+So, every arrangement works, giving us $\binom83 = 56$ cases.
+
+The hardest case to deal with is if there are $4$ blue vertices.
+For this, we do casework on the maximal contiguous blocks of blue vertices.
+\begin{itemize}
+\item One block of $4$ yields $8$ cases.
+\item A block of $3$ with a separate block of $1$ yields $0$ cases.
+\item Two separate blocks of $2$ yields $4$ cases.
+\item A block of $2$ and two blocks of $1$ yields $8$ cases.
+\item Four blocks of $1$ yields $2$ cases.
+\end{itemize}
+Adding up yields $22$ cases.
+
+There cannot be more than $4$ blue vertices.
+So, the final probability is
+\[ \frac{1+8+28+56+22}{256} = \frac{115}{256}. \]
+This gives an answer of $115 + 256 = \boxed{371}$.
+
+\begin{remark*}
+I sillied in-contest by forgetting to count the case of ``A block of $2$ and two blocks of $1$.''
+\end{remark*}
+
+\section*{Problem 12}
+After graphing each function, we see that intersections can only happen in the square $[0, 1] \times [0,1]$.
+Furthermore, the first graph looks like a line that oscillates, changing direction $16$ times,
+while the second graph looks like a line that oscillates $24$ times.
+The first graph starts at $(0,1)$ and ends at $(1,1)$,
+and the second graph starts at $(1,1)$ and ends at $(1,0)$.
+So, there will be an intersection at $(1,1)$, but not in any other corner.
+
+Trying small examples and conjecturing a pattern,
+we expect this sort of oscillating line configuration to generate $16 \cdot 24 = 384$
+intersection points.
+However, we must be careful around the $(1,1)$ corner, since these are not actually lines.
+The first graph's derivative is some positive value at $(1,1)$,
+and the second graph has a derivative approaching infinity.
+Thus, the two graphs must cross twice, once at exactly $(1,1)$ and once right before.
+This gives an extra intersection,
+so the answer is $384 + 1 = \boxed{385}$.
+
+\section*{Problem 13}
+Basic orders yields $8 \mid p-1$, so let's assume $p=17$ for now.
+Based on the existence of primitive roots mod $17^2$,
+there has to be something of order $8$,
+so $p=17$ definitely works.
+
+Using Hensel's lemma, we will lift a root mod $17$ to a root mod $17^2$.
+It is not hard to see that the roots mod $17$ of $x^4 + 1$
+are $x=\pm2, \pm8$.
+Since $4x^3 \ne 0$ in all of those cases, Hensel's will work.
+
+At this point, one can expand $(17k+x)^4$ mod $17^2$ using the binomial
+theorem for each of the possible $x$ values, and find
+that the minimum is $m = \boxed{110}$.
+
+\section*{Problem 14}
+Notice that $4^2 + 5^2 = 41$, $5^2 + 8^2 = 89$, and $4^2 + 8^2 = 80$.
+We want to find a way to use this niceness/symmetry to our advantage,
+and we can by introducing a coordinate system.
+
+Let $A = (0,0,0)$, $B = (4,5,0)$, $C = (4,0,8)$, and $D = (0,5,8)$.
+We want to find the inradius $r$,
+so we will prove a formula analogous to $A = sr$ but for tetrahedrons.
+Consider splitting the tetrahedron into four mini tetrahedrons
+$IABC$, $IBCD$, $IABD$, and $IACD$.
+Each of these tetrahedrons has height $r$,
+so the sum of the volumes is
+\[ V = \frac13 r(b_1 + b_2 + b_3 + b_4) = \frac13 Ar, \]
+where $A$ is the surface area.
+
+Thankfully, we can find the surface area and the volume easily,
+because of our coordinate system.
+The volume of the tetrahedron is $\frac16$ the volume of the
+associated parallepiped, or
+\[ \frac16 \begin{vmatrix}
+    4 & 4 & 0 \\
+    5 & 0 & 5 \\
+    0 & 8 & 8
+\end{vmatrix} = \frac{160}{3}. \]
+To find the surface area,
+notice that all the sides are congruent.
+The area of one of the sides is half the area
+of the associated parallelogram, or
+\[ \frac12 \abs{\overrightarrow{AB} \times \overrightarrow{AC}} = 2\sqrt{189}. \]
+So, the surface area is $8 \sqrt{189}$. Plugging this into the formula, we get
+\[ \frac{160}{3} = \frac13 8r\sqrt{189} \implies r = \frac{20\sqrt{21}}{63}. \]
+So, our answer is $20 + 21 + 63 = \boxed{104}$.
+
+\section*{Problem 15}
+After noticing that two of the sides must be equal,
+it becomes a simple algebra exercise.
+
+Otherwise, we proceed with Lagrange multipliers.
+
+
+
+\end{document}

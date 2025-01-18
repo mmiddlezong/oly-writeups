@@ -1,0 +1,230 @@
+\documentclass{scrartcl}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{evan}
+
+\title{2023 AIME II Solutions}
+\author{Michael Middlezong}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+If $a$ is the least number of apples growing on any of the trees,
+then we have
+\[ \frac55 a + \frac65 a + \frac75 a + \frac85 a + \frac95 a + \frac{10}{5}a = 990 \implies a = 110. \]
+Our answer is $2a = \boxed{220}$.
+\section*{Problem 2}
+Note that $512 = 1000_8$.
+The only palindromes in base $8$ between $1000_8$ and $2000_8 > 1000$
+are those of the form $1cc1_8$, for some digit $c$.
+We have
+\[ 1cc1_8 = 513 + 72c, \]
+and we can list them out in base $10$:
+\[ 513, 585, 657, 729, 801, 873, 945. \]
+The largest palindrome is $\boxed{585}$.
+\section*{Problem 3}
+By angle chasing, $\triangle PAB \sim \triangle PBC$ with $\triangle PBC$ being $\sqrt2$ times bigger.
+So, $PB = 10\sqrt2$ and $PC = 20$.
+Then, the Pythagorean theorem yields $AC = \sqrt{500}$, so the area is $\boxed{250}$.
+
+\section*{Problem 4}
+Subtracting the second equation from the first yields
+\[ (y-4)(x-z) = 0. \]
+So, either $y=4$ or $x=z$.
+
+If $y=4$, then we have
+\begin{align*}
+4x + 4z &= 60, \\
+xz &= 44.
+\end{align*}
+It's not hard to guess the solution of $\{x,z\} = \{11,4\}$.
+
+If $x=z$, then subtracting the third equation from the second reveals
+that either $z=4$ or $x=y$.
+If $z=4$, then $x=4$ and $y=11$.
+If $x=y$, then $x=y=z$ and it suffices to solve the quadratic
+\[ x^2 + 4x = 60 \implies x = -10, 6. \]
+This gives us the solutions $x=y=z=-10$ and $x=y=z=6$.
+
+That's all of the cases.
+The system is symmetric in the three variables,
+so the possible values of $x$ are
+\[ -10, 4, 6, 11. \]
+The answer is then
+\[ (-10)^2 + 4^2 + 6^2 + 11^2 = \boxed{273}. \]
+
+\section*{Problem 5}
+Write $r=\frac{a}{b}$ in lowest terms.
+Then, when $\frac{55a}{b}$ is written in lowest terms,
+the sum of the numerator and denominator must be $a+b$.
+Evidently, we need $q= \gcd(55,b) > 1$.
+The cases for $q$ are $5$, $11$, and $55$.
+
+In general, we have $\frac{55a}{q} + \frac{b}{q} = a+b$.
+We can rewrite this as
+\[ 55a + b = qa + qb \implies (55-q)\frac{a}{b} = \frac{q-1}{55-q}. \]
+We see that $q=5$ and $q=11$ yield $\frac{4}{50} = \frac{2}{25}$ and $\frac{10}{44} = \frac{5}{22}$
+respectively.
+Notice that $q=55$ doesn't work.
+We can verify that the two fractions we got indeed do work, so the sum of $S$ is
+\[ \frac{2}{25} + \frac{5}{22} = \frac{169}{550}. \]
+Our final answer is $169 + 550 = \boxed{719}$.
+
+\section*{Problem 6}
+When counting the complement,
+we only need to worry about the case where one of $A$ and $B$ is in the top square,
+and the other is in the right square.
+This happens with probability $\frac{2}{9}$.
+
+Assume WLOG that $A$ is chosen in the top square.
+We can model this situation with $A = (a_1, a_2 + 1)$ and $B = (b_1 + 1, b_2)$,
+where $a_i$ and $b_i$ are uniformly randomly chosen within $[0,1]$.
+The midpoint, $\left(\frac12 (a_1 + b_1 + 1),\frac12 (a_2 + b_2 + 1)\right)$,
+is only outside of the region
+when both its $x$ and $y$-coordinate are greater than $1$.
+This means $a_1 + b_1 > 1$ and $a_2 + b_2 > 1$.
+Each of those occurs with probability $\frac12$ by geometric probability,
+so the probability of failing is $\frac14$.
+
+Our final probability is then $1 - \frac29 \cdot \frac14 = \frac{17}{18}$.
+The answer is $17 + 18 = \boxed{35}$.
+
+\section*{Problem 7}
+Let a blue pair be a pair of opposite vertices both colored blue, and define a red pair similarly.
+Then, there are four cases for $(\text{\# of blue pairs}, \text{\# of red pairs})$: $(0,0)$, $(0,1)$, $(1,0)$,
+and $(1,1)$.
+(Notice that the existence of two or more pairs of the same color creates a monochromatic rectangle.)
+
+For the $(0,0)$ case, there are two options for each pair of opposite vertices,
+and $6$ such pairs, giving us $2^6 = 64$ colorings.
+
+For the $(0,1)$ case and $(1,0)$ case, we choose one of $6$ pairs to be monochromatic, and
+there are $2$ options for $5$ other pairs, giving us $6 \cdot 2^5 = 64 \cdot 3$ colorings.
+
+Finally, for the $(1,1)$ case, we choose a pair to be a blue pair, a pair to be a red pair,
+and between $2$ options for the other $4$ pairs, giving us $6 \cdot 5 \cdot 2^4 = 480$ colorings.
+
+Adding them up, we get
+\[ 7 \cdot 64 + 480 = \boxed{928}. \]
+
+\section*{Problem 8}
+Expand
+\[ (\omega^{3k} + \omega^{k} + 1)(\omega^{3(7-k)} + \omega^{7-k} + 1) \]
+to see that it equals $2$.
+There are three such pairs, and the term for $k=0$ is just $1+1+1=3$,
+so the answer is
+\[ 3 \cdot 2^3 = \boxed{24}. \]
+
+\section*{Problem 9}
+Extend $QP$ to hit $AB$ at $K$.
+It can be shown that $XY = 2AB$, so $AB = 12$.
+By radical axis, $KA = KB = 6$.
+By PoP, $KA^2 = KP \cdot KQ \implies KP = 4$.
+
+Let $D$ be the foot of the perpendicular from $P$ to $AB$.
+Then, one can see that $DK = 1$.
+So, $PD^2 = 4^2 - 1^2 = 15 \implies PD = \sqrt{15}$.
+This is the height of the trapezoid, so the area is
+\[ \frac12 \sqrt{15} (12 + 24) = 18\sqrt{15}. \]
+Our answer is $18 + 15 = \boxed{33}$.
+
+\section*{Problem 10}
+We reduce mod $3$, such that we need to place four $0$'s, four $1$'s, and four $2$'s.
+We just have to remember to multiply by $(4!)^3$ at the end.
+
+Notice that each column in this reduced configuration
+must have two distinct numbers in it.
+Furthermore, there are three types of columns which must each appear twice:
+$\{0,1\}$ columns, $\{1,2\}$ columns, and $\{0,2\}$ columns.
+
+There are $\frac{6!}{2!2!2!}$ ways to arrange the types of columns.
+For a given arrangement of types of columns, each column has two choices
+for how to arrange the two numbers within the column.
+However, given one column's arrangement, there is only one way to arrange the
+others satisfying the conditions.
+So, for each arrangement of types of columns, there are $2$ possible arrangements.
+
+This gives us a final count of
+\[ \frac{6!}{2!2!2!} \cdot 2 \cdot (4!)^3 = 2^{11}3^55^1. \]
+So, the answer is $12 \cdot 6 \cdot 2 = \boxed{144}$.
+
+\section*{Problem 11}
+We do casework on the minimum size of a subset in the collection:
+\begin{itemize}
+\item Min size: 1. Then, there are five ways to choose the singleton set to include.
+Notice that there can only be one such set.
+The rest of the sets must be the $15$ other sets containing the element of the singleton set.
+This gives us a total of $5$ possibilities.
+\item Min size: 2. Generally, if there are $n$ two-element sets in our collection,
+then the rest of the sets must be the $10-n$ three-element sets that aren't complements
+of any of the two-element sets, and the $6$ sets with four or more elements.
+This always works because any two sets with three or more elements each will
+necessarily have an element in common, so the only interactions with a chance of failing
+are those between 3+ element sets and two-element sets, and those between $2$ two-element sets.
+So, it suffices to choose the two-element sets to include in our collection in a way that works.
+We do casework on the number of two-element sets in our collection:
+\begin{itemize}
+\item If there is only one, then there are $\binom52 = 10$ cases.
+\item If there are two, then we pick the shared element (5 ways) and the two other elements (6 ways)
+for a total of $30$ cases.
+\item If there are three, then either we have something like $\{1,2\},\{2,3\},\{1,3\}$
+or there is one element which all three sets share.
+In the first case, there are 10 ways, and in the second case, there are 20 ways, for a total of $30$.
+\item If there are four, then they must all share one element. There are 5 ways to pick that element,
+and the rest is fixed.
+\end{itemize}
+This gives us a grand total of $75$ cases.
+\item Min size: 3. There are only $16$ subsets with $3+$ elements, so they must all be part of the
+collection. This works because any two sets with three or more elements each will
+necessarily have an element in common. For this case, we have a total of just $1$.
+\end{itemize}
+In total, we get $5+75+1 = \boxed{81}$ possible collections.
+
+\section*{Problem 12}
+Notice that $BPQC$ is a parallelogram.
+Use Stewart's or Pythagorean theorem to find $AM = \sqrt{148}$.
+Then, PoP on $M$ to finish.
+We get $AQ = \frac{99}{\sqrt{148}}$, so our answer is $99 + 148 = \boxed{247}$.
+
+\section*{Problem 13}
+The desired expression can be rewritten as
+\[ x^{n/2} + y^{n/2} \]
+where $x,y = \frac{\sqrt{17} \pm 1}{2}$.
+It can be shown that $n$ must be a multiple of $4$ for this expression to be an integer.
+
+Let $b_i = x^{2i} + y^{2i}$.
+We can manually find $b_1 = 9$ and $b_2 = 49$.
+Notice that
+\begin{align*}
+b_i &= x^{2i} + y^{2i} \\
+&= (x^{2i-2} + y^{2i-2})(x^2 + y^2) - x^2y^2(x^{2i-4} + y^{2i-4}) \\
+&= 9b_{i-1} - 16b_{i-2}.
+\end{align*}
+This recurrence relation helps us to calculate the rest of the $b_i$'s.
+We eventually find that $b_i$ mod $10$ is periodic with a period of $3$,
+so we can calculate our final answer of $83 \cdot 2 + 1 = \boxed{167}$.
+
+\section*{Problem 14}
+We want to subtract the volume of the frustum without water
+from the total volume of the cube.
+Linear algebra and coordinate bash yields the areas of the two bases,
+$\frac98$ and $\frac{81}{8}$.
+What's remaining is to use the formula for the volume of a frustum (we have $h=6$):
+\[ V = \frac13 \cdot 6 \left(\frac98 + \frac{81}{8} + \sqrt{\frac98 \cdot \frac{81}{8}}\right) = \frac{117}{4}. \]
+Subtracting this from the total volume, which is $6^3 = 216$,
+we get our water volume of $\frac{747}{4}$.
+Our answer is thus $747 + 4 = \boxed{751}$.
+
+\section*{Problem 15}
+The problem is equivalent to finding the number of $0$s in the first $1001$ digits
+of the $2$-adic expansion of $\frac{1}{23}$.
+This can be done manually using long multiplication until one finds a pattern.
+For a real solution, write
+\[ \frac{1}{23} = \frac{89}{2047} = 1 + \frac{2^{11} - 1 - 89}{1 - 2^{11}} = 1 + (11110100110_2)(1 + 2^{11} + 2^{22} + \cdots). \]
+Thus, it is evident that it cycles every $11$ digits.
+The answer is
+\[ 90 \cdot 4 + 3 = \boxed{363}. \]
+
+\end{document}

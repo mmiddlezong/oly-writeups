@@ -230,7 +230,30 @@ The rest is simple. The final answer is $-\frac{\sqrt[3]{3}}{2}$.
 \end{problem} \printpuid{19EGMO1}
 
 %% Type your solution to EGMO 2019/1 (\href{https://otis.evanchen.cc/arch/19EGMO1/}{19EGMO1}) here ...
+Homogenize to get
+\[ a^2b + bc^2 + c^2a = a^2b + a^2c + b^2c = ac^2 + ab^2 + b^2c. \]
+Taking pairs of equations at a time, we get
+\begin{align*}
+  c^2(a+b) &= c(a^2+b^2), \\
+  a^2(b+c) &= a(b^2+c^2), \\
+  b^2(a+c) &= b(a^2+c^2).
+\end{align*}
+Assume one of the variables is zero, and WLOG $a = 0$.
+Then, the condition that $ab + bc + ca = 1$ implies $b,c \ne 0$.
+Since $c^2b = cb^2$, we must have $b = c$.
 
+If all variables are nonzero, then we have
+\begin{align*}
+  c(a+b) &= a^2+b^2, \\
+  a(b+c) &= b^2+c^2, \\
+  b(a+c) &= a^2+c^2.
+\end{align*}
+Adding them up, we get the equality case of repeated AM-GM,
+from which we can conclude that $a=b=c$.
+
+Putting everything together, the solutions are
+$a=b=c=\frac{1}{\sqrt3}$, $a=b=c=-\frac{1}{\sqrt3}$,
+and permutations of $(1,1,0)$ and $(-1,-1,0)$.
 %% --------------------------------------------------
 
 \begin{reqproblem}[\href{https://aops.com/community/p3342960}{Vietnam 2014/1}, $3\clubsuit$]
@@ -245,6 +268,23 @@ The rest is simple. The final answer is $-\frac{\sqrt[3]{3}}{2}$.
 \end{reqproblem} \printpuid{14VNM1}
 
 %% Type your solution to Vietnam 2014/1 (\href{https://otis.evanchen.cc/arch/14VNM1/}{14VNM1}) here ...
+We claim that $x_n = 2\sin \left(\frac{30\dg}{n}\right)$ and $y_n = 2\cos \left(\frac{30\dg}{n}\right)$.
+We proceed by induction. The base case $n=1$ clearly works,
+so assuming $n$ works, we conclude
+\[ x_{n+1}^2 = 2 - y_n = 2 - 2\cos \left(\frac{30\dg}{n}\right). \]
+Using either the half-angle or double-angle formulas, it follows that
+\[ x_{n+1} = 2\sin \left(\frac{30\dg}{n+1}\right). \]
+Also,
+\begin{align*}
+  x_{n+1}^2 + y_{n+1}^2 &= x_{n+1}^2 + \left(\frac{x_n}{x_{n+1}}\right)^2 \\
+  &= \frac{x_n^2 + (2 - y_n)^2}{x_{n+1}^2} \\
+  &= \frac{8 - 4y_n}{2 - y_n} = 4,
+\end{align*}
+so we must have $y_{n+1} = 2\cos \left(\frac{30\dg}{n+1}\right)$ as well.
+Finally it is now clear that
+$\lim_{n\to\infty} x_n = 0$
+and
+$\lim_{n\to\infty} y_n = 2$.
 
 %% --------------------------------------------------
 
@@ -346,6 +386,19 @@ that we have to intersect, and eventually get an answer of
 \end{reqproblem} \printpuid{MRJ479}
 
 %% Type your solution to Mathematical Reflections J479 (\href{https://otis.evanchen.cc/arch/MRJ479/}{MRJ479}), proposed by Titu Andreescu here ...
+Let $x = \frac{a^2}{bc} - 1$, $y = \frac{b^2}{ca} - 1$, and $z = \frac{c^2}{ab} - 1$.
+Then, the equation simplifies to
+\[ x^3 + y^3 + z^3 - 3xyz = 0, \]
+Since $x^3 + y^3 + z^3 - 3xyz$ factors as $(x+y+z)(x^2+y^2+z^2-xy-yz-zx)$,
+and $x^2+y^2+z^2-xy-yz-zx \ne 0$ (because otherwise $a=b=c$),
+we have $x+y+z = 0$.
+
+Also, we have
+\begin{align*}
+  x + y + z &= \frac{a^2-bc}{bc} + \frac{b^2-ac}{ac} + \frac{c^2 - ab}{ab} \\
+  &= \frac{(a+b+c)(a^2+b^2+c^2-ab-bc-ca)}{abc},
+\end{align*}
+so we must have $a+b+c = 0$ as desired.
 
 %% --------------------------------------------------
 
@@ -402,7 +455,10 @@ which can be checked to work.
 \end{problem} \printpuid{21ARMLOCI10}
 
 %% Type your solution to ARML Local 2021, added by Qiao Zhang (\href{https://otis.evanchen.cc/arch/21ARMLOCI10/}{21ARMLOCI10}) here ...
-
+We find that
+\[ a_n = (n! + 1)^2 + \frac{n!}{2021} \]
+satisfies the recurrence and the given value for $a_{2021}$,
+so the answer is $4 + \frac{1}{2021}$.
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p16682015}{Summer Mock AIME 2020/14}, $5\clubsuit$]
@@ -427,7 +483,17 @@ which can be checked to work.
 \end{reqproblem} \printpuid{18IMO2}
 
 %% Type your solution to IMO 2018/2 (\href{https://otis.evanchen.cc/arch/18IMO2/}{18IMO2}), proposed by Patrik Bak (SVK) here ...
-
+If $3 \mid n$, then the repeating sequence $(2,-1,-1,2,-1,-1,\dots)$ works.
+Otherwise, multiply the given equation by $a_{i+2}$ and rearrange to get
+\[ a_ia_{i+1}a_{i+2} = a_{i+2}^2 - a_{i+2}. \]
+Since $a_{i+3} = a_{i+1}a_{i+2} + 1$, we can rewrite the equation as
+\[ a_ia_{i+3} - a_i = a_{i+2}^2 - a_{i+2}. \]
+Summing over all $i$, the degree $1$ terms cancel out and we are left with
+\[ a_1a_4 + a_2a_5 + \dots = a_1^2 + a_2^2 + \dots . \]
+Since $n$ is not divisible by $3$, none of the terms on the left side repeat.
+Thus, a repeated application of AM-GM yields
+\[ a_1 = a_2 = \dots = a_n, \]
+and at this point, it is obvious that no solution can exist.
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p14780288}{EGMO 2020/2}, $9\clubsuit$]
@@ -456,7 +522,14 @@ which can be checked to work.
 \end{reqproblem} \printpuid{21IBERO4}
 
 %% Type your solution to Iberoamerican 2021/4 (\href{https://otis.evanchen.cc/arch/21IBERO4/}{21IBERO4}) here ...
-
+Let $u = a+xi$, $v = b+yi$, and $w + c+zi$.
+Then, we have
+\[ |u| = |v| = |w| = |u+v| = |v+w| = |w+u|. \]
+Using the law of cosines, this means that $u$, $v$, and $w$ must lie on a circle
+centered at the origin and form an equilateral triangle.
+Thus, the complex numbers $u^2$, $v^2$, and $w^2$ also form an equilateral triangle,
+so $u^2 + v^2 + w^2 = 0$.
+Expanding and taking the real part of both sides yields the desired conclusion.
 %% --------------------------------------------------
 
 \begin{problem}[\href{https://aops.com/community/p28295670}{IMC 2023/2}, $9\clubsuit$]

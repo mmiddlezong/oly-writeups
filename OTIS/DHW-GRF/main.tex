@@ -1,0 +1,377 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage[colorlinks]{hyperref}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{derivative}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{DHW-grf}}
+\ohead{\footnotesize Updated Sun 17 Nov 2024 00:12:08 UTC}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\clubg}[1]{\bgroup\color{green!40!black}[$#1\clubsuit$]\egroup}
+
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\providecommand{\alert}{\textbf}
+\providecommand{\opname}{\operatorname}
+\providecommand{\ts}{\textsuperscript}
+% hacks for arc
+\providecommand{\tarc}{\mbox{\large$\frown$}}
+\providecommand{\arc}[1]{\stackrel{\tarc}{#1}}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\href{https://otis.evanchen.cc/arch/#1}{\ttfamily\footnotesize\color{green!40!black}#1}}}
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+    linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+    mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+    nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+    mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+    linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+    mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+    linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmredbox,name=Problem]{problem}
+\declaretheorem[style=thmredbox,name=Required Problem,sibling=problem]{reqproblem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=thmblackbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmblackbox,name=Example,numbered=no]{example*}
+
+\newenvironment{walkthrough}{\noindent\textbf{\color{green!40!black}Walkthrough.}}{}
+\newlist{walk}{enumerate}{3}
+\setlist[walk]{label=\bfseries (\alph*)}
+
+\usepackage{asymptote}
+\begin{asydef}
+size(8cm); // set a reasonable default
+usepackage("amsmath");
+usepackage("amssymb");
+settings.tex="pdflatex";
+settings.outformat="pdf";
+import geometry;
+void filldraw(picture pic = currentpicture, conic g, pen fillpen=defaultpen, pen drawpen=defaultpen) { filldraw(pic, (path) g, fillpen, drawpen); }
+void fill(picture pic = currentpicture, conic g, pen p=defaultpen) { filldraw(pic, (path) g, p); }
+pair foot(pair P, pair A, pair B) { return foot(triangle(A,B,P).VC); }
+pair centroid(pair A, pair B, pair C) { return (A+B+C)/3; }
+\end{asydef}
+
+\newcommand{\goals}[2]{\bgroup
+\sffamily\small \emph{Instructions}: Solve \clubg{#1}.
+If you have time, solve \clubg{#2}.\egroup\par}
+
+%% 426c616e6b204c615465587e
+\begin{document}
+\title{Submission for DHW-GRF}
+\subtitle{OTIS (internal use)}
+\author{YOUR NAME HERE}
+\date{\today}
+\maketitle
+
+\begin{example*}[\href{https://aops.com/community/p4701758}{Romania TST 2015/2/1}, $0\clubsuit$]
+  Let $a$ and $n$ be integers with $n \ge 1$. Show that $n$ divides
+  \[ \sum_{k=1}^{n} a^{\gcd(k,n)}. \]
+\end{example*} \printpuid{15ROUTST21}
+
+\begin{walkthrough}
+Assume $a > 0$.
+Consider the following question:
+\begin{quote}
+  Given a necklace of $n$ beads, and each could be one of $a$ colors,
+  what is the number of distinct necklaces (up to rotation)
+  that can be formed?
+\end{quote}
+We will apply Burnside lemma to compute this number.
+\begin{walk}
+  \ii Describe a group action of $G = \ZZ / n \ZZ$ on the set of $a^n$ necklaces
+  (before modding out by rotation),
+  so the question above asks for the number of orbits of $G$
+  on the set of $a^n$ necklaces.
+
+  \ii Fix $k \in G = \ZZ / n \ZZ$.
+  Find, as a function of $a$, $k$, $n$, the size of the stabilizer of $k$.
+
+  \ii Use Burnside lemma to show the answer to the counting question is
+  \[  \frac 1n \sum_{k} a^{\gcd(k,n)}. \]
+
+  \ii Conclude the desired result.
+\end{walk}
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\begin{example*}[HMMT 2017 A9, $0\clubsuit$]
+  What is the period of the Fibonacci sequence modulo $127$?
+\end{example*} \printpuid{17HMMTA9}
+
+\begin{walkthrough}
+In what follows let $p = 127$.
+Our hope is to use the Fibonacci formula
+\[ F_n = \frac{\alpha^n - \beta^n}{\alpha - \beta} \]
+where $\alpha = \frac{1 + \sqrt5}{2}$ and $\beta = \frac{1 - \sqrt5}{2}$.
+Unfortunately:
+\begin{walk}
+  \ii Show that $(5/p) = -1$.
+  Thus we cannot find $\alpha, \beta \in \FF_p$.
+\end{walk}
+The idea is that we need to instead work in
+the so-called finite field
+\[ \FF_{p^2} \coloneq \FF_p[\sqrt5]
+  = \left\{ a + b \sqrt 5 \mid a,b \in \FF_p \right\}. \]
+I'll explain the reason for the notation $\FF_{p^2}$ later,
+but for not, just think of it as that field $a+b\sqrt5$.
+Note that this field $\FF_{p^2}$ still has a copy of $\FF_p$
+inside it, namely the numbers of the form $a = a+0\sqrt5$.
+They still behave as we expect,
+for example, $a^p \equiv a \pmod p$
+since $p \mid a^p-a$.
+\begin{walk}[resume]
+  \ii Convince yourself this really is a field.
+  How many elements does it have?
+  \ii Show that $x^{p^2-1} = 1$
+  for any nonzero $x \in \FF_{p^2}$.
+  (This is the analog of Fermat's little theorem.)
+\end{walk}
+Now we take advantage of the fact that $\alpha, \beta \in \FF_{p^2}$.
+\begin{walk}[resume]
+  \ii Consider the so-called Frobenius endomorphism
+  \[ \sigma \colon \FF_{p^2} \to \FF_{p^2}
+    \qquad \sigma(t) = t^p. \]
+  Determine its fixed points.
+  (Hint: you should already know the roots of $X^p - X$.)
+  \ii Deduce that $\sigma(\alpha) = \alpha^p \neq \alpha$.
+  \ii Prove that $\sigma(x+y) = \sigma(x) + \sigma(y)$
+  by using the binomial theorem,
+  and also that $\sigma(xy) = \sigma(x) \sigma(y)$.
+  Thus the Frobenius endomorphism deserves its name.
+  \ii Consider the polynomial
+  \[ P(X) = X^2 - X - 1. \]
+  Prove that $P(\sigma(x)) = \sigma(P(x))$
+  for any $x \in \FF_{p^2}$.
+  (Actually, this holds for any $P \in \FF_p[X]$.)
+  \ii Put together (e) and (g) to deduce that $\sigma(\alpha) = \alpha^p = \beta$,
+  by showing $\sigma(\alpha)$ is a root of $P$ not equal to $\alpha$.
+  \ii Find $\sigma(\beta)$.
+\end{walk}
+Now we are in business:
+we can compute Fibonacci numbers using
+\[ F_n = \frac{\alpha^n - \beta^n}{\alpha - \beta}. \]
+\begin{walk}[resume]
+  \ii Using (h) and (i), show that $F_p \equiv -1 \pmod p$,
+  $F_{p+1} \equiv 0 \pmod p$.
+  \ii Prove that $F_{2p+1} \equiv 1 \pmod p$
+  and $F_{2p+2} \equiv 0 \pmod p$.
+  \ii Conclude that the period of the Fibonacci sequence modulo $p$
+  divides $2p+2= 256$ but not $p+1 = 128$.
+  Deduce the answer $256$.
+\end{walk}
+The solution notes contain some extended comments
+about the higher algebra that this problem introduces.
+\end{walkthrough}
+%% You're not expected to write up walkthroughs (unless you really want to).
+%% The source is just for your reference.
+
+\newpage
+
+% ========================================
+\section*{Practice problems}
+\goals{24}{30}
+
+\epigraph{I forbid any of you from studying for your midterms! \par
+  It's not a punishment; there are simply other things you should be studying first.
+  I'm responsible, too, for having forgotten to teach them.}
+  {Koro-sensei in \emph{Assassination Classroom}, Season 2, Episode 6}
+\begin{reqproblem}
+[9$\clubsuit$]  Write the blog post described in the previous section.
+  Also specify whether you would want your post to be added to the running list above.
+\end{reqproblem} \marginpar{\emph{\footnotesize No PUID}}
+%% Type your solution here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Napkin 4B, $2\clubsuit$]
+  Prove that the rings $\CC[x] / (x^2-x)$ and $\CC \times \CC$ are isomorphic.
+\end{problem} \printpuid{NAP4B}
+
+%% Type your solution to Napkin 4B (\href{https://otis.evanchen.cc/arch/NAP4B/}{NAP4B}) here ...
+Let $I = x^2-x$ in $\CC[x]$.
+The cosets of $I$ are given by $(ax + b)I$ where $a,b \in \CC$.
+
+%% --------------------------------------------------
+
+\begin{reqproblem}[Napkin 5D, $3\clubsuit$]
+  Let $R$ be an integral domain with finitely many elements.
+  Prove that $R$ is a field.
+\end{reqproblem} \printpuid{NAP5D}
+
+%% Type your solution to Napkin 5D (\href{https://otis.evanchen.cc/arch/NAP5D/}{NAP5D}) here ...
+Let $r \in R$ be nonzero.
+Consider the map $\phi: R \to R$ given by $x \to rx$.
+
+We claim this map is injective.
+Indeed, if $rx = ry$, then $r(x-y) = 0$, and since $r \ne 0$, we have $x = y$.
+
+Since $R$ is finite, this map must also be bijective.
+So, there is some $x$ such that $rx = 1$.
+This is the multiplicative inverse of $r$.
+
+Since every nonzero element has a multiplicative inverse,
+$R$ is a field.
+%% --------------------------------------------------
+
+\begin{problem}[Burnside's lemma, $3\clubsuit$]
+  Let $G$ be a finite group which acts on a finite set $X$.
+  For each $g \in G$, let $\opname{FixPt} g$ denote
+  the set of $x \in X$ for which $g \cdot x = x$.
+  Prove that the number of orbits of this action is
+  given exactly by $\frac{1}{|G|} \sum_{g \in G} \opname{FixPt} g$.
+\end{problem} \printpuid{Z33FA3B5}
+
+%% Type your solution to Burnside's lemma (\href{https://otis.evanchen.cc/arch/Z33FA3B5/}{Z33FA3B5}) here ...
+We count ordered pairs $(g,x)$ such that $g \cdot x = x$ in two ways.
+First, it is equal to $\sum_{g \in G} \opname{FixPt} g$.
+It is also the sum of the sizes of the stabilizers, which we can write as
+\[ \sum_{x \in X} \lvert \opname{stab}(x) \rvert = \sum_{x \in X} \frac{|G|}{\lvert \opname{orb}(x) \rvert} = |G| \sum_{x \in X} \frac{1}{\lvert \opname{orb}(x) \rvert}. \]
+But, notice that $\sum_{x \in X} \frac{1}{\lvert \opname{orb}(x) \rvert}$ just counts the number
+of orbits, giving us the result.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p5679392}{Napkin 4G; also USA TST 2016/3}, $3\clubsuit$]
+  Define $\Psi \colon \FF_p[x] \to \FF_p[x]$ by
+  \[ \Psi\left( \sum_{i=0}^n a_i x^i \right) = \sum_{i=0}^n a_i x^{p^i}. \]
+  Let $S$ denote the image of $\Psi$.
+  \begin{enumerate}[(a)]
+  \ii Show that $S$ is a ring with addition given by polynomial addition,
+  and multiplication given by \emph{function composition}.
+  \ii Prove that $\Psi \colon \FF_p[x] \to S$ is then a ring isomorphism.
+  \end{enumerate}
+\end{problem} \printpuid{NAP4G}
+
+%% Type your solution to Napkin 4G; also USA TST 2016/3 (\href{https://otis.evanchen.cc/arch/NAP4G/}{NAP4G}), proposed by Mark Sellke here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Napkin 5G, $3\clubsuit$]
+  How many prime ideals of the ring $R = \ZZ[\sqrt{2017}]$ are \emph{not} maximal ideals?
+\end{problem} \printpuid{NAP5G}
+
+%% Type your solution to Napkin 5G (\href{https://otis.evanchen.cc/arch/NAP5G/}{NAP5G}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Napkin 1G, $5\clubsuit$]
+  Find the smallest integer $n$
+  such that the symmetric group $S_n$ has a subgroup
+  isomorphic to the dihedral group $D_{2018}$ of order $2018$.
+\end{problem} \printpuid{NAP1G}
+
+%% Type your solution to Napkin 1G (\href{https://otis.evanchen.cc/arch/NAP1G/}{NAP1G}) here ...
+Note that $D_{2018}$ has an element of order $1009$, namely, the smallest rotation.
+Since $1009$ is prime, a permutation has order $1009$ only when it
+contains cycle of length $1009$.
+So, $n \ge 1009$.
+
+However, $n=\boxed{1009}$ works if we consider the natural action of $D_{2018}$
+on a $1009$-gon.
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p1703561}{Putnam 2009 A5}, $5\clubsuit$]
+  Is there a finite abelian group $G$ such that the product of all the orders
+  of its elements is $2^{2009}$?
+\end{problem} \printpuid{09PTNMA5}
+
+%% Type your solution to Putnam 2009 A5 (\href{https://otis.evanchen.cc/arch/09PTNMA5/}{09PTNMA5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p978389}{Putnam 2007 A5}, $5\clubsuit$]
+  Let $p$ be a prime.
+  Let $G$ be a finite group, and suppose there are exactly $n$ elements of order $p$.
+  Prove that either $n = 0$ or $p$ divides $n+1$.
+\end{problem} \printpuid{07PTNMA5}
+
+%% Type your solution to Putnam 2007 A5 (\href{https://otis.evanchen.cc/arch/07PTNMA5/}{07PTNMA5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[Napkin 16F, $5\clubsuit$]
+  Does there exist a faithful transitive action of $S_5$ on a six-element set?
+\end{problem} \printpuid{NAP16F}
+
+%% Type your solution to Napkin 16F (\href{https://otis.evanchen.cc/arch/NAP16F/}{NAP16F}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[\href{https://aops.com/community/p525984}{Shortlist 2005 C5}, $3\clubsuit$]
+  There are $n$ markers, each with one side white and the other side black.
+  In the beginning, these $n$ markers are aligned in a row so that their white sides are all up.
+  In each step, if possible, we choose a marker whose white side is up
+  (but not one of the outermost markers), remove it,
+  and reverse the closest marker to the left of it
+  and also reverse the closest marker to the right of it.
+  Prove that, by a finite sequence of such steps,
+  one can achieve a state with only two markers remaining
+  if and only if $n - 1$ is not divisible by $3$.
+\end{problem} \printpuid{05SLC5}
+
+%% Type your solution to Shortlist 2005 C5 (\href{https://otis.evanchen.cc/arch/05SLC5/}{05SLC5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[PRIMES 2018 M5, $3\clubsuit$]
+  Let $G$ be a group with presentation given by
+  \[ G = \left< a,b,c \mid
+  ab = c^2a^4, \; bc = ca^6, \; ac = ca^8, \;
+  c^{2018} = b^{2019}
+  \right>. \]
+  Determine the order of $G$.
+\end{problem} \printpuid{18PRIMESM5}
+
+%% Type your solution to PRIMES 2018 M5 (\href{https://otis.evanchen.cc/arch/18PRIMESM5/}{18PRIMESM5}) here ...
+
+%% --------------------------------------------------
+
+\begin{problem}[PRIMES 2021 M5, $9\clubsuit$]
+  Suppose $G$ is a nonabelian finite group and $\varphi \colon G \to G$ a homomorphism.
+  Denote by $0 \le k \le 1$ the fraction of elements $g \in G$ which satisfy
+  \[ \varphi(g) = g^2. \]
+  Find the largest possible value of $k$ across all nonabelian finite groups $G$.
+\end{problem} \printpuid{21PRIMESM5}
+
+%% Type your solution to PRIMES 2021 M5 (\href{https://otis.evanchen.cc/arch/21PRIMESM5/}{21PRIMESM5}) here ...
+
+%% --------------------------------------------------
+
+\end{document}
